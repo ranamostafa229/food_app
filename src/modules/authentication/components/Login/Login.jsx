@@ -17,6 +17,7 @@ const Login = () => {
         "https://upskilling-egypt.com:3006/api/v1/Users/Login",
         data
       );
+      console.log(response);
       toast.success("Login Successfully");
       navigate("/dashboard");
     } catch (error) {
@@ -36,7 +37,7 @@ const Login = () => {
                 <img src={logo} alt="logo" className="w-75" />
               </div>
               <div className="title my-3">
-                <h1 className="h5">Login</h1>
+                <h1 className="h5 fw-bold">Login</h1>
                 <span className="text-muted">
                   Welcome Back! Please enter your details
                 </span>
@@ -54,7 +55,7 @@ const Login = () => {
                     />
                   </span>
                   <input
-                    type="text"
+                    type="email"
                     className="form-control bg-light"
                     placeholder="Enter your E-mail"
                     aria-label="email"
@@ -99,19 +100,21 @@ const Login = () => {
                 )}
                 <div className="links d-flex justify-content-between">
                   <Link
-                    to="register"
+                    to="/register"
                     className="text-decoration-none text-muted"
                   >
                     Register Now?
                   </Link>
                   <Link
-                    to="forget-password"
+                    to="/forget-password"
                     className="text-decoration-none text-success"
                   >
                     Fotgot Password?
                   </Link>
                 </div>
-                <button className="btn btn-success w-100 my-3">Login</button>
+                <button className="btn btn-success w-100 my-3 fw-bold">
+                  Login
+                </button>
               </form>
             </div>
           </div>

@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sen:wght@400..800&display=swap");
+body {
+  font-family: "Inter", sans-serif;
+}
 .auth-container {
   background-image: url("../src/assets/background.png");
   background-position: center center;
@@ -9,4 +13,9 @@
     rgba(47, 140, 96, 0.7),
     rgba(0, 0, 0, 0.5)
   );
+}
+.auth-title > span {
+  /* font-size: 16px; */
+  /* color: #494949; */
+  /* color: red; */
 }
