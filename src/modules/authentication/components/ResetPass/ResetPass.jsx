@@ -17,7 +17,7 @@ const ResetPass = () => {
         "https://upskilling-egypt.com:3006/api/v1/Users/Reset",
         data
       );
-      toast.success(response?.data.message);
+      toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
       toast.error(error.response.data.message);

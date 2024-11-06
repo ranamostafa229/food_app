@@ -17,8 +17,7 @@ const ForgetPass = () => {
         "https://upskilling-egypt.com:3006/api/v1/Users/Reset/Request",
         data
       );
-      // toast.success("Check your email for password reset link");
-      toast.success(response?.data?.message);
+      toast.success(response.data.message);
       navigate("/reset-password");
     } catch (error) {
       toast.error(error.response.data.message);

@@ -24,9 +24,7 @@ const Login = () => {
       toast.error(error.response.data.message);
     }
   };
-  //   "email": "nadia.mohamed.taha166@gmail.com",
-  // "password": "@Password321!"
-  // }
+
   return (
     <div className="auth-container ">
       <div className="container-fluid bg-overlay ">
