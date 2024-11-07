@@ -14,3 +14,20 @@ body {
     rgba(0, 0, 0, 0.5)
   );
 }
+/* Hide the default show password icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-input-placeholder {
+  display: none;
+}
+
+input[type="password"]::-webkit-clear-button {
+  display: none;
+}
+
+input[type="password"]::-webkit-reveal-button {
+  display: none;
+}
