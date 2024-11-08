@@ -31,3 +31,33 @@ input[type="password"]::-webkit-clear-button {
 input[type="password"]::-webkit-reveal-button {
   display: none;
 }
+.sidebar-container .ps-sidebar-container {
+  background-color: #1f263e;
+  height: 100vh;
+}
+.sidebar-container .ps-menu-button {
+  color: #fff !important;
+}
+
+.sidebar-container .ps-menu-button:hover {
+  /* background-color: #00924d !important; */
+  background-color: rgba(0, 147, 77, 0.8) !important;
+}
+.sidebar-container .ps-menu-button.active {
+  /* background-color: #00924d !important; */
+  background-color: rgba(0, 147, 77, 0.8) !important;
+}
+.sidebar-container .logo-menu-item img {
+  width: 200px;
+  height: auto;
+}
+.sidebar-container .small-logo img {
+  width: 140px;
+  height: auto;
+}
+
+.sidebar-container .logo-menu-item .ps-menu-button:hover {
+  background-color: transparent !important;
+  transform: none !important;
+  filter: none !important;
+}
