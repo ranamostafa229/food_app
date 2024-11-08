@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../../assets/logo.png";
 import { useForm } from "react-hook-form";
@@ -7,7 +8,7 @@ import apiInstance from "../../../../api/apiInstance";
 import { endpoints } from "../../../../api/apiConfig";
 import { getValidationRules } from "../../../../validation/validationRules";
 
-const Login = () => {
+const Login = ({ saveLoginData }) => {
   let {
     register,
     formState: { errors },
@@ -20,7 +21,8 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await apiInstance.post(endpoints.login, data);
-      console.log(response);
+      localStorage.setItem("token", response.data.token);
+      saveLoginData();
       toast.success("Login Successfully");
       navigate("/dashboard");
     } catch (error) {
