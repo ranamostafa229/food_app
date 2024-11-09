@@ -56,7 +56,6 @@ const CategoriesList = () => {
     }
     handleClose();
   };
-
   return (
     <div className=" mx-2">
       <Header
