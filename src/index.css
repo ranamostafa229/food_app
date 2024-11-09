@@ -70,3 +70,11 @@ input[type="password"]::-webkit-reveal-button {
   transform: none !important;
   filter: none !important;
 }
+.header-container {
+  background-image: url("../src/assets/header-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 15px;
+  color: #fff;
+}

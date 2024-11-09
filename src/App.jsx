@@ -69,7 +69,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Dashboard />,
+          element: <Dashboard loginData={loginData} />,
         },
         {
           path: "recipes",
