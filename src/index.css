@@ -78,3 +78,25 @@ input[type="password"]::-webkit-reveal-button {
   border-radius: 15px;
   color: #fff;
 }
+.table-header th {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-inline-start: 20px;
+}
+.table-header th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.table-header th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.table-body td {
+  padding-inline-start: 20px;
+}
+.table-striped tbody tr:nth-of-type(even) > * {
+  background-color: #f8f9fb !important;
+}
+.table-striped {
+  --bs-table-striped-bg: #fff;
+}

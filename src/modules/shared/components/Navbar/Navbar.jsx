@@ -2,7 +2,6 @@
 import avatar from "../../../../assets/avatar.png";
 
 const Navbar = ({ loginData }) => {
-  console.log(loginData);
   return (
     <div
       className="py-2 px-3 d-flex justify-content-end align-items-center gap-1 my-3 mx-3 rounded"
