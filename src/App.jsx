@@ -16,7 +16,7 @@ import MainLayout from "./modules/layout/components/MainLayout";
 import RecipesData from "./modules/recipes/components/RecipeData/RecipeData";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
 
@@ -27,7 +27,11 @@ function App() {
     let decodedToken = jwtDecode(encodedToken);
     setLoginData(decodedToken);
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      saveLoginData();
+    }
+  }, []);
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -58,8 +62,8 @@ function App() {
     {
       path: "dashboard",
       element: (
-        <ProtectedRoute>
-          <MainLayout />
+        <ProtectedRoute loginData={loginData}>
+          <MainLayout loginData={loginData} />
         </ProtectedRoute>
       ),
       children: [

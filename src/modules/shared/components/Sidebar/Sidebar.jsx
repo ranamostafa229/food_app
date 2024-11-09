@@ -25,9 +25,7 @@ const SideBar = () => {
             icon={
               <i className="fa fa-home " aria-hidden="true" aria-label="home" />
             }
-            component={
-              <NavLink end activeClassName={"active"} to="/dashboard" />
-            }
+            component={<NavLink end to="/dashboard" />}
           >
             Home
           </MenuItem>
@@ -39,13 +37,13 @@ const SideBar = () => {
                 aria-label="users"
               />
             }
-            component={<NavLink activeClassName={"active"} to="users" />}
+            component={<NavLink to="users" />}
           >
             Users
           </MenuItem>
           <MenuItem
             icon={<img src={RecipesIcon} alt="recipes" />}
-            component={<NavLink activeClassName={"active"} to="recipes" />}
+            component={<NavLink to="recipes" />}
           >
             Recipes
           </MenuItem>
@@ -57,7 +55,7 @@ const SideBar = () => {
                 aria-label="categories"
               />
             }
-            component={<NavLink activeClassName={"active"} to="categories" />}
+            component={<NavLink to="categories" />}
           >
             Categories
           </MenuItem>
@@ -80,7 +78,7 @@ const SideBar = () => {
                 aria-label="logout"
               />
             }
-            component={<NavLink activeClassName={"active"} to="/login" />}
+            component={<NavLink to="/login" />}
           >
             Logout
           </MenuItem>
