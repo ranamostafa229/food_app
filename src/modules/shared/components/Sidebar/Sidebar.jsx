@@ -20,7 +20,6 @@ const SideBar = () => {
             className={` logo-menu-item my-5   ${
               isCollapsed ? "ms-1 small-logo" : "ms-5 "
             } transation-all duration-300 ease-in-out`}
-            style={{ transition: "none", backgroundColor: "transparent" }}
           ></MenuItem>
           <MenuItem
             icon={
@@ -88,13 +87,6 @@ const SideBar = () => {
         </Menu>
       </Sidebar>
     </div>
-    // <div className="d-flex flex-column ">
-    //   <Link to="/dashboard">Home</Link>
-    //   <Link to="users">Users</Link>
-    //   <Link to="recipes">Recipes</Link>
-    //   <Link to="categories">Categories</Link>
-    //   <Link to="/">Login</Link>
-    // </div>
   );
 };
 

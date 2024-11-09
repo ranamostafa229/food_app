@@ -6,7 +6,7 @@ import SideBar from "../../shared/components/SideBar/SideBar";
 const MainLayout = () => {
   return (
     <div className="d-flex vh-100 ">
-      <div className=" bg-primary">
+      <div>
         <SideBar />
       </div>
       <div className="w-100">
