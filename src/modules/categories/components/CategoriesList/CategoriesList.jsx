@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
-import { privateApiInstance } from "../../../../api/apiInstance";
-import { endpoints } from "../../../../api/apiConfig";
-
+import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+import { categories_endpoints } from "../../../../services/api/apiConfig";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -21,7 +20,9 @@ const CategoriesList = () => {
   const getCategories = async () => {
     setLoading(true);
     try {
-      let responnse = await privateApiInstance.get(endpoints.categories(10, 1));
+      let responnse = await privateApiInstance.get(
+        categories_endpoints.categories(10, 1)
+      );
       setLoading(false);
       setCategories(responnse.data.data);
     } catch (error) {
@@ -35,7 +36,7 @@ const CategoriesList = () => {
   const deleteCategory = async () => {
     try {
       let response = await privateApiInstance.delete(
-        endpoints.deleteCategory(selectedId)
+        categories_endpoints.deleteCategory(selectedId)
       );
       if (response.status === 200) {
         toast.success("Category deleted successfully");

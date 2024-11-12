@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { apiInstance } from "../../../../api/apiInstance";
-import { endpoints } from "../../../../api/apiConfig";
-import { getValidationRules } from "../../../../validation/validationRules";
+import { apiInstance } from "../../../../services/api/apiInstance";
+import { getValidationRules } from "../../../../services/validation/validationRules";
+import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const ForgetPass = () => {
   const navigate = useNavigate();
@@ -18,7 +18,10 @@ const ForgetPass = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const response = await apiInstance.post(endpoints.resetRequest, data);
+      const response = await apiInstance.post(
+        users_endpoints.resetRequest,
+        data
+      );
       setLoading(false);
       toast.success(response?.data?.message);
       navigate("/reset-password", { state: { email: data.email } });

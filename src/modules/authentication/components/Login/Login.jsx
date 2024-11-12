@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { endpoints } from "../../../../api/apiConfig";
-import { getValidationRules } from "../../../../validation/validationRules";
-import { apiInstance } from "../../../../api/apiInstance";
+import { getValidationRules } from "../../../../services/validation/validationRules";
+import { apiInstance } from "../../../../services/api/apiInstance";
+import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const Login = ({ saveLoginData }) => {
   let {
@@ -19,7 +19,7 @@ const Login = ({ saveLoginData }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await apiInstance.post(endpoints.login, data);
+      const response = await apiInstance.post(users_endpoints.login, data);
       localStorage.setItem("token", response.data.token);
       saveLoginData();
       toast.success("Login Successfully");

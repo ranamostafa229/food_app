@@ -15,6 +15,7 @@ body {
     rgba(0, 0, 0, 0.5)
   );
 }
+
 /* Hide the default show password icon */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
@@ -43,7 +44,7 @@ input[type="password"]::-webkit-reveal-button {
   white-space: nowrap;
   border-width: 0;
 }
-
+/********************** Sidebar Styles ********************/
 .sidebar-container .ps-sidebar-root {
   border: none;
   height: 100%;
@@ -64,11 +65,9 @@ input[type="password"]::-webkit-reveal-button {
 }
 
 .sidebar-container .ps-menu-button:hover {
-  /* background-color: #00924d !important; */
   background-color: rgba(0, 147, 77, 0.3) !important;
 }
 .sidebar-container .ps-menu-button.active {
-  /* background-color: #00924d !important; */
   background-color: rgba(0, 147, 77, 0.3) !important;
 }
 .sidebar-container .logo-menu-item img {
@@ -85,6 +84,7 @@ input[type="password"]::-webkit-reveal-button {
   transform: none !important;
   filter: none !important;
 }
+/* ********************** Header Styles ******************** */
 .header-container {
   /* background-image: url("../src/assets/header-bg.svg"); */
   background: url("../src/assets/header-bg.svg");
@@ -103,13 +103,12 @@ input[type="password"]::-webkit-reveal-button {
   position: absolute;
   bottom: -2rem;
 }
+
+/* ********************** Table Styles ******************** */
 .table-header th {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   padding-inline-start: 20px;
-}
-.table-header th:nth-child(2) {
-  text-align: center !important;
 }
 .table-header th:first-child {
   border-top-left-radius: 10px;

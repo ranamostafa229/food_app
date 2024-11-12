@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
-import { endpoints } from "../../../../api/apiConfig";
 import Header from "../../../shared/components/Header/Header";
 import { useEffect, useState } from "react";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
-import { apiInstance } from "../../../../api/apiInstance";
+import { apiInstance } from "../../../../services/api/apiInstance";
+import { recipes_endpoints } from "../../../../services/api/apiConfig";
+import styles from "./RecipesList.module.css";
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -20,7 +21,7 @@ const RecipesList = () => {
   const getRecipes = async () => {
     setLoading(true);
     try {
-      let responnse = await apiInstance.get(endpoints.recipes(10, 1), {
+      let responnse = await apiInstance.get(recipes_endpoints.recipes(10, 1), {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -38,7 +39,7 @@ const RecipesList = () => {
   const deleteRecipe = async () => {
     try {
       let response = await apiInstance.delete(
-        endpoints.deleteCategory(selectedId),
+        recipes_endpoints.deleteCategory(selectedId),
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -84,7 +85,7 @@ const RecipesList = () => {
       ) : (
         <div className="p-md-3  p-0  table-responsive">
           <table className="table  table-striped  table-borderless ">
-            <thead className="table-header ">
+            <thead className={styles.tableHeader}>
               <tr className="table-secondary  ">
                 <th scope="col">Name</th>
                 <th scope="col  ">Image</th>

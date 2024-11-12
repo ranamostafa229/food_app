@@ -2,9 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { apiInstance } from "../../../../api/apiInstance";
-import { endpoints } from "../../../../api/apiConfig";
-import { getValidationRules } from "../../../../validation/validationRules";
+import { apiInstance } from "../../../../services/api/apiInstance";
+import { getValidationRules } from "../../../../services/validation/validationRules";
+import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const ResetPass = () => {
   const { state } = useLocation();
@@ -29,7 +29,7 @@ const ResetPass = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const response = await apiInstance.post(endpoints.reset, data);
+      const response = await apiInstance.post(users_endpoints.reset, data);
       setLoading(false);
       toast.success(response.data.message);
       navigate("/login");

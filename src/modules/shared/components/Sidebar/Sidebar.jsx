@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
 import { useState } from "react";
+
 const SideBar = ({ removeLoginData }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const toggleCollapse = () => {
