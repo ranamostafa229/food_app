@@ -27,6 +27,10 @@ function App() {
     let decodedToken = jwtDecode(encodedToken);
     setLoginData(decodedToken);
   };
+  const removeLoginData = () => {
+    setLoginData(null);
+  };
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       saveLoginData();
@@ -63,7 +67,7 @@ function App() {
       path: "",
       element: (
         <ProtectedRoute loginData={loginData}>
-          <MainLayout loginData={loginData} />
+          <MainLayout loginData={loginData} removeLoginData={removeLoginData} />
         </ProtectedRoute>
       ),
       children: [

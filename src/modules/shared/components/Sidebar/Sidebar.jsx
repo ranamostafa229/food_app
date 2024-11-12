@@ -1,10 +1,10 @@
-// import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { NavLink } from "react-router-dom";
 import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
 import { useState } from "react";
-const SideBar = () => {
+const SideBar = ({ removeLoginData }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -79,7 +79,13 @@ const SideBar = () => {
               />
             }
             component={
-              <NavLink to="/login" onClick={() => localStorage.clear()} />
+              <NavLink
+                to="/login"
+                onClick={() => {
+                  localStorage.clear();
+                  removeLoginData();
+                }}
+              />
             }
           >
             Logout

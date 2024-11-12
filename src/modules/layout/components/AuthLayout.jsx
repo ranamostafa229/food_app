@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const AuthLayout = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const token = localStorage.getItem("token");
-    if (token) return true;
-    return false;
-  }); // call function only first time
+  const [isAuthenticated] = useState(() => !!localStorage.getItem("token")); // call function only first time
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,3 +28,8 @@ const AuthLayout = () => {
 };
 
 export default AuthLayout;
+//   {
+//   const token = localStorage.getItem("token");
+//   if (token) return true;
+//   return false;
+// }
