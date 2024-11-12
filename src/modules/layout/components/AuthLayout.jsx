@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import logo from "../../../assets/logo.png";
 
 const AuthLayout = () => {
   const [isAuthenticated] = useState(() => !!localStorage.getItem("token")); // call function only first time
@@ -17,6 +18,9 @@ const AuthLayout = () => {
           <div className="container-fluid bg-overlay ">
             <div className="row vh-100 justify-content-center align-items-center mx-1 ">
               <div className="col-lg-4 col-md-6  bg-white rounded rounded-2 px-5 py-3 ">
+                <div className="logo-container text-center">
+                  <img src={logo} alt="logo" className="w-75" />
+                </div>
                 <Outlet />
               </div>
             </div>

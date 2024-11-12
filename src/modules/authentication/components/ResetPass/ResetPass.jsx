@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import logo from "../../../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
@@ -49,9 +48,6 @@ const ResetPass = () => {
 
   return (
     <div>
-      <div className="logo-container text-center">
-        <img src={logo} alt="logo" className="w-75" />
-      </div>
       <div className="title my-3">
         <h1 className="h5 fw-bold">Reset Password</h1>
         <span className="text-muted">
