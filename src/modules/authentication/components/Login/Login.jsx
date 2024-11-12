@@ -4,14 +4,14 @@ import logo from "../../../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import apiInstance from "../../../../api/apiInstance";
 import { endpoints } from "../../../../api/apiConfig";
 import { getValidationRules } from "../../../../validation/validationRules";
+import { apiInstance } from "../../../../api/apiInstance";
 
 const Login = ({ saveLoginData }) => {
   let {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
@@ -24,9 +24,9 @@ const Login = ({ saveLoginData }) => {
       localStorage.setItem("token", response.data.token);
       saveLoginData();
       toast.success("Login Successfully");
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
   const togglePasswordVisibility = () => {
@@ -118,7 +118,12 @@ const Login = ({ saveLoginData }) => {
             Fotgot Password?
           </Link>
         </div>
-        <button className="btn btn-success w-100 my-3 fw-bold">Login</button>
+        <button
+          disabled={isSubmitting}
+          className="btn btn-success w-100 my-3 fw-bold"
+        >
+          {isSubmitting ? "Logging..." : "Login"}
+        </button>
       </form>
     </div>
   );

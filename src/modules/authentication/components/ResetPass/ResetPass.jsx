@@ -2,24 +2,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import apiInstance from "../../../../api/apiInstance";
+import { useEffect, useState } from "react";
+import { apiInstance } from "../../../../api/apiInstance";
 import { endpoints } from "../../../../api/apiConfig";
 import { getValidationRules } from "../../../../validation/validationRules";
 
 const ResetPass = () => {
+  const { state } = useLocation();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm();
+    trigger,
+  } = useForm({ defaultValues: { email: state?.email }, mode: "onChange" });
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [loading, setLoading] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
   const validationRules = getValidationRules(watch);
-
+  const password = watch("password");
+  const confirmPassword = watch("password");
+  useEffect(() => {
+    if (confirmPassword) {
+      trigger("confirmPassword");
+    }
+  }, [password, confirmPassword, trigger]);
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -64,13 +71,14 @@ const ResetPass = () => {
             />
           </span>
           <input
+            disabled={true}
             type="email"
             className="form-control bg-light border-top-0 border-end-0 border-bottom-0"
             placeholder="E-mail"
             aria-label="email"
             aria-describedby="input-group-left"
             {...register("email", validationRules.email)}
-            value={state?.email}
+            // value={state?.email}
           />
         </div>
         {errors.email && (
@@ -143,6 +151,9 @@ const ResetPass = () => {
             className="input-group-text border-0"
             id="input-group-left-example"
           >
+            <span className="sr-only">
+              {passwordVisibility[0] ? "Hide password" : "Show password"}
+            </span>
             <i
               className="fa fa-key"
               aria-hidden="true"
@@ -152,7 +163,7 @@ const ResetPass = () => {
           <input
             type={passwordVisibility[1] ? "text" : "password"}
             className="form-control bg-light border-top-0 border-end-0 border-bottom-0"
-            placeholder="Confirm New Password"
+            placeholder="Confirm Password"
             aria-label="confirm password"
             aria-describedby="input-group-left"
             {...register("confirmPassword", validationRules.confirmPassword)}
@@ -164,6 +175,11 @@ const ResetPass = () => {
             onClick={() => togglePasswordVisibility(1)}
             aria-label="toggle confirm password visibility"
           >
+            <span className="sr-only">
+              {passwordVisibility[1]
+                ? "Hide confirm password"
+                : "Show confirm password"}
+            </span>
             <i
               className={`fa-regular ${
                 passwordVisibility[1] ? "fa-eye-slash" : "fa-eye"

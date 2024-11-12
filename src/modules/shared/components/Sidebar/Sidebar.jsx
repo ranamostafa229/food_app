@@ -78,7 +78,9 @@ const SideBar = () => {
                 aria-label="logout"
               />
             }
-            component={<NavLink to="/login" />}
+            component={
+              <NavLink to="/login" onClick={() => localStorage.clear()} />
+            }
           >
             Logout
           </MenuItem>

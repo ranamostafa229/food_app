@@ -1,11 +1,15 @@
 const BASE_URL = "https://upskilling-egypt.com:3006/api/v1/";
 
+//USERS_URLS
 const endpoints = {
-  login: `${BASE_URL}Users/Login`,
+  login: `Users/Login`,
   // register: `${BASE_URL}Users/Register`,
-  resetRequest: `${BASE_URL}Users/Reset/Request`,
-  reset: `${BASE_URL}Users/Reset`,
-  categories: `${BASE_URL}Category/?pageSize=10&pageNumber=1`,
-  deleteCategory: (id) => `${BASE_URL}Category/${id}`,
+  resetRequest: `Users/Reset/Request`,
+  reset: `Users/Reset`,
+  categories: (pageSize, pageNumber) =>
+    `${BASE_URL}Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+  deleteCategory: (id) => `Category/${id}`,
+  recipes: (pageSize, pageNumber) =>
+    `Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
 };
 export { BASE_URL, endpoints };

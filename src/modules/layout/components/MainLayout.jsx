@@ -5,11 +5,9 @@ import SideBar from "../../shared/components/SideBar/SideBar";
 // eslint-disable-next-line react/prop-types
 const MainLayout = ({ loginData }) => {
   return (
-    <div className="d-flex flex-col min-vh-100">
-      <div className="d-flex flex-col  h-100">
-        <SideBar />
-      </div>
-      <div className="w-100 ">
+    <div className="d-flex min-vh-100">
+      <SideBar />
+      <div className="main-layout w-100 d-flex flex-column ">
         <Navbar loginData={loginData} />
         <Outlet />
       </div>

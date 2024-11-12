@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sen:wght@400..800&display=swap");
 body {
   font-family: "Inter", sans-serif;
+  /* height: 100%; */
 }
 .auth-container {
   background-image: url("../src/assets/background.png");
@@ -31,12 +32,26 @@ input[type="password"]::-webkit-clear-button {
 input[type="password"]::-webkit-reveal-button {
   display: none;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .sidebar-container .ps-sidebar-root {
   border: none;
+  height: 100%;
 }
+
 .sidebar-container .ps-sidebar-container {
   background-color: #1f263e;
-  height: 100vh;
+  min-height: 150vh;
 }
 .sidebar-container .ps-sidebar-root.ps-collapsed .ps-sidebar-container {
   border-top-right-radius: 45px;
@@ -71,17 +86,30 @@ input[type="password"]::-webkit-reveal-button {
   filter: none !important;
 }
 .header-container {
-  background-image: url("../src/assets/header-bg.svg");
+  /* background-image: url("../src/assets/header-bg.svg"); */
+  background: url("../src/assets/header-bg.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  border-radius: 15px;
+  border-radius: 20px;
   color: #fff;
+  position: relative;
+}
+.header-container-dashboard {
+  height: 300px;
+}
+.header-img img {
+  height: 300px;
+  position: absolute;
+  bottom: -2rem;
 }
 .table-header th {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   padding-inline-start: 20px;
+}
+.table-header th:nth-child(2) {
+  text-align: center !important;
 }
 .table-header th:first-child {
   border-top-left-radius: 10px;
@@ -93,6 +121,8 @@ input[type="password"]::-webkit-reveal-button {
 }
 .table-body td {
   padding-inline-start: 20px;
+  padding-bottom: 12px;
+  padding-top: 12px;
 }
 .table-striped tbody tr:nth-of-type(even) > * {
   background-color: #f8f9fb !important;

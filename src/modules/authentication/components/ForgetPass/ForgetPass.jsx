@@ -3,7 +3,7 @@ import logo from "../../../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import apiInstance from "../../../../api/apiInstance";
+import { apiInstance } from "../../../../api/apiInstance";
 import { endpoints } from "../../../../api/apiConfig";
 import { getValidationRules } from "../../../../validation/validationRules";
 
@@ -21,7 +21,7 @@ const ForgetPass = () => {
       setLoading(true);
       const response = await apiInstance.post(endpoints.resetRequest, data);
       setLoading(false);
-      toast.success(response.data.message);
+      toast.success(response?.data?.message);
       navigate("/reset-password", { state: { email: data.email } });
     } catch (error) {
       setLoading(false);

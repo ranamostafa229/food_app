@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
-import apiInstance from "../../../../api/apiInstance";
+import { privateApiInstance } from "../../../../api/apiInstance";
 import { endpoints } from "../../../../api/apiConfig";
 
 import { toast } from "react-toastify";
@@ -21,11 +21,7 @@ const CategoriesList = () => {
   const getCategories = async () => {
     setLoading(true);
     try {
-      let responnse = await apiInstance.get(endpoints.categories, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      let responnse = await privateApiInstance.get(endpoints.categories(10, 1));
       setLoading(false);
       setCategories(responnse.data.data);
     } catch (error) {
@@ -38,13 +34,8 @@ const CategoriesList = () => {
   }, []);
   const deleteCategory = async () => {
     try {
-      let response = await apiInstance.delete(
-        endpoints.deleteCategory(selectedId),
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
+      let response = await privateApiInstance.delete(
+        endpoints.deleteCategory(selectedId)
       );
       if (response.status === 200) {
         toast.success("Category deleted successfully");
@@ -94,7 +85,7 @@ const CategoriesList = () => {
             </thead>
             <tbody className="table-body">
               {categories?.map((category) => (
-                <tr key={category.id} className="px-3">
+                <tr key={category.id}>
                   <td>{category.name}</td>
                   <td>{category.creationDate}</td>
                   <td>

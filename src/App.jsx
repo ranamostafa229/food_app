@@ -60,7 +60,7 @@ function App() {
       ],
     },
     {
-      path: "dashboard",
+      path: "",
       element: (
         <ProtectedRoute loginData={loginData}>
           <MainLayout loginData={loginData} />
@@ -68,7 +68,7 @@ function App() {
       ),
       children: [
         {
-          index: true,
+          path: "dashboard",
           element: <Dashboard loginData={loginData} />,
         },
         {
