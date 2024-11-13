@@ -1,32 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { apiInstance } from "../../../../services/api/apiInstance";
 import { getValidationRules } from "../../../../services/validation/validationRules";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const ForgetPass = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const validationRules = getValidationRules();
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
       const response = await apiInstance.post(
         users_endpoints.resetRequest,
         data
       );
-      setLoading(false);
       toast.success(response?.data?.message);
       navigate("/reset-password", { state: { email: data.email } });
     } catch (error) {
-      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
@@ -63,9 +58,9 @@ const ForgetPass = () => {
         )}
         <button
           className="btn btn-success w-100 my-3 fw-bold  mt-5 "
-          disabled={loading}
+          disabled={isSubmitting}
         >
-          {loading ? "Loading..." : "Submit"}
+          {isSubmitting ? "Loading..." : "Submit"}
         </button>
       </form>
     </div>

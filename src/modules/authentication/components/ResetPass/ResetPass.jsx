@@ -10,13 +10,12 @@ const ResetPass = () => {
   const { state } = useLocation();
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     watch,
     trigger,
   } = useForm({ defaultValues: { email: state?.email }, mode: "onChange" });
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
   const validationRules = getValidationRules(watch);
   const password = watch("password");
@@ -28,13 +27,10 @@ const ResetPass = () => {
   }, [password, confirmPassword, trigger]);
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
       const response = await apiInstance.post(users_endpoints.reset, data);
-      setLoading(false);
       toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
-      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
@@ -191,9 +187,9 @@ const ResetPass = () => {
         <button
           className="btn btn-success w-100 my-3 fw-bold"
           aria-label="submit button"
-          disabled={loading}
+          disabled={isSubmitting}
         >
-          {loading ? "Loading..." : "Reset Password"}
+          {isSubmitting ? "Submiting..." : "Reset Password"}
         </button>
       </form>
     </div>
