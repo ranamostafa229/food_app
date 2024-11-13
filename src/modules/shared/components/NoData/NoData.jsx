@@ -15,11 +15,5 @@ const NoData = ({ colspan }) => {
     </td>
   );
 };
-{
-  /* <div className="d-flex flex-column gap-4  align-items-center"> */
-}
-{
-  /* </div> */
-}
 
 export default NoData;
