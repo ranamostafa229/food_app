@@ -80,10 +80,12 @@ const RecipesList = () => {
       ) : (
         <div className="p-md-3  p-0  table-responsive">
           <table className="table  table-striped  table-borderless ">
-            <thead className={`table-header`}>
+            <thead className={`table-header `}>
               <tr className="table-secondary  ">
                 <th scope="col">Name</th>
-                <th scope="col  ">Image</th>
+                <th scope="col" className="table-header-img">
+                  Image
+                </th>
                 <th scope="col">Price</th>
                 <th scope="col">Description</th>
                 <th scope="col">tag</th>

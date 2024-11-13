@@ -117,6 +117,10 @@ input[type="password"]::-webkit-reveal-button {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.table-header .table-header-img {
+  text-align: center !important;
+}
+
 .table-body td {
   padding-inline-start: 20px;
   padding-bottom: 12px;
