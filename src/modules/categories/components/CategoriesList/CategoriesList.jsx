@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
-import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+// import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
 
+const ConfirmDeleteModal = lazy(() =>
+  import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
+);
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -115,12 +118,14 @@ const CategoriesList = () => {
           </table>
         </div>
       )}
-      <DeleteConfirmation
-        deleteItem={"Category"}
-        deleteFun={deleteCategory}
-        toggleShow={show}
-        handleClose={handleClose}
-      />
+      <Suspense fallback={null}>
+        <ConfirmDeleteModal
+          deleteItem={"Category"}
+          deleteFun={deleteCategory}
+          toggleShow={show}
+          handleClose={handleClose}
+        />
+      </Suspense>
     </div>
   );
 };

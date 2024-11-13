@@ -1,12 +1,14 @@
 import { toast } from "react-toastify";
 import Header from "../../../shared/components/Header/Header";
-import { useEffect, useState } from "react";
-import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { recipes_endpoints } from "../../../../services/api/apiConfig";
 import styles from "./RecipesList.module.css";
 import NoData from "../../../shared/components/NoData/NoData";
 
+const ConfirmDeleteModal = lazy(() =>
+  import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
+);
 const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -133,12 +135,14 @@ const RecipesList = () => {
           </table>
         </div>
       )}
-      <DeleteConfirmation
-        deleteItem={"Recipe"}
-        deleteFun={deleteRecipe}
-        toggleShow={show}
-        handleClose={handleClose}
-      />
+      <Suspense fallback={null}>
+        <ConfirmDeleteModal
+          deleteItem={"Recipe"}
+          deleteFun={deleteRecipe}
+          toggleShow={show}
+          handleClose={handleClose}
+        />
+      </Suspense>
     </div>
   );
 };
