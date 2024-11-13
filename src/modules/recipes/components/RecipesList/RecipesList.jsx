@@ -3,7 +3,6 @@ import Header from "../../../shared/components/Header/Header";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { recipes_endpoints } from "../../../../services/api/apiConfig";
-import styles from "./RecipesList.module.css";
 import NoData from "../../../shared/components/NoData/NoData";
 
 const ConfirmDeleteModal = lazy(() =>
@@ -81,7 +80,7 @@ const RecipesList = () => {
       ) : (
         <div className="p-md-3  p-0  table-responsive">
           <table className="table  table-striped  table-borderless ">
-            <thead className={styles.tableHeader}>
+            <thead className={`table-header`}>
               <tr className="table-secondary  ">
                 <th scope="col">Name</th>
                 <th scope="col  ">Image</th>

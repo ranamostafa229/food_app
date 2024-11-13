@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 // import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
+import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 
 const ConfirmDeleteModal = lazy(() =>
   import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
@@ -126,6 +127,7 @@ const CategoriesList = () => {
           handleClose={handleClose}
         />
       </Suspense>
+      <DropdownMenu />
     </div>
   );
 };
