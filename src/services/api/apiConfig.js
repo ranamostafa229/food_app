@@ -17,5 +17,6 @@ const categories_endpoints = {
 const recipes_endpoints = {
   recipes: (pageSize, pageNumber) =>
     `Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+  deleteRecipe: (id) => `Recipe/${id}`,
 };
 export { BASE_URL, users_endpoints, categories_endpoints, recipes_endpoints };

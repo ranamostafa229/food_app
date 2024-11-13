@@ -4,6 +4,7 @@ import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import { categories_endpoints } from "../../../../services/api/apiConfig";
+import NoData from "../../../shared/components/NoData/NoData";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -85,25 +86,31 @@ const CategoriesList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {categories?.map((category) => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                  <td>{category.creationDate}</td>
-                  <td>
-                    <i
-                      className="fa fa-trash text-danger mx-2 "
-                      aria-hidden="true"
-                      aria-label="delete"
-                      onClick={() => handleShow(category.id)}
-                    />
-                    <i
-                      className="fa fa-edit text-warning  "
-                      aria-hidden="true"
-                      aria-label="edit"
-                    />
-                  </td>
+              {categories.length > 0 ? (
+                categories?.map((category) => (
+                  <tr key={category.id}>
+                    <td>{category.name}</td>
+                    <td>{category.creationDate}</td>
+                    <td>
+                      <i
+                        className="fa fa-trash text-danger mx-2 "
+                        aria-hidden="true"
+                        aria-label="delete"
+                        onClick={() => handleShow(category.id)}
+                      />
+                      <i
+                        className="fa fa-edit text-warning  "
+                        aria-hidden="true"
+                        aria-label="edit"
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <NoData colspan={3} />
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

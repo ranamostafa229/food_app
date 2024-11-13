@@ -2,9 +2,10 @@ import { toast } from "react-toastify";
 import Header from "../../../shared/components/Header/Header";
 import { useEffect, useState } from "react";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
-import { apiInstance } from "../../../../services/api/apiInstance";
+import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { recipes_endpoints } from "../../../../services/api/apiConfig";
 import styles from "./RecipesList.module.css";
+import NoData from "../../../shared/components/NoData/NoData";
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -21,11 +22,9 @@ const RecipesList = () => {
   const getRecipes = async () => {
     setLoading(true);
     try {
-      let responnse = await apiInstance.get(recipes_endpoints.recipes(10, 1), {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      let responnse = await privateApiInstance.get(
+        recipes_endpoints.recipes(10, 1)
+      );
       setLoading(false);
       setRecipes(responnse.data.data);
     } catch (error) {
@@ -38,13 +37,8 @@ const RecipesList = () => {
   }, []);
   const deleteRecipe = async () => {
     try {
-      let response = await apiInstance.delete(
-        recipes_endpoints.deleteCategory(selectedId),
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
+      let response = await privateApiInstance.delete(
+        recipes_endpoints.deleteRecipe(selectedId)
       );
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
@@ -96,39 +90,45 @@ const RecipesList = () => {
                 <th scope="col">Actions</th>
               </tr>
             </thead>
-            <tbody className="table-body ">
-              {recipes?.map((recipe) => (
-                <tr key={recipe.id} className="px-3 align-middle">
-                  <td>{recipe?.name}</td>
-                  <td className="w-25 h-100 text-center ">
-                    <img
-                      src={`https://upskilling-egypt.com:3006/${recipe?.imagePath}`}
-                      alt={`${recipe?.name}`}
-                      className="rounded-2"
-                      style={{
-                        width: "60px",
-                      }}
-                    />
-                  </td>
-                  <td>{recipe?.price}</td>
-                  <td>{recipe?.description}</td>
-                  <td>{recipe?.tag.name}</td>
-                  <td>{recipe?.category[0]?.name}</td>
-                  <td>
-                    <i
-                      className="fa fa-trash text-danger mx-2 "
-                      aria-hidden="true"
-                      aria-label="delete"
-                      onClick={() => handleShow(recipe.id)}
-                    />
-                    <i
-                      className="fa fa-edit text-warning  "
-                      aria-hidden="true"
-                      aria-label="edit"
-                    />
-                  </td>
+            <tbody className="table-body">
+              {recipes.length > 0 ? (
+                recipes?.map((recipe) => (
+                  <tr key={recipe.id} className="px-3 align-middle">
+                    <td>{recipe?.name}</td>
+                    <td className="w-25 h-100 text-center ">
+                      <img
+                        src={`https://upskilling-egypt.com:3006/${recipe?.imagePath}`}
+                        alt={`${recipe?.name}`}
+                        className="rounded-2"
+                        style={{
+                          width: "60px",
+                        }}
+                      />
+                    </td>
+                    <td>{recipe?.price}</td>
+                    <td>{recipe?.description}</td>
+                    <td>{recipe?.tag.name}</td>
+                    <td>{recipe?.category[0]?.name}</td>
+                    <td>
+                      <i
+                        className="fa fa-trash text-danger mx-2 "
+                        aria-hidden="true"
+                        aria-label="delete"
+                        onClick={() => handleShow(recipe.id)}
+                      />
+                      <i
+                        className="fa fa-edit text-warning  "
+                        aria-hidden="true"
+                        aria-label="edit"
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <NoData colspan={7} />
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
