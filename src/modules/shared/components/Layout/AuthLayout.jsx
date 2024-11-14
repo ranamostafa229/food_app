@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import logo from "../../../assets/logo.png";
+import logo from "../../../../assets/logo.png";
 
 const AuthLayout = () => {
   const [isAuthenticated] = useState(() => !!localStorage.getItem("token")); // call function only first time
