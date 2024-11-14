@@ -2,8 +2,13 @@ import { toast } from "react-toastify";
 import Header from "../../../shared/components/Header/Header";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
-import { recipes_endpoints } from "../../../../services/api/apiConfig";
+import {
+  IMAGE_URL,
+  recipes_endpoints,
+} from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
+import Heading from "../../../shared/components/Heading/Heading";
+import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 
 const ConfirmDeleteModal = lazy(() =>
   import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
@@ -52,24 +57,12 @@ const RecipesList = () => {
     handleClose();
   };
   return (
-    <div>
+    <>
       <Header
         title="Recipes List"
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
-      <div className="d-flex justify-content-between p-3 ">
-        <div className="d-flex flex-column  ">
-          <h4 className="fw-bold m-0 ">Recipe Table Details</h4>
-          <span>You can check all details</span>
-        </div>
-        <button className="btn btn-success d-flex align-items-center gap-1 btn-md h-100 ">
-          <span className="d-lg-inline d-none d-sm-inline"> Add New </span>
-          <span className="d-sm-none d-xs-inline ">
-            <i className="fa fa-plus-circle"></i>
-          </span>
-          Recipe
-        </button>
-      </div>
+      <Heading title={"Recipes"} item={"Recipe"} />
       {loading ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
@@ -78,7 +71,7 @@ const RecipesList = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="p-md-3  p-0  table-responsive">
+        <div className="p-md-3  p-0  table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className={`table-header `}>
               <tr className="table-secondary  ">
@@ -100,7 +93,7 @@ const RecipesList = () => {
                     <td>{recipe?.name}</td>
                     <td className="w-25 h-100 text-center ">
                       <img
-                        src={`https://upskilling-egypt.com:3006/${recipe?.imagePath}`}
+                        src={`${IMAGE_URL}/${recipe?.imagePath}`}
                         alt={`${recipe?.name}`}
                         className="rounded-2"
                         style={{
@@ -112,24 +105,14 @@ const RecipesList = () => {
                     <td>{recipe?.description}</td>
                     <td>{recipe?.tag.name}</td>
                     <td>{recipe?.category[0]?.name}</td>
-                    <td>
-                      <i
-                        className="fa fa-trash text-danger mx-2 "
-                        aria-hidden="true"
-                        aria-label="delete"
-                        onClick={() => handleShow(recipe.id)}
-                      />
-                      <i
-                        className="fa fa-edit text-warning  "
-                        aria-hidden="true"
-                        aria-label="edit"
-                      />
+                    <td className="text-center cursor-pointer">
+                      <DropdownMenu handleShow={() => handleShow(recipe.id)} />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <NoData colspan={7} />
+                  <NoData colspan={6} />
                 </tr>
               )}
             </tbody>
@@ -144,7 +127,7 @@ const RecipesList = () => {
           handleClose={handleClose}
         />
       </Suspense>
-    </div>
+    </>
   );
 };
 

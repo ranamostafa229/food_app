@@ -2,10 +2,10 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
-// import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
+import Heading from "../../../shared/components/Heading/Heading";
 
 const ConfirmDeleteModal = lazy(() =>
   import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
@@ -14,8 +14,8 @@ const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
     setSelectedId(id);
@@ -59,19 +59,8 @@ const CategoriesList = () => {
         title="Categories List"
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
-      <div className="d-flex justify-content-between p-3 ">
-        <div className="d-flex flex-column  ">
-          <h4 className="fw-bold m-0 ">Categories Table Details</h4>
-          <span>You can check all details</span>
-        </div>
-        <button className="btn btn-success d-flex align-items-center gap-1 btn-md h-100 ">
-          <span className="d-lg-inline d-none d-sm-inline"> Add New </span>
-          <span className="d-sm-none d-xs-inline ">
-            <i className="fa fa-plus-circle"></i>
-          </span>
-          Category
-        </button>
-      </div>
+
+      <Heading title={"Categories"} item={"Category"} />
       {loading ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
@@ -80,13 +69,15 @@ const CategoriesList = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="p-md-3  p-0 ">
-          <table className="table  table-striped  table-borderless table-responsive">
+        <div className="p-md-3  p-0 table-responsive ">
+          <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">
               <tr className="table-secondary  ">
                 <th scope="col">Name</th>
                 <th scope="col">Creation Date</th>
-                <th scope="col">Actions</th>
+                <th scope="col" className="text-center">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="table-body">
@@ -95,17 +86,9 @@ const CategoriesList = () => {
                   <tr key={category.id}>
                     <td>{category.name}</td>
                     <td>{category.creationDate}</td>
-                    <td>
-                      <i
-                        className="fa fa-trash text-danger mx-2 "
-                        aria-hidden="true"
-                        aria-label="delete"
-                        onClick={() => handleShow(category.id)}
-                      />
-                      <i
-                        className="fa fa-edit text-warning  "
-                        aria-hidden="true"
-                        aria-label="edit"
+                    <td className="text-center cursor-pointer">
+                      <DropdownMenu
+                        handleShow={() => handleShow(category.id)}
                       />
                     </td>
                   </tr>
@@ -127,7 +110,6 @@ const CategoriesList = () => {
           handleClose={handleClose}
         />
       </Suspense>
-      <DropdownMenu />
     </div>
   );
 };

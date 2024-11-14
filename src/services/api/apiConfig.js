@@ -1,4 +1,5 @@
 const BASE_URL = "https://upskilling-egypt.com:3006/api/v1/";
+const IMAGE_URL = "https://upskilling-egypt.com:3006/";
 
 //USERS_URLS
 const users_endpoints = {
@@ -19,4 +20,10 @@ const recipes_endpoints = {
     `Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
   deleteRecipe: (id) => `Recipe/${id}`,
 };
-export { BASE_URL, users_endpoints, categories_endpoints, recipes_endpoints };
+export {
+  BASE_URL,
+  IMAGE_URL,
+  users_endpoints,
+  categories_endpoints,
+  recipes_endpoints,
+};

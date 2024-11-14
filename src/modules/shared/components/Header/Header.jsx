@@ -6,22 +6,18 @@ const Header = ({ title, description }) => {
   const location = useLocation();
   return (
     <div
-      className={`${
-        location.pathname === "/dashboard" && "header-container-dashboard"
-      } header-container mx-2 px-5 py-1 d-flex justify-content-between align-items-center`}
+      className={` header-container mx-2 row py-5 px-3  align-items-center     `}
     >
-      <div className="caption">
+      <div className="caption col-md-6">
         <h1>{title}</h1>
         <p>{description}</p>
       </div>
-      <div
-        className={`${
-          location.pathname === "/dashboard" && "header-img"
-        } w-75 d-flex justify-content-end`}
-      >
+
+      <div className={` col-md-6 text-end`}>
         <img
           src={location.pathname === "/dashboard" ? headerHomeImg : headerImg}
           alt="header image"
+          className="img-fluid  "
         />
       </div>
     </div>
