@@ -1,14 +1,16 @@
+export const getRequiredMessage = (filedName) => `${filedName} is required`;
+
 export const getValidationRules = (watch) => {
   return {
     email: {
-      required: "Email is required",
+      required: getRequiredMessage("Email"),
       pattern: {
         value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
         message: "Email is not valid",
       },
     },
     password: {
-      required: "Password is required",
+      required: getRequiredMessage("Password"),
       minLength: {
         value: 6,
         message: "Password must be at least 6 characters",
@@ -21,7 +23,7 @@ export const getValidationRules = (watch) => {
       },
     },
     confirmPassword: {
-      required: "Confirm Password is required",
+      required: getRequiredMessage("Confirm Password"),
       validate: (value) =>
         value === watch("password") || "The passwords do not match ",
     },

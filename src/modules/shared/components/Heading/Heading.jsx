@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
-const Heading = ({ title, item }) => {
+const Heading = ({ title, item, handleShowAdd }) => {
   return (
     <div className="d-flex justify-content-between p-3  ">
       <div className="d-flex flex-column  ">
         <h4 className="fw-bold m-0 ">{title} Table Details</h4>
         <span>You can check all details</span>
       </div>
-      <button className="btn btn-success d-flex align-items-center gap-1 btn-sm h-50">
+      <button
+        className="btn btn-success d-flex align-items-center gap-1 btn-sm h-50 fw-bold"
+        onClick={handleShowAdd}
+      >
         <span className="d-lg-inline d-none d-sm-inline"> Add New </span>
         <span className="d-sm-none d-xs-inline ">
           <i className="fa fa-plus-circle"></i>

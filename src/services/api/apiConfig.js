@@ -10,9 +10,10 @@ const users_endpoints = {
 };
 // CATEGORIES_URLS
 const categories_endpoints = {
-  categories: (pageSize, pageNumber) =>
+  GET_CATEGORIES: (pageSize, pageNumber) =>
     `${BASE_URL}Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-  deleteCategory: (id) => `Category/${id}`,
+  DELETE_CATEGORY: (id) => `Category/${id}`,
+  POST_CATEGORY: `${BASE_URL}Category`,
 };
 // RECIPE_URLS
 const recipes_endpoints = {
