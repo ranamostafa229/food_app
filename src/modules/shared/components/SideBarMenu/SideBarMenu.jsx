@@ -5,7 +5,7 @@ import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
 import { useState } from "react";
 
-const SideBar = ({ removeLoginData }) => {
+const SideBarMenu = ({ removeLoginData }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -97,4 +97,4 @@ const SideBar = ({ removeLoginData }) => {
   );
 };
 
-export default SideBar;
+export default SideBarMenu;
