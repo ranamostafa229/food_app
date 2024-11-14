@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../shared/components/Navbar/Navbar";
-import SideBar from "../../shared/components/SideBar/SideBar";
+import SideBar from "../../shared/components/SideBarMenu/SideBar";
 
 // eslint-disable-next-line react/prop-types
 const MainLayout = ({ loginData, removeLoginData }) => {

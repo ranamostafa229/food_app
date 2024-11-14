@@ -83,7 +83,9 @@ const RecipesList = () => {
                 <th scope="col">Description</th>
                 <th scope="col">tag</th>
                 <th scope="col">category</th>
-                <th scope="col">Actions</th>
+                <th scope="col" className="text-center">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="table-body">

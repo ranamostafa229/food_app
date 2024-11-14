@@ -6,9 +6,7 @@ import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import Heading from "../../../shared/components/Heading/Heading";
-import { Modal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { getRequiredMessage } from "../../../../services/validation/validationRules";
+import CategoryActionsModal from "../../../shared/components/CategoryActionsModal/CategoryActionsModal";
 
 const ConfirmDeleteModal = lazy(() =>
   import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
@@ -17,23 +15,30 @@ const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [show, setShow] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
-  const {
-    register,
-    formState: { errors, isSubmitting },
-    handleSubmit,
-  } = useForm();
+  const [showEdit, setShowEdit] = useState(false);
+  const [action, setAction] = useState(null);
+
   const handleClose = () => setShow(false);
-  const handleShow = (id) => {
+  const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
   };
-  const handleCloseAdd = () => {
+  const handleShowEdit = (id, name) => {
+    setSelectedId(id);
+    setSelectedCategory(name);
+    setShowEdit(true);
+    setAction("Update");
+  };
+  const handleCloseActions = () => {
     setShowAdd(false);
+    setShowEdit(false);
   };
   const handleShowAdd = () => {
     setShowAdd(true);
+    setAction("Add");
   };
 
   const getCategories = async () => {
@@ -50,9 +55,6 @@ const CategoriesList = () => {
     }
   };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
   const deleteCategory = async () => {
     try {
       let response = await privateApiInstance.delete(
@@ -68,22 +70,51 @@ const CategoriesList = () => {
     }
     handleClose();
   };
-  const onSubmit = async (data) => {
+  const addCategory = async (data) => {
     try {
       let response = await privateApiInstance.post(
         categories_endpoints.POST_CATEGORY,
         data
       );
-      console.log(response.data);
-      setCategories(response.data.data);
-      handleCloseAdd();
+      setCategories((prev) => [response?.data, ...prev]);
+      handleCloseActions();
       toast.success("Category added successfully");
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
       console.log(error);
     }
   };
+  const editCategory = async (data) => {
+    console.log(data);
+    try {
+      let response = await privateApiInstance.put(
+        categories_endpoints.UPDATE_CATEGORY(selectedId),
+        data
+      );
+      setCategories((prev) =>
+        prev.map((item) => (item.id === selectedId ? response?.data : item))
+      );
+      handleCloseActions();
+      toast.success("Category updated successfully");
+    } catch (error) {
+      toast.error(error.response.data.message || "something went wrong");
+      console.log(error);
+      handleCloseActions();
+    }
+  };
 
+  const onSubmit = async (data) => {
+    console.log("data", data);
+    action === "Add" ? await addCategory(data) : editCategory(data);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+  useEffect(() => {
+    if (showEdit) setAction("Update");
+  }, [showEdit]);
+  console.log(selectedCategory);
   return (
     <div className=" mx-2">
       <Header
@@ -118,12 +149,15 @@ const CategoriesList = () => {
             <tbody className="table-body">
               {categories?.length > 0 ? (
                 categories?.map((category) => (
-                  <tr key={category.id}>
-                    <td>{category.name}</td>
-                    <td>{category.creationDate}</td>
+                  <tr key={category?.id}>
+                    <td>{category?.name}</td>
+                    <td>{category?.creationDate}</td>
                     <td className="text-center cursor-pointer">
                       <DropdownMenu
-                        handleShow={() => handleShow(category.id)}
+                        handleShowDelete={() => handleShowDelete(category?.id)}
+                        handleShowEdit={() =>
+                          handleShowEdit(category?.id, category?.name)
+                        }
                       />
                     </td>
                   </tr>
@@ -145,50 +179,24 @@ const CategoriesList = () => {
           handleClose={handleClose}
         />
       </Suspense>
-      <Modal show={showAdd} onHide={handleCloseAdd}>
-        <Modal.Header closeButton className="border-0 fw-bold ">
-          <span className="p-3">Add Category</span>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex flex-column w-100 p-3  ">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                type="text"
-                className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
-                placeholder="Category Name"
-                aria-label="name"
-                aria-describedby="input-group-left"
-                {...register("name", {
-                  required: getRequiredMessage("Name"),
-                })}
-              />
-              {errors.name && (
-                <div className="text-danger mt-2">{errors.name.message}</div>
-              )}
-              <hr className="text-muted " />
-              <div className="d-flex justify-content-end">
-                <button
-                  disabled={isSubmitting}
-                  type="submit"
-                  className="btn btn-success fw-bold"
-                >
-                  save
-                </button>
-              </div>
-            </form>
-          </div>
-        </Modal.Body>
-        {/* <Modal.Footer>
+      <CategoryActionsModal
+        show={action === "Add" ? showAdd : showEdit}
+        handleCloseAdd={handleCloseActions}
+        handleFunc={onSubmit}
+        action={action}
+        selectedCategory={action === "Update" ? selectedCategory : ""}
+      />
+    </div>
+  );
+};
+{
+  /* <Modal.Footer>
           <Button
             className="btn-success"
             variant="white"
           >
             save
           </Button>
-        </Modal.Footer> */}
-      </Modal>
-    </div>
-  );
-};
-
+        </Modal.Footer> */
+}
 export default CategoriesList;

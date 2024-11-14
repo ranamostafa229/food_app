@@ -14,6 +14,7 @@ const categories_endpoints = {
     `${BASE_URL}Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
   DELETE_CATEGORY: (id) => `Category/${id}`,
   POST_CATEGORY: `${BASE_URL}Category`,
+  UPDATE_CATEGORY: (id) => `Category/${id}`,
 };
 // RECIPE_URLS
 const recipes_endpoints = {

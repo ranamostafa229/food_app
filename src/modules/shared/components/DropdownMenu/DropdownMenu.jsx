@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Dropdown } from "react-bootstrap";
 
-const DropdownMenu = ({ handleShow }) => {
+const DropdownMenu = ({ handleShowDelete, handleShowEdit }) => {
   return (
     <div>
       <Dropdown>
@@ -14,11 +14,11 @@ const DropdownMenu = ({ handleShow }) => {
           />
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">
+          <Dropdown.Item onClick={handleShowEdit}>
             <i className="fa-solid fa-pen-to-square mx-2 text-success " />
             Edit
           </Dropdown.Item>
-          <Dropdown.Item onClick={handleShow}>
+          <Dropdown.Item onClick={handleShowDelete}>
             <i
               className="fa fa-trash mx-2 text-success "
               aria-hidden="true"
