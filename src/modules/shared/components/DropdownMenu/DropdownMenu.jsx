@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Dropdown } from "react-bootstrap";
 
-const DropdownMenu = ({ handleShowDelete, handleShowEdit }) => {
+const DropdownMenu = ({
+  handleShowDelete,
+  handleShowEdit,
+  setSelectedCategory,
+}) => {
   return (
-    <div>
+    <div onClick={setSelectedCategory}>
       <Dropdown>
         <Dropdown.Toggle variant="outlined" id="dropdown-basic">
           <span className="sr-only">Click to see actions</span>

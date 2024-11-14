@@ -26,11 +26,12 @@ const CategoriesList = () => {
     setSelectedId(id);
     setShow(true);
   };
-  const handleShowEdit = (id, name) => {
-    setSelectedId(id);
-    setSelectedCategory(name);
+  const handleShowEdit = (id) => {
     setShowEdit(true);
+    setSelectedId(id);
+    // setSelectedCategory(name);
     setAction("Update");
+    console.log("before", selectedCategory);
   };
   const handleCloseActions = () => {
     setShowAdd(false);
@@ -103,10 +104,10 @@ const CategoriesList = () => {
     }
   };
 
-  const onSubmit = async (data) => {
-    console.log("data", data);
-    action === "Add" ? await addCategory(data) : editCategory(data);
-  };
+  // const onSubmit = (data) => {
+  //   console.log("data", data);
+  //   action === "Add" ? addCategory(data) : editCategory(data);
+  // };
 
   useEffect(() => {
     getCategories();
@@ -149,11 +150,15 @@ const CategoriesList = () => {
                   <tr key={category?.id}>
                     <td>{category?.name}</td>
                     <td>{category?.creationDate}</td>
-                    <td className="text-center cursor-pointer">
+                    <td
+                      className="text-center cursor-pointer"
+                      onClick={() => setSelectedCategory(category?.name)}
+                    >
                       <DropdownMenu
                         handleShowDelete={() => handleShowDelete(category?.id)}
-                        handleShowEdit={() =>
-                          handleShowEdit(category?.id, category?.name)
+                        handleShowEdit={() => handleShowEdit(category?.id)}
+                        setSelectedCategory={() =>
+                          setSelectedCategory(category?.name)
                         }
                       />
                     </td>
@@ -179,21 +184,12 @@ const CategoriesList = () => {
       <CategoryActionsModal
         show={action === "Add" ? showAdd : showEdit}
         handleCloseAdd={handleCloseActions}
-        handleFunc={onSubmit}
+        handleFunc={action === "Add" ? addCategory : editCategory}
         action={action}
-        selectedCategory={action === "Update" ? selectedCategory : ""}
+        selectedCategory={selectedCategory}
       />
     </div>
   );
 };
-{
-  /* <Modal.Footer>
-          <Button
-            className="btn-success"
-            variant="white"
-          >
-            save
-          </Button>
-        </Modal.Footer> */
-}
+
 export default CategoriesList;

@@ -2,6 +2,7 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { getRequiredMessage } from "../../../../services/validation/validationRules";
+// import { useEffect, useRef } from "react";
 // defaultValues: { name: action === "Update" ? selectedCategory : "" },
 
 const CategoryActionsModal = ({
@@ -16,8 +17,13 @@ const CategoryActionsModal = ({
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm({
-    defaultValues: { name: action === "Update" ? selectedCategory : "" },
+    defaultValues: { name: selectedCategory },
   });
+  const onSubmit = (data) => {
+    console.log(data);
+    handleFunc(data);
+  };
+
   return (
     <Modal show={show} onHide={handleCloseAdd}>
       <Modal.Header closeButton className="border-0 fw-bold ">
@@ -25,7 +31,7 @@ const CategoryActionsModal = ({
       </Modal.Header>
       <Modal.Body>
         <div className="d-flex flex-column w-100 p-3  ">
-          <form onSubmit={handleSubmit(handleFunc)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <input
               type="text"
               className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
@@ -35,7 +41,6 @@ const CategoryActionsModal = ({
               {...register("name", {
                 required: getRequiredMessage("Name"),
               })}
-              //   value={selectedCategory}
             />
             {errors.name && (
               <div className="text-danger mt-2">{errors.name.message}</div>
