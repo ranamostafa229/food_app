@@ -11,14 +11,14 @@ import CategoriesList from "./modules/categories/components/CategoriesList/Categ
 import UsersList from "./modules/users/components/UsersList/UsersList";
 import FavoritesList from "./modules/favorites/components/Favorites/FavoritesList";
 import CategoryData from "./modules/categories/components/CategoryData/CategoryData";
-import AuthLayout from "./modules/layout/components/AuthLayout";
-import MainLayout from "./modules/layout/components/MainLayout";
 import RecipesData from "./modules/recipes/components/RecipeData/RecipeData";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
+import AuthLayout from "./modules/shared/components/Layout/AuthLayout";
+import MainLayout from "./modules/shared/components/Layout/MainLayout";
 
 function App() {
   const [loginData, setLoginData] = useState(null);

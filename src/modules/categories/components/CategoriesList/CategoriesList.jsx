@@ -111,10 +111,7 @@ const CategoriesList = () => {
   useEffect(() => {
     getCategories();
   }, []);
-  useEffect(() => {
-    if (showEdit) setAction("Update");
-  }, [showEdit]);
-  console.log(selectedCategory);
+
   return (
     <div className=" mx-2">
       <Header

@@ -16,7 +16,7 @@ const CategoryActionsModal = ({
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm({
-    defaultValues: { name: selectedCategory },
+    defaultValues: { name: action === "Update" ? selectedCategory : "" },
   });
   return (
     <Modal show={show} onHide={handleCloseAdd}>
