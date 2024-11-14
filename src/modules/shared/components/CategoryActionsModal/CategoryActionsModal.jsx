@@ -20,20 +20,30 @@ const CategoryActionsModal = ({
     defaultValues: { name: selectedCategory },
   });
   useEffect(() => {
-    reset({ name: selectedCategory });
-  }, [selectedCategory, reset]);
-  const onSubmit = (data) => {
-    console.log(data);
-    handleFunc(data);
+    if (show) {
+      reset({ name: selectedCategory });
+    }
+  }, [selectedCategory, reset, show]);
+  const onSubmit = async (data) => {
+    await handleFunc(data);
+    reset({ name: "" });
   };
 
   return (
-    <Modal show={show} onHide={handleCloseAdd}>
-      <Modal.Header closeButton className="border-0 fw-bold ">
-        <span className="p-3">{action} Category</span>
+    <Modal show={show} onHide={handleCloseAdd} centered>
+      <Modal.Header
+        closeButton
+        className="border-0 fw-bold d-flex justify-content-between m-3"
+      >
+        <h4 className=" fw-bold">{action} Category</h4>
+        <span className="sr-only">Close {action} Window</span>
+        <i
+          className="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer "
+          onClick={handleCloseAdd}
+        />
       </Modal.Header>
       <Modal.Body>
-        <div className="d-flex flex-column w-100 p-3  ">
+        <div className="d-flex flex-column  pt-5 pb-1 px-3 ">
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
               type="text"
@@ -53,7 +63,7 @@ const CategoryActionsModal = ({
               <button
                 disabled={isSubmitting}
                 type="submit"
-                className="btn btn-success fw-bold"
+                className="btn btn-success fw-bold w-25 "
               >
                 {isSubmitting ? "Saving..." : "Save"}
               </button>

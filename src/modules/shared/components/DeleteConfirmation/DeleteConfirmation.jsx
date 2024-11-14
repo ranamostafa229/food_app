@@ -10,7 +10,7 @@ const DeleteConfirmation = ({
   deleteItem,
 }) => {
   return (
-    <Modal show={toggleShow} onHide={handleClose}>
+    <Modal show={toggleShow} onHide={handleClose} centered>
       <Modal.Header closeButton className="border-0 "></Modal.Header>
       <Modal.Body>
         <div className="text-center">

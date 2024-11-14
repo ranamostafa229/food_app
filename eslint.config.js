@@ -8,19 +8,19 @@ export default [
   { ignores: ["dist"] },
   {
     files: ["**/*.{js,jsx}"],
-    // languageOptions: {
-    //   ecmaVersion: 2020,
-    //   globals: globals.browser,
-    //   parserOptions: {
-    //     ecmaVersion: 'latest',
-    //     ecmaFeatures: { jsx: true },
-    //     sourceType: 'module',
-    //   },
-    // },
-    parserOptions: {
+    languageOptions: {
       ecmaVersion: 2020,
-      sourceType: "module",
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        ecmaFeatures: { jsx: true },
+        sourceType: "module",
+      },
     },
+    // parserOptions: {
+    //   ecmaVersion: 2020,
+    //   sourceType: "module",
+    // },
     settings: { react: { version: "18.3" } },
     plugins: {
       react,

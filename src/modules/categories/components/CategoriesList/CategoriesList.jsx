@@ -26,20 +26,20 @@ const CategoriesList = () => {
     setSelectedId(id);
     setShow(true);
   };
-  const handleShowEdit = (id) => {
+  const handleShowEdit = (id, name) => {
+    setSelectedCategory(name);
     setShowEdit(true);
     setSelectedId(id);
-    // setSelectedCategory(name);
     setAction("Update");
-    console.log("before", selectedCategory);
   };
   const handleCloseActions = () => {
     setShowAdd(false);
     setShowEdit(false);
   };
   const handleShowAdd = () => {
-    setShowAdd(true);
     setAction("Add");
+    setSelectedCategory("");
+    setShowAdd(true);
   };
 
   const getCategories = async () => {
@@ -104,11 +104,6 @@ const CategoriesList = () => {
     }
   };
 
-  // const onSubmit = (data) => {
-  //   console.log("data", data);
-  //   action === "Add" ? addCategory(data) : editCategory(data);
-  // };
-
   useEffect(() => {
     getCategories();
   }, []);
@@ -156,9 +151,8 @@ const CategoriesList = () => {
                     >
                       <DropdownMenu
                         handleShowDelete={() => handleShowDelete(category?.id)}
-                        handleShowEdit={() => handleShowEdit(category?.id)}
-                        setSelectedCategory={() =>
-                          setSelectedCategory(category?.name)
+                        handleShowEdit={() =>
+                          handleShowEdit(category?.id, category?.name)
                         }
                       />
                     </td>
@@ -186,7 +180,7 @@ const CategoriesList = () => {
         handleCloseAdd={handleCloseActions}
         handleFunc={action === "Add" ? addCategory : editCategory}
         action={action}
-        selectedCategory={action === "Add" ? "" : selectedCategory}
+        selectedCategory={selectedCategory}
       />
     </div>
   );

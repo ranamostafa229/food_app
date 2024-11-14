@@ -3,7 +3,7 @@ const Heading = ({ title, item, handleShowAdd }) => {
   return (
     <div className="d-flex justify-content-between p-3  ">
       <div className="d-flex flex-column  ">
-        <h4 className="fw-bold m-0 ">{title} Table Details</h4>
+        <h3 className="fw-bold m-0 ">{title} Table Details</h3>
         <span>You can check all details</span>
       </div>
       <button

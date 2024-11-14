@@ -145,6 +145,10 @@ input[type="password"]::-webkit-reveal-button {
 .dropdown-toggle::after {
   display: none;
 }
+/* ********************** Action Modal Styles ******************** */
+.modal-header .btn-close {
+  display: none;
+}
 /********************** Cursor Styles ********************  */
 .cursor-pointer {
   cursor: pointer;
