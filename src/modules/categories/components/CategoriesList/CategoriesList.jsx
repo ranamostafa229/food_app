@@ -186,7 +186,7 @@ const CategoriesList = () => {
         handleCloseAdd={handleCloseActions}
         handleFunc={action === "Add" ? addCategory : editCategory}
         action={action}
-        selectedCategory={selectedCategory}
+        selectedCategory={action === "Add" ? "" : selectedCategory}
       />
     </div>
   );

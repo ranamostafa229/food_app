@@ -2,8 +2,7 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { getRequiredMessage } from "../../../../services/validation/validationRules";
-// import { useEffect, useRef } from "react";
-// defaultValues: { name: action === "Update" ? selectedCategory : "" },
+import { useEffect } from "react";
 
 const CategoryActionsModal = ({
   show,
@@ -16,9 +15,13 @@ const CategoryActionsModal = ({
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: { name: selectedCategory },
   });
+  useEffect(() => {
+    reset({ name: selectedCategory });
+  }, [selectedCategory, reset]);
   const onSubmit = (data) => {
     console.log(data);
     handleFunc(data);
@@ -52,7 +55,7 @@ const CategoryActionsModal = ({
                 type="submit"
                 className="btn btn-success fw-bold"
               >
-                save
+                {isSubmitting ? "Saving..." : "Save"}
               </button>
             </div>
           </form>
