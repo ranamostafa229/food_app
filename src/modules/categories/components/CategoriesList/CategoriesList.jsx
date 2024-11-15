@@ -6,10 +6,12 @@ import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import Heading from "../../../shared/components/Heading/Heading";
-import CategoryActionsModal from "../../../shared/components/CategoryActionsModal/CategoryActionsModal";
 
 const ConfirmDeleteModal = lazy(() =>
   import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
+);
+const CategoryActionsModal = lazy(() =>
+  import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -175,13 +177,15 @@ const CategoriesList = () => {
           handleClose={handleClose}
         />
       </Suspense>
-      <CategoryActionsModal
-        show={action === "Add" ? showAdd : showEdit}
-        handleCloseAdd={handleCloseActions}
-        handleFunc={action === "Add" ? addCategory : editCategory}
-        action={action}
-        selectedCategory={selectedCategory}
-      />
+      <Suspense fallback={null}>
+        <CategoryActionsModal
+          show={action === "Add" ? showAdd : showEdit}
+          handleCloseAdd={handleCloseActions}
+          handleFunc={action === "Add" ? addCategory : editCategory}
+          action={action}
+          selectedCategory={selectedCategory}
+        />
+      </Suspense>
     </div>
   );
 };
