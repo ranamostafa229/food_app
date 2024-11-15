@@ -81,13 +81,13 @@ const CategoriesList = () => {
       setCategories((prev) => [response?.data, ...prev]);
       handleCloseActions();
       toast.success("Category added successfully");
+      getCategories();
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
       console.log(error);
     }
   };
   const editCategory = async (data) => {
-    console.log(data);
     try {
       let response = await privateApiInstance.put(
         categories_endpoints.UPDATE_CATEGORY(selectedId),
