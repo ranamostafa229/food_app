@@ -94,7 +94,7 @@ const Login = ({ saveLoginData }) => {
           >
             <i
               className={`fa-regular ${
-                passwordVisibility[0] ? "fa-eye-slash" : "fa-eye"
+                passwordVisibility ? "fa-eye-slash" : "fa-eye"
               }  cursor-pointer text-muted `}
               aria-hidden="true"
             />
