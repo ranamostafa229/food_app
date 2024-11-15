@@ -27,7 +27,7 @@ const ResetPass = () => {
   }, [password, confirmPassword, trigger]);
   const onSubmit = async (data) => {
     try {
-      const response = await apiInstance.post(users_endpoints.reset, data);
+      const response = await apiInstance.post(users_endpoints.RESET, data);
       toast.success(response.data.message);
       navigate("/login");
     } catch (error) {

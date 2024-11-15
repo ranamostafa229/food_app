@@ -29,7 +29,7 @@ const RecipesList = () => {
     setLoading(true);
     try {
       let responnse = await privateApiInstance.get(
-        recipes_endpoints.recipes(10, 1)
+        recipes_endpoints.GET_RECIPES(10, 1)
       );
       setLoading(false);
       setRecipes(responnse.data.data);
@@ -44,7 +44,7 @@ const RecipesList = () => {
   const deleteRecipe = async () => {
     try {
       let response = await privateApiInstance.delete(
-        recipes_endpoints.deleteRecipe(selectedId)
+        recipes_endpoints.DELETE_RECIPE(selectedId)
       );
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");

@@ -19,7 +19,7 @@ const Login = ({ saveLoginData }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await apiInstance.post(users_endpoints.login, data);
+      const response = await apiInstance.post(users_endpoints.LOGIN, data);
       localStorage.setItem("token", response.data.token);
       saveLoginData();
       toast.success("Login Successfully");

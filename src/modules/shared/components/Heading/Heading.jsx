@@ -7,7 +7,7 @@ const Heading = ({ title, item, handleShowAdd }) => {
         <span>You can check all details</span>
       </div>
       <button
-        className="btn btn-success d-flex align-items-center gap-1 btn-sm h-50 fw-bold"
+        className="btn btn-success d-flex align-items-center gap-1 btn-sm h-50 fw-bold px-2"
         onClick={handleShowAdd}
       >
         <span className="d-lg-inline d-none d-sm-inline"> Add New </span>

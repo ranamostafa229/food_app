@@ -16,7 +16,7 @@ const ForgetPass = () => {
   const onSubmit = async (data) => {
     try {
       const response = await apiInstance.post(
-        users_endpoints.resetRequest,
+        users_endpoints.RESET_REQUEST,
         data
       );
       toast.success(response?.data?.message);

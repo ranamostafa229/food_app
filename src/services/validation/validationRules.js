@@ -1,6 +1,6 @@
 export const getRequiredMessage = (filedName) => `${filedName} is required`;
 
-export const getValidationRules = (watch) => {
+export const getValidationRules = (watch = null, selectedCategory = "") => {
   return {
     email: {
       required: getRequiredMessage("Email"),
@@ -26,6 +26,10 @@ export const getValidationRules = (watch) => {
       required: getRequiredMessage("Confirm Password"),
       validate: (value) =>
         value === watch("password") || "The passwords do not match ",
+    },
+    category: {
+      required: getRequiredMessage("Name"),
+      validate: (value) => value !== selectedCategory || "No changes detected",
     },
   };
 };

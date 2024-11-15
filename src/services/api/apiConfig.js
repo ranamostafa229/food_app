@@ -3,10 +3,10 @@ const IMAGE_URL = "https://upskilling-egypt.com:3006/";
 
 //USERS_URLS
 const users_endpoints = {
-  login: `Users/Login`,
+  LOGIN: `Users/Login`,
   // register: `${BASE_URL}Users/Register`,
-  resetRequest: `Users/Reset/Request`,
-  reset: `Users/Reset`,
+  RESET_REQUEST: `Users/Reset/Request`,
+  RESET: `Users/Reset`,
 };
 // CATEGORIES_URLS
 const categories_endpoints = {
@@ -18,9 +18,9 @@ const categories_endpoints = {
 };
 // RECIPE_URLS
 const recipes_endpoints = {
-  recipes: (pageSize, pageNumber) =>
+  GET_RECIPES: (pageSize, pageNumber) =>
     `Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-  deleteRecipe: (id) => `Recipe/${id}`,
+  DELETE_RECIPE: (id) => `Recipe/${id}`,
 };
 export {
   BASE_URL,

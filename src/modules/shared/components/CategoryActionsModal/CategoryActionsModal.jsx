@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { getRequiredMessage } from "../../../../services/validation/validationRules";
+import { getValidationRules } from "../../../../services/validation/validationRules";
 import { useEffect } from "react";
 
 const CategoryActionsModal = ({
@@ -16,14 +16,18 @@ const CategoryActionsModal = ({
     formState: { errors, isSubmitting },
     handleSubmit,
     reset,
+    watch,
   } = useForm({
     defaultValues: { name: selectedCategory },
   });
+
   useEffect(() => {
     if (show) {
       reset({ name: selectedCategory });
     }
   }, [selectedCategory, reset, show]);
+  const validationRules = getValidationRules(watch, selectedCategory);
+
   const onSubmit = async (data) => {
     await handleFunc(data);
     reset({ name: "" });
@@ -51,9 +55,7 @@ const CategoryActionsModal = ({
               placeholder="Category Name"
               aria-label="name"
               aria-describedby="input-group-left"
-              {...register("name", {
-                required: getRequiredMessage("Name"),
-              })}
+              {...register("name", validationRules.category)}
             />
             {errors.name && (
               <div className="text-danger mt-2">{errors.name.message}</div>
