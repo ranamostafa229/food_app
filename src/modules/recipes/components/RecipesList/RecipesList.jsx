@@ -49,6 +49,7 @@ const RecipesList = () => {
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
         setRecipes((prev) => prev.filter((item) => item.id !== selectedId));
+        getRecipes();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -62,7 +63,7 @@ const RecipesList = () => {
         title="Recipes List"
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
-      <Heading title={"Recipes"} item={"Recipe"} />
+      <Heading title={"Recipes"} />
       {loading ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"

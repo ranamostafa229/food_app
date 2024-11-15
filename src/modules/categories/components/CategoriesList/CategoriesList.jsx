@@ -120,11 +120,7 @@ const CategoriesList = () => {
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
 
-      <Heading
-        title={"Categories"}
-        item={"Category"}
-        handleShowAdd={handleShowAdd}
-      />
+      <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
       {loading ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
