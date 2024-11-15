@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import Header from "../../../shared/components/Header/Header";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import {
   IMAGE_URL,
@@ -9,10 +9,8 @@ import {
 import NoData from "../../../shared/components/NoData/NoData";
 import Heading from "../../../shared/components/Heading/Heading";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
+import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 
-const ConfirmDeleteModal = lazy(() =>
-  import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
-);
 const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -122,14 +120,12 @@ const RecipesList = () => {
           </table>
         </div>
       )}
-      <Suspense fallback={null}>
-        <ConfirmDeleteModal
-          deleteItem={"Recipe"}
-          deleteFun={deleteRecipe}
-          toggleShow={show}
-          handleClose={handleClose}
-        />
-      </Suspense>
+      <DeleteConfirmation
+        deleteItem={"Recipe"}
+        deleteFun={deleteRecipe}
+        toggleShow={show}
+        handleClose={handleClose}
+      />
     </>
   );
 };

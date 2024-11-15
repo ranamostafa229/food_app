@@ -6,10 +6,8 @@ import { categories_endpoints } from "../../../../services/api/apiConfig";
 import NoData from "../../../shared/components/NoData/NoData";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import Heading from "../../../shared/components/Heading/Heading";
+import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 
-const ConfirmDeleteModal = lazy(() =>
-  import("../../../shared/components/DeleteConfirmation/DeleteConfirmation")
-);
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
@@ -168,14 +166,12 @@ const CategoriesList = () => {
           </table>
         </div>
       )}
-      <Suspense fallback={null}>
-        <ConfirmDeleteModal
-          deleteItem={"Category"}
-          deleteFun={deleteCategory}
-          toggleShow={show}
-          handleClose={handleClose}
-        />
-      </Suspense>
+      <DeleteConfirmation
+        deleteItem={"Category"}
+        deleteFun={deleteCategory}
+        toggleShow={show}
+        handleClose={handleClose}
+      />
       <Suspense fallback={null}>
         <CategoryActionsModal
           show={action === "Add" ? showAdd : showEdit}
