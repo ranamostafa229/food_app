@@ -66,6 +66,7 @@ const CategoriesList = () => {
       if (response.status === 200) {
         toast.success("Category deleted successfully");
         setCategories((prev) => prev.filter((item) => item.id !== selectedId));
+        getCategories();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -99,6 +100,7 @@ const CategoriesList = () => {
       );
       handleCloseActions();
       toast.success("Category updated successfully");
+      getCategories();
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
       console.log(error);
@@ -109,6 +111,7 @@ const CategoriesList = () => {
   useEffect(() => {
     getCategories();
   }, []);
+  console.log(categories);
 
   return (
     <div className=" mx-2">
