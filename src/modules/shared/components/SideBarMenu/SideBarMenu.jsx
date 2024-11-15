@@ -3,17 +3,34 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { NavLink } from "react-router-dom";
 import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const saveSideBarState = (state) => {
+  localStorage.setItem("sideBarState", JSON.stringify(state));
+};
+const getSideBarState = () => {
+  const state = localStorage.getItem("sideBarState");
+  return state ? JSON.parse(state) : { collapsed: true };
+};
 
 const SideBarMenu = ({ removeLoginData }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(getSideBarState().collapsed);
+
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  useEffect(() => {
+    saveSideBarState({ collapsed: isCollapsed });
+  }, [isCollapsed]);
+
   return (
-    <div className="sidebar-container">
-      <Sidebar collapsed={isCollapsed}>
+    <div
+      className={`sidebar-container position-fixed d-flex flex-column ${
+        isCollapsed ? "collapsed" : ""
+      }`}
+    >
+      <Sidebar collapsed={isCollapsed} className=" ">
         <Menu>
           <MenuItem
             onClick={toggleCollapse}

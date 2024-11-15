@@ -113,7 +113,7 @@ const RecipesList = () => {
                 ))
               ) : (
                 <tr>
-                  <NoData colspan={6} />
+                  <NoData colspan={7} />
                 </tr>
               )}
             </tbody>

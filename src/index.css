@@ -50,14 +50,13 @@ input[type="password"]::-webkit-reveal-button {
 /********************** Sidebar Styles ********************/
 .sidebar-container .ps-sidebar-root {
   border: none;
-  /* background-color: #1f263e;
-  border-top-right-radius: 50px;
-  height: 100vh !important; */
 }
 .sidebar-container {
   background-color: #1f263e;
   border-top-right-radius: 50px;
+  z-index: 100;
 }
+
 .sidebar-container .ps-sidebar-container {
   background-color: #1f263e;
   height: 100vh;
@@ -94,14 +93,9 @@ input[type="password"]::-webkit-reveal-button {
   background: url("../src/assets/header-bg.svg");
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-position: center center; */
   border-radius: 20px;
   color: #fff;
-  position: relative;
 }
-/* .header-container-dashboard {
-  height: 300px;
-} */
 
 /* ********************** Table Styles ******************** */
 .table-header th {
@@ -140,7 +134,6 @@ input[type="password"]::-webkit-reveal-button {
 }
 .dropdown button {
   border: none;
-  /* width: fit-content; */
 }
 .dropdown-toggle::after {
   display: none;
@@ -152,4 +145,11 @@ input[type="password"]::-webkit-reveal-button {
 /********************** Cursor Styles ********************  */
 .cursor-pointer {
   cursor: pointer;
+}
+/* ********************** Content Styles ******************** */
+.main-layout {
+  height: 100vh;
+}
+.content {
+  width: 85%;
 }
