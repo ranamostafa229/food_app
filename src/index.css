@@ -50,6 +50,7 @@ input[type="password"]::-webkit-reveal-button {
 /********************** Sidebar Styles ********************/
 .sidebar-container .ps-sidebar-root {
   border: none;
+  /* width: 10px !important; */
 }
 .sidebar-container {
   background-color: #1f263e;
@@ -147,9 +148,10 @@ input[type="password"]::-webkit-reveal-button {
   cursor: pointer;
 }
 /* ********************** Content Styles ******************** */
-.main-layout {
-  height: 100vh;
-}
 .content {
-  width: 85%;
+  margin-left: 250px; /* Default margin */
+  transition: margin-left 0.3s;
+}
+.sidebar-container.collapsed + .content {
+  margin-left: 80px; /* Adjusted margin when collapsed */
 }
