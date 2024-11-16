@@ -26,7 +26,7 @@ const SideBarMenu = ({ removeLoginData }) => {
 
   return (
     <div
-      className={`sidebar-container position-fixed  ${
+      className={`sidebar-container position-fixed   ${
         isCollapsed ? "collapsed" : ""
       }`}
     >

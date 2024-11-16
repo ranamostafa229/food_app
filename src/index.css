@@ -50,12 +50,12 @@ input[type="password"]::-webkit-reveal-button {
 /********************** Sidebar Styles ********************/
 .sidebar-container .ps-sidebar-root {
   border: none;
-  /* width: 10px !important; */
 }
 .sidebar-container {
   background-color: #1f263e;
   border-top-right-radius: 50px;
   z-index: 100;
+  height: 100%;
 }
 
 .sidebar-container .ps-sidebar-container {
@@ -149,7 +149,7 @@ input[type="password"]::-webkit-reveal-button {
 }
 /* ********************** Content Styles ******************** */
 .content {
-  margin-left: 250px; /* Default margin */
+  margin-left: 250px;
   transition: margin-left 0.3s;
 }
 .sidebar-container.collapsed + .content {
