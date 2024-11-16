@@ -62,7 +62,7 @@ const RecipesList = () => {
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
       <Heading title={"Recipes"} />
-      {loading ? (
+      {loading && recipes.length === 0 ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"

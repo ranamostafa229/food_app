@@ -119,7 +119,7 @@ const CategoriesList = () => {
       />
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
-      {loading ? (
+      {loading && categories.length === 0 ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"
