@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /* eslint-disable react/prop-types */
 const Heading = ({ title, handleShowAdd }) => {
   return (
@@ -6,9 +8,10 @@ const Heading = ({ title, handleShowAdd }) => {
         <h3 className="fw-bold m-0 ">{title} Table Details</h3>
         <span>You can check all details</span>
       </div>
-      <button
+      <Link
+        to={`${title === "Recipes" ? "new-recipe" : ""}`}
         className="btn btn-success d-flex align-items-center 
-        gap-1 btn-lg h-50 fs-6 fw-bold px-lg-5  rounded"
+        gap-1 btn-lg  fs-6 fw-bold px-lg-5 h-auto rounded"
         onClick={handleShowAdd}
       >
         <span className="d-lg-inline d-none d-sm-inline"> Add New </span>
@@ -16,7 +19,7 @@ const Heading = ({ title, handleShowAdd }) => {
           <i className="fa fa-plus-circle"></i>
         </span>
         Item
-      </button>
+      </Link>
     </div>
   );
 };

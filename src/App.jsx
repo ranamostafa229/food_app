@@ -19,6 +19,7 @@ import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
 import AuthLayout from "./modules/shared/components/Layout/AuthLayout";
 import MainLayout from "./modules/shared/components/Layout/MainLayout";
+import RecipeForm from "./modules/recipes/components/RecipeForm/RecipeForm";
 
 function App() {
   const [loginData, setLoginData] = useState(null);
@@ -78,6 +79,14 @@ function App() {
         {
           path: "recipes",
           element: <RecipesList />,
+        },
+        {
+          path: "recipes/new-recipe",
+          element: <RecipeForm />,
+        },
+        {
+          path: "recipes/:recipeId",
+          element: <RecipeForm />,
         },
         {
           path: "recipe-data",

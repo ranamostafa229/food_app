@@ -1,7 +1,10 @@
 import { toast } from "react-toastify";
 import Header from "../../../shared/components/Header/Header";
 import { useEffect, useState } from "react";
-import { privateApiInstance } from "../../../../services/api/apiInstance";
+import {
+  apiInstance,
+  privateApiInstance,
+} from "../../../../services/api/apiInstance";
 import {
   IMAGE_URL,
   recipes_endpoints,
@@ -10,23 +13,29 @@ import NoData from "../../../shared/components/NoData/NoData";
 import Heading from "../../../shared/components/Heading/Heading";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+import NoDataImg from "../../../../assets/nodata.svg";
+
+import { useNavigate } from "react-router-dom";
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+
   const handleClose = () => setShow(false);
-  const handleShow = (id) => {
+  const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
   };
-
+  const handleShowEdit = (id) => {
+    navigate(`/recipes/${id}`);
+  };
   const getRecipes = async () => {
     setLoading(true);
     try {
-      let responnse = await privateApiInstance.get(
+      let responnse = await apiInstance.get(
         recipes_endpoints.GET_RECIPES(10, 1)
       );
       setLoading(false);
@@ -94,7 +103,11 @@ const RecipesList = () => {
                     <td>{recipe?.name}</td>
                     <td className="w-25 h-100 text-center ">
                       <img
-                        src={`${IMAGE_URL}/${recipe?.imagePath}`}
+                        src={
+                          recipe?.imagePath
+                            ? `${IMAGE_URL}/${recipe?.imagePath}`
+                            : `${NoDataImg}`
+                        }
                         alt={`${recipe?.name}`}
                         className="rounded-2"
                         style={{
@@ -107,7 +120,10 @@ const RecipesList = () => {
                     <td>{recipe?.tag.name}</td>
                     <td>{recipe?.category[0]?.name}</td>
                     <td className="text-center cursor-pointer">
-                      <DropdownMenu handleShow={() => handleShow(recipe.id)} />
+                      <DropdownMenu
+                        handleShowDelete={() => handleShowDelete(recipe.id)}
+                        handleShowEdit={() => handleShowEdit(recipe.id)}
+                      />
                     </td>
                   </tr>
                 ))
