@@ -8,8 +8,7 @@ const NoData = ({ colspan }) => {
         <img src={NoDataImg} alt="no-data" className="w-25  " />
         <h4 className="fw-bold">No Data !</h4>
         <span className="text-muted text-center">
-          are you sure you want to delete this item ? if you are sure just click
-          on delete it
+          There is no data to display
         </span>
       </div>
     </td>

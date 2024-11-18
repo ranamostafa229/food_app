@@ -70,10 +70,9 @@ const ResetPass = () => {
             aria-label="email"
             aria-describedby="input-group-left"
             {...register("email", validationRules.email)}
-            // value={state?.email}
           />
         </div>
-        {errors.email && (
+        {errors?.email && (
           <span className="text-danger">{errors.email.message}</span>
         )}
         <div className="input-group mb-2 mt-2">

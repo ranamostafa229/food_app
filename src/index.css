@@ -215,12 +215,29 @@ input[type="password"]::-webkit-reveal-button {
 @media (max-width: 576px) {
   .custom-dropdown-menu {
     width: 100%;
-    max-width: none; /* Ensure the dropdown menu takes the full width */
+    max-width: none;
   }
   .custom-dropdown-item {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.upload-img-container {
+  background-color: #f1fff0;
+  border: 2px dashed #009247;
+  border-radius: 8px;
+  width: 95%;
+  gap: 13px;
+}
+@media (max-width: 576px) {
+  .upload-img-container {
+    font-size: 14px;
+    padding: 25px;
+  }
+  .upload-img-container > svg {
+    width: 30px;
   }
 }
 /********************** Cursor Styles ********************  */

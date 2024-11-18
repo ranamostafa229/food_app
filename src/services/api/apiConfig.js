@@ -4,7 +4,7 @@ const IMAGE_URL = "https://upskilling-egypt.com:3006/";
 //USERS_URLS
 const users_endpoints = {
   LOGIN: `Users/Login`,
-  // register: `${BASE_URL}Users/Register`,
+  REGISTER: `Users/Register`,
   RESET_REQUEST: `Users/Reset/Request`,
   RESET: `Users/Reset`,
 };

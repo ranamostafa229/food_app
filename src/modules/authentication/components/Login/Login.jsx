@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { getValidationRules } from "../../../../services/validation/validationRules";
-import { apiInstance } from "../../../../services/api/apiInstance";
+import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const Login = ({ saveLoginData }) => {
@@ -19,8 +19,11 @@ const Login = ({ saveLoginData }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await apiInstance.post(users_endpoints.LOGIN, data);
-      localStorage.setItem("token", response.data.token);
+      const response = await privateApiInstance.post(
+        users_endpoints.LOGIN,
+        data
+      );
+      localStorage.setItem("token", response?.data.token);
       saveLoginData();
       toast.success("Login Successfully");
       navigate("/dashboard", { replace: true });
