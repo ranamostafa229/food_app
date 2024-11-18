@@ -30,6 +30,7 @@ const RecipesList = () => {
     setShow(true);
   };
   const handleShowEdit = (id) => {
+    localStorage.removeItem("recipeData");
     navigate(`/recipes/${id}`);
   };
   const getRecipes = async () => {

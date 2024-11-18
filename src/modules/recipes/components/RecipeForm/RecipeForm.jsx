@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getRequiredMessage } from "../../../../services/validation/validationRules";
 import {
   apiInstance,
@@ -10,22 +10,34 @@ import {
   recipes_endpoints,
   tags_endpoints,
 } from "../../../../services/api/apiConfig";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import useBeforeUnload from "../../../../hooks/useBeforeUnload";
 
 const RecipeForm = () => {
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const initialValuesRef = useRef({});
   const { recipeId } = useParams();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const newRecipe =
+    recipeId === undefined && pathname === "/recipes/new-recipe";
+
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     setValue,
+    getValues,
+    watch,
   } = useForm({ mode: "onChange" });
 
-  const newRecipe = recipeId === "new-recipe";
+  const watchedFields = watch();
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     for (let key in data) {
@@ -58,6 +70,32 @@ const RecipeForm = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (isDataLoaded) {
+      initialValuesRef.current = getValues();
+    }
+  }, [getValues, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      const hasFormChanged = Object.keys(watchedFields).some(
+        (key) => watchedFields[key] !== initialValuesRef.current[key]
+      );
+      setHasChanges(hasFormChanged);
+    }
+  }, [watchedFields, isDataLoaded]);
+
+  useBeforeUnload(() => {
+    localStorage.setItem("recipeData", JSON.stringify(getValues()));
+  }, hasChanges);
+
+  useEffect(() => {
+    if (localStorage.getItem("recipeData")) {
+      const data = JSON.parse(localStorage.getItem("recipeData"));
+      for (let key in data) setValue(key, data[key]);
+      setIsDataLoaded(true);
+    }
+  }, [setValue, categories, tags]);
 
   useEffect(() => {
     const getTags = async () => {
@@ -79,9 +117,9 @@ const RecipeForm = () => {
       }
     };
     (async () => {
-      getTags();
-      getCategories();
-      if (!newRecipe) {
+      await getTags();
+      await getCategories();
+      if (!newRecipe && !localStorage.getItem("recipeData")) {
         const getRecipe = async () => {
           const response = await apiInstance.get(
             recipes_endpoints.GET_RECIPE(recipeId)
@@ -90,16 +128,18 @@ const RecipeForm = () => {
           setValue("name", recipe?.name);
           setValue("description", recipe?.description);
           setValue("price", recipe?.price);
-          setValue("categoriesIds", recipe?.category?.[0].id);
+          setValue("categoriesIds", recipe?.category?.[0]?.id);
           setValue("tagId", recipe?.tag?.id);
+          setValue("recipeImage", recipe?.imagePath);
+          setIsDataLoaded(true);
         };
-        getRecipe();
+        await getRecipe();
       }
     })();
   }, [recipeId, setValue, newRecipe]);
-  console.log(categories);
+
   return (
-    <div className="raw mx-2">
+    <div className="raw mx-3">
       <header className="recipe-header d-flex justify-content-between  p-3 p-md-5">
         <div className="d-flex flex-column">
           <h4>
@@ -220,16 +260,18 @@ const RecipeForm = () => {
             {errors?.recipeImage && (
               <span className="text-danger">{errors.recipeImage.message}</span>
             )}
+            {/* <img src={getValues("recipeImage")} alt="recipe" /> */}
           </div>
         </div>
-
+        <hr className="pb-2 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">
-          <button
+          <Link
+            to={"/recipes"}
             type="button"
             className="btn btn-outline-success cancel-button"
           >
             Cancel
-          </button>
+          </Link>
           <button
             disabled={isSubmitting}
             type="submit"
