@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
@@ -7,20 +7,20 @@ import NoData from "../../../shared/components/NoData/NoData";
 import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import Heading from "../../../shared/components/Heading/Heading";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+import useCategories from "../hooks/useCategories";
 
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
 const CategoriesList = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [show, setShow] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [action, setAction] = useState(null);
-
+  const categoriesQuery = useCategories();
+  console.log(categoriesQuery?.categories?.data.length === 0);
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
@@ -42,20 +42,6 @@ const CategoriesList = () => {
     setShowAdd(true);
   };
 
-  const getCategories = async () => {
-    setLoading(true);
-    try {
-      let response = await privateApiInstance.get(
-        categories_endpoints.GET_CATEGORIES(10, 1)
-      );
-      setLoading(false);
-      setCategories(response.data.data);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-  };
-
   const deleteCategory = async () => {
     try {
       let response = await privateApiInstance.delete(
@@ -63,8 +49,7 @@ const CategoriesList = () => {
       );
       if (response.status === 200) {
         toast.success("Category deleted successfully");
-        setCategories((prev) => prev.filter((item) => item.id !== selectedId));
-        getCategories();
+        categoriesQuery.triggerCategories();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -78,10 +63,11 @@ const CategoriesList = () => {
         categories_endpoints.POST_CATEGORY,
         data
       );
-      setCategories((prev) => [response?.data, ...prev]);
       handleCloseActions();
-      toast.success("Category added successfully");
-      getCategories();
+      if (response.status === 201) {
+        toast.success("Category added successfully");
+        categoriesQuery.triggerCategories();
+      }
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
       console.log(error);
@@ -93,23 +79,17 @@ const CategoriesList = () => {
         categories_endpoints.UPDATE_CATEGORY(selectedId),
         data
       );
-      setCategories((prev) =>
-        prev.map((item) => (item.id === selectedId ? response?.data : item))
-      );
       handleCloseActions();
-      toast.success("Category updated successfully");
-      getCategories();
+      if (response.status === 200) {
+        toast.success("Category updated successfully");
+        categoriesQuery.triggerCategories();
+      }
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
       console.log(error);
       handleCloseActions();
     }
   };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-  console.log(categories);
 
   return (
     <div className=" mx-2">
@@ -119,7 +99,7 @@ const CategoriesList = () => {
       />
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
-      {loading && categories.length === 0 ? (
+      {categoriesQuery.categoriesIsLoading ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"
@@ -139,8 +119,8 @@ const CategoriesList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {categories?.length > 0 ? (
-                categories?.map((category) => (
+              {categoriesQuery?.categories?.data?.length > 0 ? (
+                categoriesQuery?.categories?.data.map((category) => (
                   <tr key={category?.id}>
                     <td>{category?.name}</td>
                     <td>{category?.creationDate}</td>
