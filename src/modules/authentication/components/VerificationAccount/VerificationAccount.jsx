@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getValidationRules } from "../../../services/validation/validationRules";
 import { useEffect } from "react";
-import { apiInstance } from "../../../services/api/apiInstance";
-import { users_endpoints } from "../../../services/api/apiConfig";
+import { apiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
+import { getValidationRules } from "../../../../services/validation/validationRules";
+import { users_endpoints } from "../../../../services/api/apiConfig";
 
 const VerificationAccount = () => {
   const { state } = useLocation();
@@ -16,7 +16,7 @@ const VerificationAccount = () => {
     watch,
   } = useForm({ defaultValues: { email: state?.email } });
   useEffect(() => {
-    if (state?.email === "") {
+    if (!state?.email) {
       navigate("/register");
     }
   }, [navigate, state]);

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 const useFetch = (fetchFn) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const [counter, setCounter] = useState(0);
   const trigger = () => {
     setCounter((prev) => prev + 1);
@@ -13,8 +13,10 @@ const useFetch = (fetchFn) => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
+      setIsError(false);
+      setError(null);
       try {
-        const response = await (fetchFn() && fetchFn());
+        const response = await fetchFn();
         setData(response);
       } catch (error) {
         setError(error);
@@ -24,7 +26,7 @@ const useFetch = (fetchFn) => {
         setIsLoading(false);
       }
     })();
-  }, [counter]);
+  }, [counter, fetchFn]);
 
   return { data, isLoading, isError, error, trigger };
 };

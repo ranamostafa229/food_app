@@ -5,28 +5,26 @@ import {
   apiInstance,
   privateApiInstance,
 } from "../../../../services/api/apiInstance";
-import {
-  categories_endpoints,
-  recipes_endpoints,
-  tags_endpoints,
-} from "../../../../services/api/apiConfig";
+import { recipes_endpoints } from "../../../../services/api/apiConfig";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import useBeforeUnload from "../../../../hooks/useBeforeUnload";
 import UploadImgBox from "../../../shared/components/UploadImgBox/UploadImgBox";
 import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUploadImgBox";
+import useCategories from "../../../categories/components/hooks/useCategories";
+import useTags from "../../../tags/components/hooks/useTags";
 
 const RecipeForm = () => {
-  const [tags, setTags] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
+  const [imgName, setImgName] = useState(null);
   const initialValuesRef = useRef({});
   const { recipeId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+  const categoriesQuery = useCategories();
+  const tagsQuery = useTags();
   const newRecipe =
     recipeId === undefined && pathname === "/recipes/new-recipe";
 
@@ -37,19 +35,84 @@ const RecipeForm = () => {
     setValue,
     getValues,
     watch,
-  } = useForm({ mode: "onChange" });
+    reset,
+  } = useForm({ defaultValues: { recipeImage: "" }, mode: "onChange" });
 
   const watchedFields = watch();
   const selectedImg = watch("recipeImage");
-  const imageName = selectedImg?.[0]?.name;
 
   useEffect(() => {
     if (selectedImg?.[0]) {
-      setImgUrl(URL.createObjectURL(selectedImg?.[0]));
-      selectedImg?.[0] !== undefined &&
+      if (selectedImg?.[0] && typeof selectedImg === "object") {
+        setImgUrl(URL.createObjectURL(selectedImg?.[0]));
+        setImgName(selectedImg?.[0]?.name);
         toast.success("Image uploaded successfully");
+      }
     }
   }, [selectedImg]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      initialValuesRef.current = getValues();
+    }
+  }, [getValues, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      const hasFormChanged = Object.keys(watchedFields).some(
+        (key) => watchedFields[key] !== initialValuesRef.current[key]
+      );
+      setHasChanges(hasFormChanged);
+    }
+  }, [watchedFields, isDataLoaded]);
+
+  useBeforeUnload(() => {
+    localStorage.setItem("recipeData", JSON.stringify(getValues()));
+  }, hasChanges);
+
+  useEffect(() => {
+    if (localStorage.getItem("recipeData")) {
+      const data = JSON.parse(localStorage.getItem("recipeData"));
+      for (let key in data) setValue(key, data[key]);
+      setIsDataLoaded(true);
+    }
+  }, [setValue, tagsQuery.tags]);
+
+  useEffect(() => {
+    (async () => {
+      tagsQuery.triggerTags();
+      categoriesQuery.triggerCategories();
+      if (!newRecipe && !localStorage.getItem("recipeData")) {
+        const getRecipe = async () => {
+          const response = await apiInstance.get(
+            recipes_endpoints.GET_RECIPE(recipeId)
+          );
+          const recipe = response.data;
+          setValue("name", recipe?.name);
+          setValue("description", recipe?.description);
+          setValue("price", recipe?.price);
+          // setValue("categoriesIds", recipe?.category?.[0]?.id);
+          setValue("categoriesIds", [recipe?.category?.[0]?.id]);
+          setValue("tagId", recipe?.tag?.id);
+          setValue("recipeImage", recipe?.imagePath);
+          setIsDataLoaded(true);
+        };
+        await getRecipe();
+      }
+    })();
+  }, [recipeId, setValue, newRecipe]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      const selectedCategoryId = getValues("categoriesIds")[0];
+      const selectedCategory = categoriesQuery?.categories?.data.find(
+        (category) => category.id === selectedCategoryId
+      );
+      if (selectedCategory) {
+        setValue("categoriesIds", [selectedCategory.id]);
+      }
+    }
+  }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);
   const onSubmit = async (data) => {
     const formData = new FormData();
     for (let key in data) {
@@ -81,74 +144,8 @@ const RecipeForm = () => {
       toast.error(error?.response?.data?.message || "something went wrong");
       console.log(error);
     }
+    // reset({ recipeImage: "", categoriesIds: "", tagId: "" });
   };
-  useEffect(() => {
-    if (isDataLoaded) {
-      initialValuesRef.current = getValues();
-    }
-  }, [getValues, isDataLoaded]);
-
-  useEffect(() => {
-    if (isDataLoaded) {
-      const hasFormChanged = Object.keys(watchedFields).some(
-        (key) => watchedFields[key] !== initialValuesRef.current[key]
-      );
-      setHasChanges(hasFormChanged);
-    }
-  }, [watchedFields, isDataLoaded]);
-
-  useBeforeUnload(() => {
-    localStorage.setItem("recipeData", JSON.stringify(getValues()));
-  }, hasChanges);
-
-  useEffect(() => {
-    if (localStorage.getItem("recipeData")) {
-      const data = JSON.parse(localStorage.getItem("recipeData"));
-      for (let key in data) setValue(key, data[key]);
-      setIsDataLoaded(true);
-    }
-  }, [setValue, categories, tags]);
-
-  useEffect(() => {
-    const getTags = async () => {
-      try {
-        const response = await apiInstance.get(tags_endpoints.GET_TAGS);
-        setTags(response?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const getCategories = async () => {
-      try {
-        let response = await privateApiInstance.get(
-          categories_endpoints.GET_CATEGORIES(10, 1)
-        );
-        setCategories(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    (async () => {
-      await getTags();
-      await getCategories();
-      if (!newRecipe && !localStorage.getItem("recipeData")) {
-        const getRecipe = async () => {
-          const response = await apiInstance.get(
-            recipes_endpoints.GET_RECIPE(recipeId)
-          );
-          const recipe = response.data;
-          setValue("name", recipe?.name);
-          setValue("description", recipe?.description);
-          setValue("price", recipe?.price);
-          setValue("categoriesIds", recipe?.category?.[0]?.id);
-          setValue("tagId", recipe?.tag?.id);
-          setValue("recipeImage", recipe?.imagePath);
-          setIsDataLoaded(true);
-        };
-        await getRecipe();
-      }
-    })();
-  }, [recipeId, setValue, newRecipe]);
 
   return (
     <div className="raw mx-3">
@@ -203,7 +200,7 @@ const RecipeForm = () => {
               {...register("tagId", { required: getRequiredMessage("Tag") })}
             >
               <option value="">Tag</option>
-              {tags.map(({ id, name }) => (
+              {tagsQuery?.tags?.map(({ id, name }) => (
                 <option key={id} value={id}>
                   {name}
                 </option>
@@ -235,7 +232,7 @@ const RecipeForm = () => {
               <option className="custom-dropdown-item" value="">
                 Category
               </option>
-              {categories.map(({ id, name }) => (
+              {categoriesQuery?.categories?.data.map(({ id, name }) => (
                 <option key={id} value={id} className="custom-dropdown-item">
                   {name}
                 </option>
@@ -262,8 +259,11 @@ const RecipeForm = () => {
               <span className="text-danger">{errors.description.message}</span>
             )}
           </div>
-          <UploadImgBox register={{ ...register("recipeImage") }} />
-          <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
+          <UploadImgBox
+            register={{ ...register("recipeImage") }}
+            reset={() => reset({ recipeImage: "" })}
+          />
+          <ShowUploadImgBox imgUrl={imgUrl} imageName={imgName} />
         </div>
         <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">

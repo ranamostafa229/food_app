@@ -20,7 +20,7 @@ import ProtectedRoute from "./modules/shared/components/ProtectedRoute/Protected
 import AuthLayout from "./modules/shared/components/Layout/AuthLayout";
 import MainLayout from "./modules/shared/components/Layout/MainLayout";
 import RecipeForm from "./modules/recipes/components/RecipeForm/RecipeForm";
-import VerificationAccount from "./modules/authentication/VerificationAccount/VerificationAccount";
+import VerificationAccount from "./modules/authentication/components/VerificationAccount/VerificationAccount";
 
 function App() {
   const [loginData, setLoginData] = useState(null);

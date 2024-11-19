@@ -2,10 +2,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { getValidationRules } from "../../../../services/validation/validationRules";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
+import useToggle from "../../../../hooks/useToggle";
 
 const Login = ({ saveLoginData }) => {
   let {
@@ -14,8 +14,9 @@ const Login = ({ saveLoginData }) => {
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  // const [passwordVisibility, setPasswordVisibility] = useState(false);
   const validationRules = getValidationRules();
+  const { passwordVisibility, togglePasswordVisibility } = useToggle([false]);
 
   const onSubmit = async (data) => {
     try {
@@ -31,9 +32,9 @@ const Login = ({ saveLoginData }) => {
       toast.error(error?.response?.data?.message);
     }
   };
-  const togglePasswordVisibility = () => {
-    setPasswordVisibility((prev) => !prev);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setPasswordVisibility((prev) => !prev);
+  // };
 
   return (
     <div>
@@ -79,7 +80,7 @@ const Login = ({ saveLoginData }) => {
             />
           </span>
           <input
-            type={passwordVisibility ? "text" : "password"}
+            type={passwordVisibility[0] ? "text" : "password"}
             className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
             placeholder="Enter your Password"
             aria-label="password"
@@ -92,12 +93,12 @@ const Login = ({ saveLoginData }) => {
             type="button"
             className="btn btn-light border-0"
             id="input-group-button-right-1"
-            onClick={togglePasswordVisibility}
+            onClick={() => togglePasswordVisibility(0)}
             aria-label="toggle password visibility"
           >
             <i
               className={`fa-regular ${
-                passwordVisibility ? "fa-eye-slash" : "fa-eye"
+                passwordVisibility[0] ? "fa-eye-slash" : "fa-eye"
               }  cursor-pointer text-muted `}
               aria-hidden="true"
             />

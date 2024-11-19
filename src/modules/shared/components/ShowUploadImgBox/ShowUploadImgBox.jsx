@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 /* eslint-disable react/prop-types */
 const ShowUploadImgBox = ({ imgUrl, imageName }) => {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <>
       {imgUrl && (

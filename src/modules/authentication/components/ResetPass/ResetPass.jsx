@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { apiInstance } from "../../../../services/api/apiInstance";
 import { getValidationRules } from "../../../../services/validation/validationRules";
 import { users_endpoints } from "../../../../services/api/apiConfig";
+import useToggle from "../../../../hooks/useToggle";
 
 const ResetPass = () => {
   const { state } = useLocation();
@@ -16,7 +17,10 @@ const ResetPass = () => {
     trigger,
   } = useForm({ defaultValues: { email: state?.email }, mode: "onChange" });
   const navigate = useNavigate();
-  const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
+  const { passwordVisibility, togglePasswordVisibility } = useToggle([
+    false,
+    false,
+  ]);
   const validationRules = getValidationRules(watch);
   const password = watch("password");
   const confirmPassword = watch("password");
@@ -33,13 +37,6 @@ const ResetPass = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  };
-  const togglePasswordVisibility = (index) => {
-    setPasswordVisibility((prev) => {
-      return prev.map((item, i) => {
-        return i === index ? !item : item;
-      });
-    });
   };
 
   return (

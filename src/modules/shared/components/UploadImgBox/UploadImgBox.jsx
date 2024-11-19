@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useLocation } from "react-router-dom";
 
-/* eslint-disable react/prop-types */
 const UploadImgBox = ({ register }) => {
   const { pathname } = useLocation();
   return (

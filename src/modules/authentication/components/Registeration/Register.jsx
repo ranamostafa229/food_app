@@ -7,12 +7,16 @@ import { users_endpoints } from "../../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import UploadImgBox from "../../../shared/components/UploadImgBox/UploadImgBox";
 import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUploadImgBox";
+import useToggle from "../../../../hooks/useToggle";
 
 const Register = () => {
-  const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
+  // const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
   const [imgUrl, setImgUrl] = useState(null);
-
   const navigate = useNavigate();
+  const { passwordVisibility, togglePasswordVisibility } = useToggle([
+    false,
+    false,
+  ]);
   const {
     register,
     formState: { errors, isSubmitting },
@@ -30,13 +34,13 @@ const Register = () => {
         toast.success("Image uploaded successfully");
     }
   }, [selectedImg]);
-  const togglePasswordVisibility = (index) => {
-    setPasswordVisibility((prev) => {
-      return prev.map((item, i) => {
-        return i === index ? !item : item;
-      });
-    });
-  };
+  // const togglePasswordVisibility = (index) => {
+  //   setPasswordVisibility((prev) => {
+  //     return prev.map((item, i) => {
+  //       return i === index ? !item : item;
+  //     });
+  //   });
+  // };
 
   const onSubmit = async (data) => {
     console.log(data);
