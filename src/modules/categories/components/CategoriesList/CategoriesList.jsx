@@ -20,7 +20,7 @@ const CategoriesList = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [action, setAction] = useState(null);
   const categoriesQuery = useCategories();
-  console.log(categoriesQuery?.categories?.data.length === 0);
+
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
