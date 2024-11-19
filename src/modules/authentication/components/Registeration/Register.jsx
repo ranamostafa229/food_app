@@ -10,7 +10,6 @@ import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUp
 import useToggle from "../../../../hooks/useToggle";
 
 const Register = () => {
-  // const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
   const [imgUrl, setImgUrl] = useState(null);
   const navigate = useNavigate();
   const { passwordVisibility, togglePasswordVisibility } = useToggle([
@@ -22,25 +21,26 @@ const Register = () => {
     formState: { errors, isSubmitting },
     handleSubmit,
     watch,
+    setValue,
   } = useForm({ mode: "onChange" });
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
   const imageName = selectedImg?.[0]?.name;
 
   useEffect(() => {
-    if (selectedImg?.[0]) {
-      setImgUrl(URL.createObjectURL(selectedImg?.[0]));
-      selectedImg?.[0] !== undefined &&
-        toast.success("Image uploaded successfully");
+    let objectUrl;
+    if (selectedImg?.[0] && typeof selectedImg === "object") {
+      objectUrl = URL.createObjectURL(selectedImg[0]);
+      setImgUrl(objectUrl);
+      toast.success("Image uploaded successfully");
     }
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
   }, [selectedImg]);
-  // const togglePasswordVisibility = (index) => {
-  //   setPasswordVisibility((prev) => {
-  //     return prev.map((item, i) => {
-  //       return i === index ? !item : item;
-  //     });
-  //   });
-  // };
+  console.log(imgUrl);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -269,7 +269,8 @@ const Register = () => {
         </div>
         <UploadImgBox
           register={{ ...register("profileImage") }}
-          isSubmitting={isSubmitting}
+          setValue={setValue}
+          setImgUrl={setImgUrl}
         />
         <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
         <div className="links d-flex justify-content-end">

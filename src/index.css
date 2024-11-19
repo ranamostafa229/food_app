@@ -240,7 +240,6 @@ input[type="password"]::-webkit-reveal-button {
 
 .upload-img-container {
   background-color: #f1fff0;
-  border: 2px dashed #009247;
   border-radius: 8px;
   width: 95%;
   gap: 13px;

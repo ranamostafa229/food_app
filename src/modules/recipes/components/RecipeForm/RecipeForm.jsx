@@ -262,6 +262,8 @@ const RecipeForm = () => {
           <UploadImgBox
             register={{ ...register("recipeImage") }}
             reset={() => reset({ recipeImage: "" })}
+            setValue={setValue}
+            setImgUrl={setImgUrl}
           />
           <ShowUploadImgBox imgUrl={imgUrl} imageName={imgName} />
         </div>

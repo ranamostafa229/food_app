@@ -1,8 +1,32 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const UploadImgBox = ({ register }) => {
+const UploadImgBox = ({ register, setValue, setImgUrl }) => {
   const { pathname } = useLocation();
+  const [dragOver, setDragOver] = useState(false);
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setValue("profileImage", url);
+      setImgUrl(url);
+      toast.success("Image uploaded successfully");
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+  const handleDragLeave = () => {
+    setDragOver(false);
+  };
+
   return (
     <label
       htmlFor="profileImage"
@@ -10,6 +34,12 @@ const UploadImgBox = ({ register }) => {
         pathname === "/register" ? "mx-auto " : "w-100"
       }
       py-3 text-center cursor-pointer`}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      style={{
+        border: dragOver ? "2px dashed gray" : "2px dashed #009247",
+      }}
     >
       <svg
         width="37"
