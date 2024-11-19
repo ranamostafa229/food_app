@@ -246,7 +246,7 @@ input[type="password"]::-webkit-reveal-button {
   gap: 13px;
 }
 .selected-img-container {
-  width: 95%;
+  /* width: 95%; */
   margin: auto;
   margin-top: 10px;
   opacity: 0;
@@ -259,10 +259,16 @@ input[type="password"]::-webkit-reveal-button {
     margin: 10px;
   }
 }
+.selected-img-container.wwidth {
+  width: 95%;
+}
 .selected-img-container.show {
   opacity: 1;
   height: auto;
   transition-delay: 0.2s;
+}
+.upload-img-container {
+  font-weight: 500;
 }
 @media (max-width: 576px) {
   .upload-img-container {

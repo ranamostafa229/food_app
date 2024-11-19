@@ -13,12 +13,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import useBeforeUnload from "../../../../hooks/useBeforeUnload";
+import UploadImgBox from "../../../shared/components/UploadImgBox/UploadImgBox";
+import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUploadImgBox";
 
 const RecipeForm = () => {
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [imgUrl, setImgUrl] = useState(null);
   const initialValuesRef = useRef({});
   const { recipeId } = useParams();
   const { pathname } = useLocation();
@@ -37,7 +40,16 @@ const RecipeForm = () => {
   } = useForm({ mode: "onChange" });
 
   const watchedFields = watch();
+  const selectedImg = watch("recipeImage");
+  const imageName = selectedImg?.[0]?.name;
 
+  useEffect(() => {
+    if (selectedImg?.[0]) {
+      setImgUrl(URL.createObjectURL(selectedImg?.[0]));
+      selectedImg?.[0] !== undefined &&
+        toast.success("Image uploaded successfully");
+    }
+  }, [selectedImg]);
   const onSubmit = async (data) => {
     const formData = new FormData();
     for (let key in data) {
@@ -250,20 +262,10 @@ const RecipeForm = () => {
               <span className="text-danger">{errors.description.message}</span>
             )}
           </div>
-          <div>
-            <input
-              type="file"
-              placeholder="recipeImage"
-              className="form-control border-0"
-              {...register("recipeImage")}
-            />
-            {errors?.recipeImage && (
-              <span className="text-danger">{errors.recipeImage.message}</span>
-            )}
-            {/* <img src={getValues("recipeImage")} alt="recipe" /> */}
-          </div>
+          <UploadImgBox register={{ ...register("recipeImage") }} />
+          <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
         </div>
-        <hr className="pb-2 text-muted " />
+        <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">
           <Link
             to={"/recipes"}
