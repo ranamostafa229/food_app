@@ -9,13 +9,17 @@ const getCategories = async () => {
   return response;
 };
 const useCategories = () => {
-  const { data, isLoading, isError, error, trigger } = useFetch(getCategories);
+  const { data, isLoading, isError, error, trigger, fetchCount, setData } =
+    useFetch(getCategories);
+
   return {
     categories: data?.data,
     categoriesError: error,
     categoriesIsError: isError,
     categoriesIsLoading: isLoading,
     triggerCategories: trigger,
+    setCategories: setData,
+    fetchCount,
   };
 };
 

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { toast } from "react-toastify";
@@ -20,7 +20,13 @@ const CategoriesList = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [action, setAction] = useState(null);
   const categoriesQuery = useCategories();
+  const [newCategories, setNewCategories] = useState([]);
 
+  useEffect(() => {
+    if (categoriesQuery?.categories?.data) {
+      setNewCategories(categoriesQuery?.categories?.data);
+    }
+  }, [categoriesQuery?.categories?.data]);
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
@@ -43,51 +49,57 @@ const CategoriesList = () => {
   };
 
   const deleteCategory = async () => {
+    if (show) {
+      setNewCategories(newCategories.filter((item) => item.id !== selectedId));
+      handleClose();
+    }
     try {
       let response = await privateApiInstance.delete(
         categories_endpoints.DELETE_CATEGORY(selectedId)
       );
       if (response.status === 200) {
         toast.success("Category deleted successfully");
-        categoriesQuery.triggerCategories();
+        categoriesQuery?.triggerCategories();
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data.message || "something went wrong");
       console.log(error);
     }
     handleClose();
   };
-  const addCategory = async (data) => {
+
+  const handleCategory = async (data) => {
+    if (action === "Add") {
+      setNewCategories((prev) => [data, ...prev]);
+      handleCloseActions();
+    } else {
+      setNewCategories(
+        newCategories.map((item) =>
+          item.id === selectedId ? { ...item, ...data } : item
+        )
+      );
+      handleCloseActions();
+    }
     try {
-      let response = await privateApiInstance.post(
-        categories_endpoints.POST_CATEGORY,
+      let response = await privateApiInstance[
+        action === "Add" ? "post" : "put"
+      ](
+        action === "Add"
+          ? categories_endpoints.POST_CATEGORY
+          : categories_endpoints.UPDATE_CATEGORY(selectedId),
         data
       );
       handleCloseActions();
       if (response.status === 201) {
         toast.success("Category added successfully");
-        categoriesQuery.triggerCategories();
-      }
-    } catch (error) {
-      toast.error(error.response.data.message || "something went wrong");
-      console.log(error);
-    }
-  };
-  const editCategory = async (data) => {
-    try {
-      let response = await privateApiInstance.put(
-        categories_endpoints.UPDATE_CATEGORY(selectedId),
-        data
-      );
-      handleCloseActions();
-      if (response.status === 200) {
+        categoriesQuery?.triggerCategories();
+      } else if (response.status === 200) {
         toast.success("Category updated successfully");
-        categoriesQuery.triggerCategories();
+        categoriesQuery?.triggerCategories();
       }
     } catch (error) {
-      toast.error(error.response.data.message || "something went wrong");
+      toast.error(error?.response?.data.message || "something went wrong");
       console.log(error);
-      handleCloseActions();
     }
   };
 
@@ -99,14 +111,16 @@ const CategoriesList = () => {
       />
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
-      {categoriesQuery.categoriesIsLoading ? (
-        <div
-          className="spinner-border text-success d-block mx-auto mt-5"
-          role="status"
-        >
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      ) : (
+      {categoriesQuery?.categoriesIsLoading &&
+        categoriesQuery?.fetchCount === 0 && (
+          <div
+            className="spinner-border text-success d-block mx-auto mt-5"
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )}
+      {!categoriesQuery.categoriesIsLoading && newCategories?.length > 0 && (
         <div className="p-md-3  p-0 table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">
@@ -119,11 +133,14 @@ const CategoriesList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {categoriesQuery?.categories?.data?.length > 0 ? (
-                categoriesQuery?.categories?.data.map((category) => (
+              {!categoriesQuery.categoriesIsLoading &&
+                newCategories?.length > 0 &&
+                newCategories?.map((category) => (
                   <tr key={category?.id}>
                     <td>{category?.name}</td>
-                    <td>{category?.creationDate}</td>
+                    <td>
+                      {new Date(category?.creationDate).toLocaleDateString()}
+                    </td>
                     <td
                       className="text-center cursor-pointer"
                       onClick={() => setSelectedCategory(category?.name)}
@@ -136,16 +153,18 @@ const CategoriesList = () => {
                       />
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <NoData colspan={3} />
-                </tr>
-              )}
+                ))}
+              {!categoriesQuery.categoriesIsLoading &&
+                newCategories?.length === 0 && (
+                  <tr>
+                    <NoData colspan={3} />
+                  </tr>
+                )}
             </tbody>
           </table>
         </div>
       )}
+
       <DeleteConfirmation
         deleteItem={"Category"}
         deleteFun={deleteCategory}
@@ -156,7 +175,7 @@ const CategoriesList = () => {
         <CategoryActionsModal
           show={action === "Add" ? showAdd : showEdit}
           handleCloseAdd={handleCloseActions}
-          handleFunc={action === "Add" ? addCategory : editCategory}
+          handleFunc={handleCategory}
           action={action}
           selectedCategory={selectedCategory}
         />

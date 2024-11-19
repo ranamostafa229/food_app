@@ -6,8 +6,11 @@ const useFetch = (fetchFn) => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [counter, setCounter] = useState(0);
+  const [fetchCount, setFetchCount] = useState(0);
+
   const trigger = () => {
     setCounter((prev) => prev + 1);
+    setFetchCount((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -26,9 +29,9 @@ const useFetch = (fetchFn) => {
         setIsLoading(false);
       }
     })();
-  }, [counter, fetchFn]);
+  }, [counter]);
 
-  return { data, isLoading, isError, error, trigger };
+  return { data, isLoading, isError, error, trigger, fetchCount, setData };
 };
 
 export default useFetch;

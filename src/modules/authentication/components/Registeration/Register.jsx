@@ -23,6 +23,7 @@ const Register = () => {
     watch,
     setValue,
   } = useForm({ mode: "onChange" });
+
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
   const imageName = selectedImg?.[0]?.name;

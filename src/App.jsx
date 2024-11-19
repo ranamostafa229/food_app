@@ -38,6 +38,7 @@ function App() {
       saveLoginData();
     }
   }, []);
+
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -120,6 +121,7 @@ function App() {
       element: <NotFound />,
     },
   ]);
+
   return (
     <>
       <ToastContainer />
