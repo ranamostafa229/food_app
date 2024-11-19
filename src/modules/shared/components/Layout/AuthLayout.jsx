@@ -16,20 +16,28 @@ const AuthLayout = () => {
   return (
     <>
       {!isAuthenticated && (
-        <div className="auth-container ">
-          <div className="container-fluid bg-overlay ">
-            <div className="row vh-100 justify-content-center align-items-center mx-1 ">
+        <div className="auth-container  ">
+          <div className="container-fluid  bg-overlay">
+            {/*  vh-100 */}
+            <div
+              className="row justify-content-center align-items-center mx-1   "
+              style={{ minHeight: "100vh" }}
+            >
               <div
                 className={`${
-                  location.pathname === "/register" ? "col-lg-7 " : "col-lg-5"
-                } col-md-6  bg-white rounded rounded-2 px-5 py-3 `}
+                  location.pathname === "/register"
+                    ? "col-lg-7 mt-5 mb-2"
+                    : "col-lg-5"
+                } col-md-6  bg-white rounded rounded-2 px-5 py-3  justify-content-center align-items-center `}
               >
                 <div className="logo-container text-center">
                   <img
                     src={logo}
                     alt="logo"
                     className={
-                      location.pathname === "/register" ? "w-50" : "w-75"
+                      location.pathname === "/register"
+                        ? "register-logo"
+                        : "w-75"
                     }
                   />
                 </div>

@@ -6,11 +6,25 @@ body {
   background-image: url("../src/assets/background.png");
   background-position: center center;
   background-size: cover;
+  .logo-container {
+    .register-logo {
+      width: 60%;
+    }
+  }
+  @media (max-width: 576px) {
+    overflow-y: scroll;
+    .logo-container {
+      .register-logo {
+        width: 100%;
+      }
+    }
+  }
 }
 .main-layout-small-screen {
   min-width: 80%;
   max-width: 90%;
 }
+
 .bg-overlay {
   background: linear-gradient(
     45deg,
@@ -230,6 +244,25 @@ input[type="password"]::-webkit-reveal-button {
   border-radius: 8px;
   width: 95%;
   gap: 13px;
+}
+.selected-img-container {
+  width: 95%;
+  margin: auto;
+  margin-top: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  height: 0;
+  overflow: hidden;
+
+  img {
+    width: 100px;
+    margin: 10px;
+  }
+}
+.selected-img-container.show {
+  opacity: 1;
+  height: auto;
+  transition-delay: 0.2s;
 }
 @media (max-width: 576px) {
   .upload-img-container {

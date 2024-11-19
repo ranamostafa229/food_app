@@ -1,22 +1,33 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/validation/validationRules";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 
 const Register = () => {
   const [passwordVisibility, setPasswordVisibility] = useState([false, false]);
+  const [imgUrl, setImgUrl] = useState(null);
+
   const navigate = useNavigate();
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     watch,
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const validationRules = getValidationRules(watch);
+  const selectedImg = watch("profileImage");
+  const imageName = selectedImg?.[0]?.name;
 
+  useEffect(() => {
+    if (selectedImg?.[0]) {
+      setImgUrl(URL.createObjectURL(selectedImg?.[0]));
+      selectedImg?.[0] !== undefined &&
+        toast.success("Image uploaded successfully");
+    }
+  }, [selectedImg]);
   const togglePasswordVisibility = (index) => {
     setPasswordVisibility((prev) => {
       return prev.map((item, i) => {
@@ -36,13 +47,20 @@ const Register = () => {
         users_endpoints.REGISTER,
         formData
       );
-      toast.success(
-        response?.data?.message ||
-          "Register Successfully, A verification code has been sent to your email address."
-      );
-      navigate("/verfiy-account", { state: { email: formData.email } });
+      if (response.status === 201) {
+        toast.success(
+          response?.data?.message ||
+            "Register Successfully, A verification code has been sent to your email address."
+        );
+        navigate("/verfiy-account", {
+          state: { email: formData.get("email") },
+        });
+      } else {
+        toast.error("Failed to send verification code. Please try again.");
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message || "something went wrong");
+      console.log(error);
     }
   };
 
@@ -243,7 +261,11 @@ const Register = () => {
             </span>
           )}
         </div>
-        <div className="upload-img-container d-flex flex-column align-items-center mx-auto py-3 text-center ">
+
+        <label
+          htmlFor="profileImage"
+          className="upload-img-container d-flex flex-column align-items-center mx-auto py-3 text-center cursor-pointer "
+        >
           <svg
             width="37"
             height="22"
@@ -260,9 +282,27 @@ const Register = () => {
               fill="#4F4F4F"
             />
           </svg>
-
           <span>Drag & Drop or Choose a Item Image to Upload</span>
-        </div>
+          <input
+            type="file"
+            accept="image/*"
+            id="profileImage"
+            aria-label="upload profile image"
+            className="d-none"
+            {...register("profileImage")}
+            // ref={imgInputRef}
+          />
+        </label>
+        {imgUrl && (
+          <div
+            className={`selected-img-container d-flex align-items-center img-thumbnail ${
+              imgUrl ? "show" : ""
+            }`}
+          >
+            <img src={imgUrl} className="img-thumbnail rounded-2" alt="" />
+            <span>{imageName}</span>
+          </div>
+        )}
         <div className="links d-flex justify-content-end">
           <Link to="/login" className="text-decoration-none text-success">
             Login Now ?

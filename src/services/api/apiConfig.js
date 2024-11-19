@@ -5,8 +5,11 @@ const IMAGE_URL = "https://upskilling-egypt.com:3006/";
 const users_endpoints = {
   LOGIN: `Users/Login`,
   REGISTER: `Users/Register`,
+  VERFIY: `Users/verify`,
   RESET_REQUEST: `Users/Reset/Request`,
   RESET: `Users/Reset`,
+  GET_USERS: `Users/`,
+  DELETE_USER: (id) => `Users/${id}`,
 };
 // CATEGORIES_URLS
 const categories_endpoints = {

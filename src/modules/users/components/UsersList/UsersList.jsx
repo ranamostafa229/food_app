@@ -1,6 +1,49 @@
+import { useEffect, useState } from "react";
 import Header from "../../../shared/components/Header/Header";
+import { privateApiInstance } from "../../../../services/api/apiInstance";
+import { users_endpoints } from "../../../../services/api/apiConfig";
+import NoData from "../../../shared/components/NoData/NoData";
+import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
+import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
+import { toast } from "react-toastify";
 
 const UsersList = () => {
+  const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+  const handleShowDelete = (id) => {
+    setSelectedId(id);
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
+  const getUsers = async () => {
+    try {
+      const response = await privateApiInstance.get(users_endpoints.GET_USERS);
+      setUsers(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteUser = async () => {
+    try {
+      let response = await privateApiInstance.delete(
+        users_endpoints.DELETE_USER(selectedId)
+      );
+      if (response.status === 200) {
+        toast.success("Category deleted successfully");
+        setUsers((prev) => prev.filter((item) => item.id !== selectedId));
+        getUsers();
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+    handleClose();
+  };
+
+  useEffect(() => {
+    getUsers();
+  });
   return (
     <div>
       <Header
@@ -8,6 +51,50 @@ const UsersList = () => {
         description={
           "You can now add your items that any user can order it from the Application and you can edit"
         }
+      />
+      <div className="p-md-3  p-0 table-responsive ">
+        <table className="table  table-striped  table-borderless ">
+          <thead className="table-header ">
+            <tr className="table-secondary  ">
+              <th scope="col">Name</th>
+              <th scope="col">email</th>
+              <th scope="col" className="text-center">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="table-body">
+            {users?.length > 0 ? (
+              users?.map((user) => (
+                <tr key={user?.id}>
+                  <td>{user?.userName}</td>
+                  <td>{user?.email}</td>
+                  <td
+                    className="text-center cursor-pointer"
+                    // onClick={() => setSelecteduser(user?.name)}
+                  >
+                    <DropdownMenu
+                      handleShowDelete={() => handleShowDelete(user?.id)}
+                      // handleShowEdit={() =>
+                      //   handleShowEdit(category?.id, category?.name)
+                      // }
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <NoData colspan={3} />
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <DeleteConfirmation
+        deleteItem={"User"}
+        deleteFun={deleteUser}
+        toggleShow={show}
+        handleClose={handleClose}
       />
     </div>
   );
