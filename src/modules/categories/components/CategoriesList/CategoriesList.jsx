@@ -136,7 +136,7 @@ const CategoriesList = () => {
             <tbody className="table-body">
               {newCategories?.length > 0 &&
                 newCategories?.map((category) => (
-                  <tr key={category?.id}>
+                  <tr key={category?.id + category?.name}>
                     <td>{category?.name}</td>
                     <td>
                       {new Date(category?.creationDate).toLocaleDateString()}

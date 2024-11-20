@@ -35,7 +35,6 @@ const RecipeForm = () => {
     setValue,
     getValues,
     watch,
-    reset,
   } = useForm({ defaultValues: { recipeImage: "" }, mode: "onChange" });
 
   const watchedFields = watch();
@@ -261,9 +260,9 @@ const RecipeForm = () => {
           </div>
           <UploadImgBox
             register={{ ...register("recipeImage") }}
-            reset={() => reset({ recipeImage: "" })}
             setValue={setValue}
             setImgUrl={setImgUrl}
+            imageToUpload={"recipeImage"}
           />
           <ShowUploadImgBox imgUrl={imgUrl} imageName={imgName} />
         </div>

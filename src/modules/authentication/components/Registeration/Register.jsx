@@ -272,6 +272,7 @@ const Register = () => {
           register={{ ...register("profileImage") }}
           setValue={setValue}
           setImgUrl={setImgUrl}
+          imageToUpload={"profileImage"}
         />
         <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
         <div className="links d-flex justify-content-end">
