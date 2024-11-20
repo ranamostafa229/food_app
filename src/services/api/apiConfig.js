@@ -13,16 +13,14 @@ const users_endpoints = {
 };
 // CATEGORIES_URLS
 const categories_endpoints = {
-  GET_CATEGORIES: (pageSize, pageNumber) =>
-    `Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+  GET_CATEGORIES: `Category/`,
   DELETE_CATEGORY: (id) => `Category/${id}`,
   POST_CATEGORY: `Category`,
   UPDATE_CATEGORY: (id) => `Category/${id}`,
 };
 // RECIPE_URLS
 const recipes_endpoints = {
-  GET_RECIPES: (pageSize, pageNumber) =>
-    `Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+  GET_RECIPES: `Recipe/`,
   GET_RECIPE: (id) => `Recipe/${id}`,
   POST_RECIPE: `Recipe`,
   UPDATE_RECIPE: (id) => `Recipe/${id}`,

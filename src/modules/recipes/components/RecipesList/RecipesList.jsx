@@ -14,6 +14,7 @@ import NoDataImg from "../../../../assets/nodata.svg";
 
 import { useNavigate } from "react-router-dom";
 import useRecipes from "../hooks/useRecipes";
+import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 
 const RecipesList = () => {
   const [selectedId, setSelectedId] = useState("");
@@ -21,6 +22,7 @@ const RecipesList = () => {
   const navigate = useNavigate();
   const recipesQuery = useRecipes();
   console.log(recipesQuery);
+
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
@@ -53,7 +55,7 @@ const RecipesList = () => {
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
       <Heading title={"Recipes"} />
-      {recipesQuery?.recipesIsLoading ? (
+      {recipesQuery?.recipesIsLoading && recipesQuery?.fetchCount === 0 ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"
@@ -116,6 +118,11 @@ const RecipesList = () => {
               )}
             </tbody>
           </table>
+          <PaginationSection
+            arrayOfPages={recipesQuery?.arrayOfPages}
+            query={recipesQuery}
+            page="recipes"
+          />
         </div>
       )}
       <DeleteConfirmation

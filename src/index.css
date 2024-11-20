@@ -238,6 +238,7 @@ input[type="password"]::-webkit-reveal-button {
   }
 }
 
+/* ********************** Upload Image Styles ******************** */
 .upload-img-container {
   background-color: #f1fff0;
   border-radius: 8px;
@@ -278,6 +279,18 @@ input[type="password"]::-webkit-reveal-button {
     width: 30px;
   }
 }
+/* ********************** Pagination Styles ******************** */
+.pagination .page-item.disabled .page-link {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #198754;
+  border-color: #198754;
+  color: white;
+}
+
 /********************** Cursor Styles ********************  */
 .cursor-pointer {
   cursor: pointer;

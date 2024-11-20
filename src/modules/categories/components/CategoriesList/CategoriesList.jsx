@@ -8,7 +8,7 @@ import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import Heading from "../../../shared/components/Heading/Heading";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import useCategories from "../hooks/useCategories";
-
+import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
@@ -112,15 +112,16 @@ const CategoriesList = () => {
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
       {categoriesQuery?.categoriesIsLoading &&
-        categoriesQuery?.fetchCount === 0 && (
-          <div
-            className="spinner-border text-success d-block mx-auto mt-5"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        )}
-      {!categoriesQuery.categoriesIsLoading && newCategories?.length > 0 && (
+      categoriesQuery?.fetchCount === 0 ? (
+        <div
+          className="spinner-border text-success d-block mx-auto mt-5"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        //   )}
+        // {!categoriesQuery.categoriesIsLoading && newCategories?.length > 0 && (
         <div className="p-md-3  p-0 table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">
@@ -133,8 +134,7 @@ const CategoriesList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {!categoriesQuery.categoriesIsLoading &&
-                newCategories?.length > 0 &&
+              {newCategories?.length > 0 &&
                 newCategories?.map((category) => (
                   <tr key={category?.id}>
                     <td>{category?.name}</td>
@@ -162,6 +162,11 @@ const CategoriesList = () => {
                 )}
             </tbody>
           </table>
+          <PaginationSection
+            arrayOfPages={categoriesQuery?.arrayOfPages}
+            query={categoriesQuery}
+            page={"categories"}
+          />
         </div>
       )}
 
