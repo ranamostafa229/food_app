@@ -22,7 +22,7 @@ const Register = () => {
     handleSubmit,
     watch,
     setValue,
-  } = useForm({ mode: "onChange" });
+  } = useForm({ defaultValues: { profileImage: "" }, mode: "onChange" });
 
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
@@ -30,10 +30,12 @@ const Register = () => {
 
   useEffect(() => {
     let objectUrl;
-    if (selectedImg?.[0] && typeof selectedImg === "object") {
-      objectUrl = URL.createObjectURL(selectedImg[0]);
-      setImgUrl(objectUrl);
-      toast.success("Image uploaded successfully");
+    if (selectedImg?.[0]) {
+      if (selectedImg?.[0] && typeof selectedImg === "object") {
+        objectUrl = URL.createObjectURL(selectedImg?.[0]);
+        setImgUrl(objectUrl);
+        toast.success("Image uploaded successfully");
+      }
     }
     return () => {
       if (objectUrl) {
@@ -47,7 +49,11 @@ const Register = () => {
     console.log(data);
     const formData = new FormData();
     for (let key in data) {
-      formData.append(key, data[key]);
+      if (key === "profileImage" && data[key]?.length > 0) {
+        formData.append(key, data[key][0]); // Append the actual file
+      } else {
+        formData.append(key, data[key]);
+      }
     }
     try {
       const response = await apiInstance.post(
