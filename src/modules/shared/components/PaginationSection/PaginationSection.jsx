@@ -56,7 +56,7 @@ const Pagination = ({ arrayOfPages, query, page }) => {
         </li>
         {visiblePages.map((pageNo) => (
           <li
-            className={`page-item ${currentPage === pageNo ? "active" : ""}`}
+            className={`page-item ${currentPage === pageNo ? "active " : ""}`}
             key={pageNo}
             onClick={() => handleClick(pageNo)}
           >

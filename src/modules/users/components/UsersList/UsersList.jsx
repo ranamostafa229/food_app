@@ -26,7 +26,7 @@ const UsersList = () => {
   const getUsers = async () => {
     try {
       const response = await privateApiInstance.get(users_endpoints.GET_USERS);
-      setUsers(response.data.data);
+      setUsers(response?.data?.data);
     } catch (error) {
       console.log(error);
     }

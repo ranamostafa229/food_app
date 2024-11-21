@@ -15,13 +15,13 @@ import NoDataImg from "../../../../assets/nodata.svg";
 import { useNavigate } from "react-router-dom";
 import useRecipes from "../hooks/useRecipes";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
+import Filtration from "../../../shared/components/Filtration/Filtration";
 
 const RecipesList = () => {
   const [selectedId, setSelectedId] = useState("");
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const recipesQuery = useRecipes();
-  console.log(recipesQuery);
 
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
@@ -55,6 +55,7 @@ const RecipesList = () => {
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
       <Heading title={"Recipes"} />
+      <Filtration query={recipesQuery} pageName={"recipes"} />
       {recipesQuery?.recipesIsLoading && recipesQuery?.fetchCount === 0 ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"

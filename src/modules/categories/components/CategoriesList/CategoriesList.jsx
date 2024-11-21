@@ -9,6 +9,7 @@ import Heading from "../../../shared/components/Heading/Heading";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import useCategories from "../hooks/useCategories";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
+import Filtration from "../../../shared/components/Filtration/Filtration";
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
@@ -111,6 +112,7 @@ const CategoriesList = () => {
       />
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
+      <Filtration query={categoriesQuery} pageName={"Categories"} />
       {categoriesQuery?.categoriesIsLoading &&
       categoriesQuery?.fetchCount === 0 ? (
         <div
