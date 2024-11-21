@@ -14,8 +14,6 @@ import CategoryData from "./modules/categories/components/CategoryData/CategoryD
 import RecipesData from "./modules/recipes/components/RecipeData/RecipeData";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
 import AuthLayout from "./modules/shared/components/Layout/AuthLayout";
 import MainLayout from "./modules/shared/components/Layout/MainLayout";
@@ -23,21 +21,21 @@ import RecipeForm from "./modules/recipes/components/RecipeForm/RecipeForm";
 import VerificationAccount from "./modules/authentication/components/VerificationAccount/VerificationAccount";
 
 function App() {
-  const [loginData, setLoginData] = useState(null);
-  const saveLoginData = () => {
-    let encodedToken = localStorage.getItem("token");
-    let decodedToken = jwtDecode(encodedToken);
-    setLoginData(decodedToken);
-  };
-  const removeLoginData = () => {
-    setLoginData(null);
-  };
+  // const [loginData, setLoginData] = useState(null);
+  // const saveLoginData = () => {
+  //   let encodedToken = localStorage.getItem("token");
+  //   let decodedToken = jwtDecode(encodedToken);
+  //   setLoginData(decodedToken);
+  // };
+  // const removeLoginData = () => {
+  //   setLoginData(null);
+  // };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      saveLoginData();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     saveLoginData();
+  //   }
+  // }, []);
 
   const routes = createBrowserRouter([
     {
@@ -46,11 +44,11 @@ function App() {
       children: [
         {
           index: true,
-          element: <Login saveLoginData={saveLoginData} />,
+          element: <Login />,
         },
         {
           path: "login",
-          element: <Login saveLoginData={saveLoginData} />,
+          element: <Login />,
         },
         {
           path: "register",
@@ -73,14 +71,15 @@ function App() {
     {
       path: "",
       element: (
-        <ProtectedRoute loginData={loginData}>
-          <MainLayout loginData={loginData} removeLoginData={removeLoginData} />
+        <ProtectedRoute>
+          <MainLayout />
+          {/* loginData={loginData} removeLoginData={removeLoginData} */}
         </ProtectedRoute>
       ),
       children: [
         {
           path: "dashboard",
-          element: <Dashboard loginData={loginData} />,
+          element: <Dashboard />,
         },
         {
           path: "recipes",

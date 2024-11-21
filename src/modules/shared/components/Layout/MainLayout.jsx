@@ -5,13 +5,13 @@ import { Container } from "react-bootstrap";
 import useDocumentTitle from "../../../../hooks/useDocumentTitle";
 
 // eslint-disable-next-line react/prop-types
-const MainLayout = ({ loginData, removeLoginData }) => {
+const MainLayout = () => {
   useDocumentTitle();
   return (
     <div className="d-flex ">
-      <SideBarMenu removeLoginData={removeLoginData} />
+      <SideBarMenu />
       <Container fluid className="d-flex flex-column content ">
-        <Navbar loginData={loginData} />
+        <Navbar />
         <Outlet />
       </Container>
     </div>

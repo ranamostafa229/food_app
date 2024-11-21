@@ -6,18 +6,19 @@ import { getValidationRules } from "../../../../services/validation/validationRu
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 import useToggle from "../../../../hooks/useToggle";
+import { useContext } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
-const Login = ({ saveLoginData }) => {
+const Login = () => {
   let {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
-  // const [passwordVisibility, setPasswordVisibility] = useState(false);
   const validationRules = getValidationRules();
   const { passwordVisibility, togglePasswordVisibility } = useToggle([false]);
-
+  const { saveLoginData } = useContext(AuthContext);
   const onSubmit = async (data) => {
     try {
       const response = await privateApiInstance.post(
@@ -32,9 +33,6 @@ const Login = ({ saveLoginData }) => {
       toast.error(error?.response?.data?.message);
     }
   };
-  // const togglePasswordVisibility = () => {
-  //   setPasswordVisibility((prev) => !prev);
-  // };
 
   return (
     <div>

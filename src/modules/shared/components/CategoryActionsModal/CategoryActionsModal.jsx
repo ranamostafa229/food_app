@@ -34,7 +34,7 @@ const CategoryActionsModal = ({
   };
 
   return (
-    <Modal show={show} onHide={handleCloseAdd} centered>
+    <Modal show={show} onHide={handleCloseAdd} centered className="px-3 ">
       <Modal.Header
         closeButton
         className="border-0 fw-bold d-flex justify-content-between m-3"

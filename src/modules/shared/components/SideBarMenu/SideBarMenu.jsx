@@ -3,7 +3,8 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { NavLink } from "react-router-dom";
 import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
 const saveSideBarState = (state) => {
   localStorage.setItem("sideBarState", JSON.stringify(state));
@@ -13,8 +14,9 @@ const getSideBarState = () => {
   return state ? JSON.parse(state) : { collapsed: true };
 };
 
-const SideBarMenu = ({ removeLoginData }) => {
+const SideBarMenu = () => {
   const [isCollapsed, setIsCollapsed] = useState(getSideBarState().collapsed);
+  const { removeLoginData } = useContext(AuthContext);
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);

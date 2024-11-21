@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import FillRecipesHeader from "../../shared/components/FillRecipesHeader/FillRecipesHeader";
 import Header from "../../shared/components/Header/Header";
 
-const Home = ({ loginData }) => {
+const Home = () => {
+  const { loginData } = useContext(AuthContext);
   return (
     <div className="d-flex flex-column gap-3">
       <Header
