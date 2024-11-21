@@ -10,6 +10,7 @@ import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/De
 import useCategories from "../hooks/useCategories";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 import Filtration from "../../../shared/components/Filtration/Filtration";
+import { useLocation } from "react-router-dom";
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
@@ -20,7 +21,8 @@ const CategoriesList = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [action, setAction] = useState(null);
-  const categoriesQuery = useCategories();
+  const { pathname } = useLocation();
+  const categoriesQuery = useCategories(pathname.includes("/categories"));
   const [newCategories, setNewCategories] = useState([]);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ const CategoriesList = () => {
       />
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
-      <Filtration query={categoriesQuery} pageName={"Categories"} />
+      <Filtration query={categoriesQuery} pageName={"categories"} />
       {categoriesQuery?.categoriesIsLoading &&
       categoriesQuery?.fetchCount === 0 ? (
         <div
@@ -156,7 +158,7 @@ const CategoriesList = () => {
                     </td>
                   </tr>
                 ))}
-              {!categoriesQuery.categoriesIsLoading &&
+              {!categoriesQuery?.categoriesIsLoading &&
                 newCategories?.length === 0 && (
                   <tr>
                     <NoData colspan={3} />

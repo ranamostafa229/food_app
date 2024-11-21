@@ -6,8 +6,12 @@ const getTags = async () => {
   let response = await apiInstance.get(tags_endpoints.GET_TAGS);
   return response;
 };
-const useTags = () => {
-  const { data, isLoading, isError, error, trigger } = useFetch(getTags);
+
+const useTags = (shouldFetch) => {
+  const { data, isLoading, isError, error, trigger } = useFetch(
+    shouldFetch && getTags
+  );
+
   return {
     tags: data?.data,
     tagsError: error,

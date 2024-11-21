@@ -6,7 +6,7 @@ import { apiInstance } from "../../../../services/api/apiInstance";
 const useRecipes = () => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
   const [pageNo, setPageNo] = useState(1);
-  const [name, setName] = useState(" ");
+  const [name, setName] = useState("");
   const [pageSize, setPageSize] = useState(3);
   const [tag, setTag] = useState("");
   const [category, setCategory] = useState("");

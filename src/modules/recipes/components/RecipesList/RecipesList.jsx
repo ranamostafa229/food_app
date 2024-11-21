@@ -40,7 +40,7 @@ const RecipesList = () => {
       );
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
-        recipesQuery.triggerRecipes();
+        recipesQuery?.triggerRecipes();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -82,8 +82,8 @@ const RecipesList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {recipesQuery.recipes?.data.length > 0 ? (
-                recipesQuery.recipes?.data.map((recipe) => (
+              {recipesQuery?.recipes?.data.length > 0 ? (
+                recipesQuery?.recipes?.data.map((recipe) => (
                   <tr key={recipe.id} className="px-3 align-middle">
                     <td>{recipe?.name}</td>
                     <td className="w-25 h-100 text-center ">

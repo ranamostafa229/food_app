@@ -23,8 +23,8 @@ const RecipeForm = () => {
   const { recipeId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const categoriesQuery = useCategories();
-  const tagsQuery = useTags();
+  const categoriesQuery = useCategories(pathname.includes("/recipes"));
+  const tagsQuery = useTags(pathname.includes("/recipes"));
   const newRecipe =
     recipeId === undefined && pathname === "/recipes/new-recipe";
 
@@ -35,6 +35,7 @@ const RecipeForm = () => {
     setValue,
     getValues,
     watch,
+    // reset
   } = useForm({ defaultValues: { recipeImage: "" }, mode: "onChange" });
 
   const watchedFields = watch();
@@ -79,8 +80,12 @@ const RecipeForm = () => {
 
   useEffect(() => {
     (async () => {
-      tagsQuery.triggerTags();
-      categoriesQuery.triggerCategories();
+      tagsQuery?.triggerTags();
+      categoriesQuery?.triggerCategories(
+        1,
+        categoriesQuery?.totalNumberOfRecords
+      );
+      console.log(categoriesQuery?.totalNumberOfRecords);
       if (!newRecipe && !localStorage.getItem("recipeData")) {
         const getRecipe = async () => {
           const response = await apiInstance.get(
@@ -90,8 +95,8 @@ const RecipeForm = () => {
           setValue("name", recipe?.name);
           setValue("description", recipe?.description);
           setValue("price", recipe?.price);
-          // setValue("categoriesIds", recipe?.category?.[0]?.id);
-          setValue("categoriesIds", [recipe?.category?.[0]?.id]);
+          setValue("categoriesIds", recipe?.category?.[0]?.id);
+          // setValue("categoriesIds", [recipe?.category?.[0]?.id]);
           setValue("tagId", recipe?.tag?.id);
           setValue("recipeImage", recipe?.imagePath);
           setIsDataLoaded(true);
@@ -101,17 +106,17 @@ const RecipeForm = () => {
     })();
   }, [recipeId, setValue, newRecipe]);
 
-  useEffect(() => {
-    if (isDataLoaded) {
-      const selectedCategoryId = getValues("categoriesIds")[0];
-      const selectedCategory = categoriesQuery?.categories?.data.find(
-        (category) => category.id === selectedCategoryId
-      );
-      if (selectedCategory) {
-        setValue("categoriesIds", [selectedCategory.id]);
-      }
-    }
-  }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);
+  // useEffect(() => {
+  //   if (isDataLoaded) {
+  //     const selectedCategoryId = getValues("categoriesIds");
+  //     const selectedCategory = categoriesQuery?.categories?.data.find(
+  //       (category) => category.id === selectedCategoryId
+  //     );
+  //     if (selectedCategory) {
+  //       setValue("categoriesIds", [selectedCategory.id]);
+  //     }
+  //   }
+  // }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);
   const onSubmit = async (data) => {
     const formData = new FormData();
     for (let key in data) {
@@ -143,7 +148,6 @@ const RecipeForm = () => {
       toast.error(error?.response?.data?.message || "something went wrong");
       console.log(error);
     }
-    // reset({ recipeImage: "", categoriesIds: "", tagId: "" });
   };
 
   return (

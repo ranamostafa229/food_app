@@ -9,9 +9,9 @@ const Pagination = ({ arrayOfPages, query, page }) => {
     setCurrentPage(pageNo);
     if (pageNo !== currentPage) {
       query?.setPageNo(pageNo);
-      page === "recipes"
-        ? query?.triggerRecipes(pageNo)
-        : query?.triggerCategories(pageNo);
+      page === "recipes" && query?.triggerRecipes(pageNo);
+      page === "categories" && query?.triggerCategories(pageNo);
+      page === "users" && query?.triggerUsers(pageNo);
     }
   };
   // useEffect(() => {
