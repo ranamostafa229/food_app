@@ -21,22 +21,6 @@ import RecipeForm from "./modules/recipes/components/RecipeForm/RecipeForm";
 import VerificationAccount from "./modules/authentication/components/VerificationAccount/VerificationAccount";
 
 function App() {
-  // const [loginData, setLoginData] = useState(null);
-  // const saveLoginData = () => {
-  //   let encodedToken = localStorage.getItem("token");
-  //   let decodedToken = jwtDecode(encodedToken);
-  //   setLoginData(decodedToken);
-  // };
-  // const removeLoginData = () => {
-  //   setLoginData(null);
-  // };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     saveLoginData();
-  //   }
-  // }, []);
-
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -73,7 +57,6 @@ function App() {
       element: (
         <ProtectedRoute>
           <MainLayout />
-          {/* loginData={loginData} removeLoginData={removeLoginData} */}
         </ProtectedRoute>
       ),
       children: [

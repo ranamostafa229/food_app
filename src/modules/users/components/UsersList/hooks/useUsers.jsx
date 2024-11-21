@@ -25,8 +25,8 @@ const useUsers = () => {
         pageSize: pageSize,
         pageNumber: pageNo,
         userName: userName,
-        email: email ? { $regex: email, $options: "i" } : undefined,
-        country: country ? { $regex: country, $options: "i" } : undefined,
+        email: email,
+        country: country,
         groups: groups,
       },
     });
