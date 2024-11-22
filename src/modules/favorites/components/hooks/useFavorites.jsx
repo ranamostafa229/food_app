@@ -2,7 +2,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { favourites_endpoints } from "../../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 
-const useFavorites = () => {
+const useFavorites = (shouldFetch) => {
   const getFavorites = async () => {
     let response = await privateApiInstance.get(
       favourites_endpoints.GET_FAVOURITES
@@ -11,7 +11,7 @@ const useFavorites = () => {
     return response;
   };
   const { data, isLoading, isError, error, trigger, fetchCount, setData } =
-    useFetch(getFavorites);
+    useFetch(shouldFetch && getFavorites);
 
   return {
     favorites: data?.data,

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../../shared/components/Header/Header";
 import useFavorites from "../hooks/useFavorites";
 import FavoritesCard from "./FavoritesCard";
@@ -12,8 +12,10 @@ import { toast } from "react-toastify";
 
 const FavoritesList = () => {
   const { loginData } = useContext(AuthContext);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const favoritesQuery = useFavorites();
+  const favoritesQuery = useFavorites(pathname === "/favorites");
+
   useEffect(() => {
     if (loginData?.userGroup === "AdminUser") {
       navigate("/not-found");

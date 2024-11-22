@@ -5,7 +5,7 @@ import { AuthContext } from "../../../../context/AuthContext";
 
 const Navbar = () => {
   const { loginData } = useContext(AuthContext);
-
+  console.log(loginData);
   return (
     <div
       className="py-2 px-3 d-flex justify-content-end align-items-center gap-1 my-3 mx-3 rounded"

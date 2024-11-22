@@ -13,7 +13,7 @@ import DropdownMenu from "../../../shared/components/DropdownMenu/DropdownMenu";
 import DeleteConfirmation from "../../../shared/components/DeleteConfirmation/DeleteConfirmation";
 import NoDataImg from "../../../../assets/nodata.svg";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useRecipes from "../hooks/useRecipes";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 import Filtration from "../../../shared/components/Filtration/Filtration";
@@ -28,8 +28,9 @@ const RecipesList = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const recipesQuery = useRecipes();
-  const favoritesQuery = useFavorites();
+  const favoritesQuery = useFavorites(pathname === "/favorites");
 
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
