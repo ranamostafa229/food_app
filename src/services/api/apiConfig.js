@@ -10,6 +10,7 @@ const users_endpoints = {
   RESET: `Users/Reset`,
   GET_USERS: `Users/`,
   DELETE_USER: (id) => `Users/${id}`,
+  CHANGE_PASSWORD: `Users/ChangePassword`,
 };
 // CATEGORIES_URLS
 const categories_endpoints = {

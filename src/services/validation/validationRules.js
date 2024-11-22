@@ -42,6 +42,11 @@ export const getValidationRules = (watch = null, selectedCategory = "") => {
       validate: (value) =>
         value === watch("password") || "The passwords do not match ",
     },
+    confirmNewPassword: {
+      required: getRequiredMessage("Confirm New Password"),
+      validate: (value) =>
+        value === watch("newPassword") || "The passwords do not match ",
+    },
     country: {
       required: getRequiredMessage("Country"),
       pattern: {

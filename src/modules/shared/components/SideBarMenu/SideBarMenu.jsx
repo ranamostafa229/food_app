@@ -5,6 +5,7 @@ import logo from "../../../../assets/3.png";
 import RecipesIcon from "../../../../assets/recipesIcon.png";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
+import ChangePass from "../../../authentication/components/ChangePass/ChangePass";
 
 const saveSideBarState = (state) => {
   localStorage.setItem("sideBarState", JSON.stringify(state));
@@ -16,6 +17,7 @@ const getSideBarState = () => {
 
 const SideBarMenu = () => {
   const [isCollapsed, setIsCollapsed] = useState(getSideBarState().collapsed);
+  const [show, setShow] = useState(false);
   const { removeLoginData } = useContext(AuthContext);
   const { loginData } = useContext(AuthContext);
   const toggleCollapse = () => {
@@ -25,6 +27,7 @@ const SideBarMenu = () => {
   useEffect(() => {
     saveSideBarState({ collapsed: isCollapsed });
   }, [isCollapsed]);
+  const handleClose = () => setShow(false);
 
   return (
     <div
@@ -99,6 +102,7 @@ const SideBarMenu = () => {
             </MenuItem>
           )}
           <MenuItem
+            onClick={() => setShow(true)}
             icon={
               <i
                 className="fa fa-lock"
@@ -131,6 +135,7 @@ const SideBarMenu = () => {
           </MenuItem>
         </Menu>
       </Sidebar>
+      <ChangePass toggleShow={show} handleClose={handleClose} />
     </div>
   );
 };
