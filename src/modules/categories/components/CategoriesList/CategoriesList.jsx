@@ -11,6 +11,7 @@ import useCategories from "../hooks/useCategories";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 import Filtration from "../../../shared/components/Filtration/Filtration";
 import { useLocation } from "react-router-dom";
+import Loading from "../../../shared/components/Loading/Loading";
 const CategoryActionsModal = lazy(() =>
   import("../../../shared/components/CategoryActionsModal/CategoryActionsModal")
 );
@@ -117,12 +118,7 @@ const CategoriesList = () => {
       <Filtration query={categoriesQuery} pageName={"categories"} />
       {categoriesQuery?.categoriesIsLoading &&
       categoriesQuery?.fetchCount === 0 ? (
-        <div
-          className="spinner-border text-success d-block mx-auto mt-5"
-          role="status"
-        >
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         //   )}
         // {!categoriesQuery.categoriesIsLoading && newCategories?.length > 0 && (
@@ -159,7 +155,7 @@ const CategoriesList = () => {
                   </tr>
                 ))}
               {!categoriesQuery?.categoriesIsLoading &&
-                newCategories?.length === 0 && (
+                !newCategories?.length === 0 && (
                   <tr>
                     <NoData colspan={3} />
                   </tr>

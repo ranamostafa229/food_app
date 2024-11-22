@@ -19,6 +19,7 @@ import AuthLayout from "./modules/shared/components/Layout/AuthLayout";
 import MainLayout from "./modules/shared/components/Layout/MainLayout";
 import RecipeForm from "./modules/recipes/components/RecipeForm/RecipeForm";
 import VerificationAccount from "./modules/authentication/components/VerificationAccount/VerificationAccount";
+import AdminProtectedRoute from "./modules/shared/components/AdminProtectedRoute/AdminProtectedRoute";
 
 function App() {
   const routes = createBrowserRouter([
@@ -70,11 +71,19 @@ function App() {
         },
         {
           path: "recipes/new-recipe",
-          element: <RecipeForm />,
+          element: (
+            <AdminProtectedRoute>
+              <RecipeForm />
+            </AdminProtectedRoute>
+          ),
         },
         {
           path: "recipes/:recipeId",
-          element: <RecipeForm />,
+          element: (
+            <AdminProtectedRoute>
+              <RecipeForm />
+            </AdminProtectedRoute>
+          ),
         },
         {
           path: "recipe-data",
@@ -82,21 +91,37 @@ function App() {
         },
         {
           path: "categories",
-          element: <CategoriesList />,
+          element: (
+            <AdminProtectedRoute>
+              <CategoriesList />
+            </AdminProtectedRoute>
+          ),
         },
         {
           path: "category-data",
-          element: <CategoryData />,
+          element: (
+            <AdminProtectedRoute>
+              <CategoryData />
+            </AdminProtectedRoute>
+          ),
         },
         {
           path: "users",
-          element: <UsersList />,
+          element: (
+            <AdminProtectedRoute>
+              <UsersList />
+            </AdminProtectedRoute>
+          ),
         },
         {
           path: "favorites",
           element: <FavoritesList />,
         },
       ],
+    },
+    {
+      path: "/not-found",
+      element: <NotFound />,
     },
     {
       path: "*",

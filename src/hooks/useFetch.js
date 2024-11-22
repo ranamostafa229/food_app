@@ -19,7 +19,7 @@ const useFetch = (fetchFn) => {
       setIsError(false);
       setError(null);
       try {
-        const response = await (fetchFn && fetchFn());
+        const response = await fetchFn();
         setData(response);
       } catch (error) {
         setError(error);

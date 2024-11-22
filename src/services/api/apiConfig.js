@@ -26,15 +26,24 @@ const recipes_endpoints = {
   UPDATE_RECIPE: (id) => `Recipe/${id}`,
   DELETE_RECIPE: (id) => `Recipe/${id}`,
 };
+// FAVOURITES_URLS
+const favourites_endpoints = {
+  GET_FAVOURITES: `userRecipe/`,
+  POST_FAVOURITES: `userRecipe/`,
+  DELETE_FAVOURITES: (id) => `userRecipe/${id}`,
+};
+
 // TAGS_URLS
 const tags_endpoints = {
   GET_TAGS: `tag/`,
 };
+
 export {
   BASE_URL,
   IMAGE_URL,
   users_endpoints,
   categories_endpoints,
   recipes_endpoints,
+  favourites_endpoints,
   tags_endpoints,
 };

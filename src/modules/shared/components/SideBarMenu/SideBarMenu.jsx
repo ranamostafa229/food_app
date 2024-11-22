@@ -17,7 +17,7 @@ const getSideBarState = () => {
 const SideBarMenu = () => {
   const [isCollapsed, setIsCollapsed] = useState(getSideBarState().collapsed);
   const { removeLoginData } = useContext(AuthContext);
-
+  const { loginData } = useContext(AuthContext);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -49,36 +49,55 @@ const SideBarMenu = () => {
           >
             Home
           </MenuItem>
-          <MenuItem
-            icon={
-              <i
-                className="fa fa-users"
-                aria-hidden="true"
-                aria-label="users"
-              />
-            }
-            component={<NavLink to="users" />}
-          >
-            Users
-          </MenuItem>
+          {loginData?.userGroup !== "SystemUser" && (
+            <MenuItem
+              icon={
+                <i
+                  className="fa fa-users"
+                  aria-hidden="true"
+                  aria-label="users"
+                />
+              }
+              component={<NavLink to="users" />}
+            >
+              Users
+            </MenuItem>
+          )}
+
           <MenuItem
             icon={<img src={RecipesIcon} alt="recipes" />}
             component={<NavLink to="recipes" />}
           >
             Recipes
           </MenuItem>
-          <MenuItem
-            icon={
-              <i
-                className="fa-regular fa-calendar"
-                aria-hidden="true"
-                aria-label="categories"
-              />
-            }
-            component={<NavLink to="categories" />}
-          >
-            Categories
-          </MenuItem>
+          {loginData?.userGroup !== "SystemUser" && (
+            <MenuItem
+              icon={
+                <i
+                  className="fa-regular fa-calendar"
+                  aria-hidden="true"
+                  aria-label="categories"
+                />
+              }
+              component={<NavLink to="categories" />}
+            >
+              Categories
+            </MenuItem>
+          )}
+          {loginData?.userGroup === "SystemUser" && (
+            <MenuItem
+              icon={
+                <i
+                  className="fa-regular fa-heart  "
+                  aria-hidden="true"
+                  aria-label="categories"
+                />
+              }
+              component={<NavLink to="favorites" />}
+            >
+              Favourites
+            </MenuItem>
+          )}
           <MenuItem
             icon={
               <i

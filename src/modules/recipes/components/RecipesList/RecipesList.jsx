@@ -3,6 +3,7 @@ import Header from "../../../shared/components/Header/Header";
 import { useState } from "react";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
 import {
+  favourites_endpoints,
   IMAGE_URL,
   recipes_endpoints,
 } from "../../../../services/api/apiConfig";
@@ -16,21 +17,36 @@ import { useNavigate } from "react-router-dom";
 import useRecipes from "../hooks/useRecipes";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 import Filtration from "../../../shared/components/Filtration/Filtration";
+import Loading from "../../../shared/components/Loading/Loading";
+import RecipeDetailsModal from "../RecipeDetailsModal/RecipeDetailsModal";
+import useFavorites from "../../../favorites/components/hooks/useFavorites";
 
 const RecipesList = () => {
   const [selectedId, setSelectedId] = useState("");
   const [show, setShow] = useState(false);
+  const [view, setView] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
   const recipesQuery = useRecipes();
+  const favoritesQuery = useFavorites();
 
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
   };
+  const handleCloseDetails = () => setView(false);
+
   const handleShowEdit = (id) => {
     localStorage.removeItem("recipeData");
     navigate(`/recipes/${id}`);
+  };
+  const handleView = (id, description, img) => {
+    console.log(id);
+    setSelectedId(id);
+    setSelectedRecipe({ description, img, isFavorite });
+    setView(true);
   };
 
   const deleteRecipe = async () => {
@@ -43,11 +59,30 @@ const RecipesList = () => {
         recipesQuery?.triggerRecipes();
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "something went wrong");
       console.log(error);
     }
     handleClose();
   };
+  const addToFavorite = async () => {
+    try {
+      const payload = { recipeId: selectedId };
+      const response = await privateApiInstance.post(
+        favourites_endpoints.POST_FAVOURITES,
+        payload
+      );
+      if (response.status === 201) {
+        toast.success("Recipe added to favorites successfully");
+        setIsFavorite(true);
+        favoritesQuery?.triggerFavorites();
+        handleCloseDetails();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "something went wrong");
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Header
@@ -57,12 +92,7 @@ const RecipesList = () => {
       <Heading title={"Recipes"} />
       <Filtration query={recipesQuery} pageName={"recipes"} />
       {recipesQuery?.recipesIsLoading && recipesQuery?.fetchCount === 0 ? (
-        <div
-          className="spinner-border text-success d-block mx-auto mt-5"
-          role="status"
-        >
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div className="p-md-3  p-0  table-responsive ">
           <table className="table  table-striped  table-borderless ">
@@ -104,10 +134,18 @@ const RecipesList = () => {
                     <td>{recipe?.description}</td>
                     <td>{recipe?.tag.name}</td>
                     <td>{recipe?.category[0]?.name}</td>
+
                     <td className="text-center cursor-pointer">
                       <DropdownMenu
                         handleShowDelete={() => handleShowDelete(recipe.id)}
                         handleShowEdit={() => handleShowEdit(recipe.id)}
+                        handleView={() =>
+                          handleView(
+                            recipe.id,
+                            recipe?.description,
+                            recipe?.imagePath
+                          )
+                        }
                       />
                     </td>
                   </tr>
@@ -131,6 +169,12 @@ const RecipesList = () => {
         deleteFun={deleteRecipe}
         toggleShow={show}
         handleClose={handleClose}
+      />
+      <RecipeDetailsModal
+        toggleShow={view}
+        handleCloseDetails={handleCloseDetails}
+        addToFavorite={addToFavorite}
+        recipe={selectedRecipe}
       />
     </>
   );
