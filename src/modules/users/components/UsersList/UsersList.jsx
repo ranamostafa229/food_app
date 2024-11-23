@@ -55,7 +55,7 @@ const UsersList = () => {
       />
       <Heading />
       <Filtration query={usersQuery} pageName={"users"} />
-      {usersQuery?.usersIsFetching === (usersQuery?.fetchCount === 0) ? (
+      {usersQuery?.usersIsFetching && usersQuery?.fetchCount === 0 ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"

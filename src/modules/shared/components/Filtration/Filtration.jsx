@@ -1,79 +1,90 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import useCategories from "../../../categories/components/hooks/useCategories";
 import useTags from "../../../tags/components/hooks/useTags";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const Filtration = ({ query, pageName }) => {
   const tagsQuery = useTags(pageName === "recipes");
   const categoriesQuery = useCategories(pageName === "recipes");
-  const [nameValue, setNameValue] = useState("");
-  const [tagValue, setTagValue] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
-  const [countryValue, setCountryValue] = useState("");
-  const [groupsValue, setGroupsValue] = useState([]);
   const { pathname } = useLocation();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const getNameValue = (e) => {
-    setNameValue(e.target.value);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), name: value });
     pageName === "recipes" &&
       query?.triggerRecipes(
         1,
         3,
-        e.target.value.toLowerCase(),
-        tagValue,
-        categoryValue
+        value,
+        searchParams.get("tag"),
+        searchParams.get("category")
       );
-    pageName === "categories" && query?.triggerCategories(1, 3, e.target.value);
+    pageName === "categories" && query?.triggerCategories(1, 3, value);
     pageName === "users" &&
       query?.triggerUsers(
         1,
         3,
-        e.target.value,
-        emailValue,
-        countryValue,
-        groupsValue
+        value,
+        searchParams.get("email"),
+        searchParams.get("country"),
+        searchParams.get("groups")
       );
   };
   const getTagValue = (e) => {
-    setTagValue(e.target.value);
-    query?.triggerRecipes(1, 3, nameValue, e.target.value, categoryValue);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), tag: value });
+    query?.triggerRecipes(
+      1,
+      3,
+      searchParams.get("name"),
+      value,
+      searchParams.get("category")
+    );
   };
   const getCategoryValue = (e) => {
-    setCategoryValue(e.target.value);
-    query?.triggerRecipes(1, 3, nameValue, tagValue, e.target.value);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), category: value });
+    query?.triggerRecipes(
+      1,
+      3,
+      searchParams.get("name"),
+      searchParams.get("tag"),
+      value
+    );
   };
   const getEmailValue = (e) => {
-    setEmailValue(e.target.value);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), email: value });
     query?.triggerUsers(
       1,
       3,
-      nameValue,
-      e.target.value,
-      countryValue,
-      groupsValue
+      searchParams.get("name"),
+      value,
+      searchParams.get("country"),
+      searchParams.get("groups")
     );
   };
   const getCountryValue = (e) => {
-    setCountryValue(e.target.value);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), country: value });
     query?.triggerUsers(
       1,
       3,
-      nameValue,
-      emailValue,
-      e.target.value,
-      groupsValue
+      searchParams.get("name"),
+      searchParams.get("email"),
+      value,
+      searchParams.get("groups")
     );
   };
   const getGroupsValue = (e) => {
-    setGroupsValue(e.target.value);
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), groups: value });
     query?.triggerUsers(
       1,
       3,
-      nameValue,
-      emailValue,
-      countryValue,
+      searchParams.get("name"),
+      searchParams.get("email"),
+      searchParams.get("country"),
       e.target.value
     );
   };
@@ -96,13 +107,17 @@ const Filtration = ({ query, pageName }) => {
           placeholder="Search here"
           className="form-control border-start-0"
           onChange={getNameValue}
-          value={nameValue}
+          value={searchParams.get("name") || ""}
         />
       </div>
       {pageName === "recipes" && (
         <>
           <div className="col-md-3">
-            <select className="form-control" onChange={getTagValue}>
+            <select
+              className="form-control"
+              onChange={getTagValue}
+              value={searchParams.get("tag") || ""}
+            >
               <option value="">Tag</option>
               {tagsQuery?.tags?.map(({ id, name }) => (
                 <option key={id} value={id}>
@@ -112,7 +127,11 @@ const Filtration = ({ query, pageName }) => {
             </select>
           </div>
           <div className="col-md-3">
-            <select className="form-control" onChange={getCategoryValue}>
+            <select
+              className="form-control"
+              onChange={getCategoryValue}
+              value={searchParams.get("category") || ""}
+            >
               <option value="">Category</option>
               {categoriesQuery?.categories?.data.map(({ id, name }) => (
                 <option key={id} value={id} className="custom-dropdown-item">
@@ -137,7 +156,7 @@ const Filtration = ({ query, pageName }) => {
               placeholder="Email"
               className="form-control border-start-0"
               onChange={getEmailValue}
-              value={emailValue}
+              value={searchParams.get("email") || ""}
             />
           </div>
           <div className="col-md-3 input-group w-25">
@@ -152,11 +171,15 @@ const Filtration = ({ query, pageName }) => {
               placeholder="Country"
               className="form-control border-start-0"
               onChange={getCountryValue}
-              value={countryValue}
+              value={searchParams.get("country") || ""}
             />
           </div>
           <div className="col-md-3 input-group w-25">
-            <select className="form-control" onChange={getGroupsValue}>
+            <select
+              className="form-control"
+              onChange={getGroupsValue}
+              value={searchParams.get("groups") || ""}
+            >
               <option value="">User Type</option>
               <option value={1}>Admin user</option>
               <option value={2}>System user</option>
