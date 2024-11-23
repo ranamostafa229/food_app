@@ -74,6 +74,8 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseUp={(e) => e.preventDefault()}
                   onClick={toggle1}
                   aria-label="toggle password visibility"
                 >
@@ -111,6 +113,8 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseUp={(e) => e.preventDefault()}
                   onClick={toggle2}
                   aria-label="toggle password visibility"
                 >
@@ -153,6 +157,8 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseUp={(e) => e.preventDefault()}
                   onClick={toggle3}
                   aria-label="toggle password visibility"
                 >

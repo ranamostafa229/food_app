@@ -92,6 +92,8 @@ const Login = () => {
             type="button"
             className="btn btn-light border-0"
             id="input-group-button-right-1"
+            onMouseDown={(e) => e.preventDefault()}
+            onMouseUp={(e) => e.preventDefault()}
             onClick={toggle}
             aria-label="toggle password visibility"
           >
