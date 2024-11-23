@@ -14,7 +14,6 @@ const UploadImgBox = ({
 }) => {
   const { pathname } = useLocation();
   const [dragOver, setDragOver] = useState(false);
-
   const handleDrop = (e) => {
     e.preventDefault();
     setDragOver(false);

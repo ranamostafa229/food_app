@@ -13,12 +13,10 @@ import Filtration from "../../../shared/components/Filtration/Filtration";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
 
 const UsersList = () => {
-  // const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   // const [showView, setShowView] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const usersQuery = useUsers();
-  console.log(usersQuery);
   const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
@@ -29,21 +27,14 @@ const UsersList = () => {
   // };
 
   const handleClose = () => setShow(false);
-  // const getUsers = async () => {
-  //   try {
-  //     const response = await privateApiInstance.get(users_endpoints.GET_USERS);
-  //     setUsers(response?.data?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
   const deleteUser = async () => {
     try {
       let response = await privateApiInstance.delete(
         users_endpoints.DELETE_USER(selectedId)
       );
       if (response.status === 200) {
-        toast.success("Category deleted successfully");
+        toast.success("User deleted successfully");
         // setUsers((prev) => prev.filter((item) => item.id !== selectedId));
         // getUsers();
         usersQuery?.triggerUsers();

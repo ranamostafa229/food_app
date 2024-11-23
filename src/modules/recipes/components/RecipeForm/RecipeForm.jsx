@@ -14,12 +14,11 @@ import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUp
 import useCategories from "../../../categories/components/hooks/useCategories";
 import useTags from "../../../tags/components/hooks/useTags";
 import FillRecipesHeader from "../../../shared/components/FillRecipesHeader/FillRecipesHeader";
+import useObjectUrl from "../../../../hooks/useObjectUrl";
 
 const RecipeForm = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [imgUrl, setImgUrl] = useState(null);
-  const [imgName, setImgName] = useState(null);
   const initialValuesRef = useRef({});
   const { recipeId } = useParams();
   const { pathname } = useLocation();
@@ -36,21 +35,13 @@ const RecipeForm = () => {
     setValue,
     getValues,
     watch,
-    // reset
   } = useForm({ defaultValues: { recipeImage: "" }, mode: "onChange" });
 
   const watchedFields = watch();
   const selectedImg = watch("recipeImage");
+  const imageName = selectedImg?.[0]?.name;
 
-  useEffect(() => {
-    if (selectedImg?.[0]) {
-      if (selectedImg?.[0] && typeof selectedImg === "object") {
-        setImgUrl(URL.createObjectURL(selectedImg?.[0]));
-        setImgName(selectedImg?.[0]?.name);
-        toast.success("Image uploaded successfully");
-      }
-    }
-  }, [selectedImg]);
+  const { url, setUrl } = useObjectUrl(selectedImg?.[0]);
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -238,10 +229,10 @@ const RecipeForm = () => {
           <UploadImgBox
             register={{ ...register("recipeImage") }}
             setValue={setValue}
-            setImgUrl={setImgUrl}
+            setImgUrl={setUrl}
             imageToUpload={"recipeImage"}
           />
-          <ShowUploadImgBox imgUrl={imgUrl} imageName={imgName} />
+          <ShowUploadImgBox imgUrl={url} imageName={imageName} />
         </div>
         <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">

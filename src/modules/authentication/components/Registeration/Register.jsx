@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/validation/validationRules";
-import { useEffect, useState } from "react";
 import { apiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import UploadImgBox from "../../../shared/components/UploadImgBox/UploadImgBox";
 import useToggle from "../../../../hooks/useToggle";
+import useObjectUrl from "../../../../hooks/useObjectUrl";
 
 const Register = () => {
-  const [imgUrl, setImgUrl] = useState(null);
+  // const [imgUrl, setImgUrl] = useState(null);
   const navigate = useNavigate();
 
   const { visible: passwordVisibility, toggle: toggle1 } = useToggle(false);
@@ -26,22 +26,24 @@ const Register = () => {
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
   const imageName = selectedImg?.[0]?.name;
-
-  useEffect(() => {
-    let objectUrl;
-    if (selectedImg?.[0]) {
-      if (selectedImg?.[0] && typeof selectedImg === "object") {
-        objectUrl = URL.createObjectURL(selectedImg?.[0]);
-        setImgUrl(objectUrl);
-        toast.success("Image uploaded successfully");
-      }
-    }
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-  }, [selectedImg]);
+  const { url, setUrl } = useObjectUrl(selectedImg?.[0]);
+  console.log(typeof selectedImg?.[0]);
+  // const url = useObjectUrl(selectedImg?.[0]);
+  // useEffect(() => {
+  //   let objectUrl;
+  //   if (selectedImg?.[0]) {
+  //     if (selectedImg?.[0] && typeof selectedImg === "object") {
+  //       objectUrl = URL.createObjectURL(selectedImg?.[0]);
+  //       setImgUrl(objectUrl);
+  //       toast.success("Image uploaded successfully");
+  //     }
+  //   }
+  //   return () => {
+  //     if (objectUrl) {
+  //       URL.revokeObjectURL(objectUrl);
+  //     }
+  //   };
+  // }, [selectedImg]);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -280,9 +282,9 @@ const Register = () => {
         <UploadImgBox
           register={{ ...register("profileImage") }}
           setValue={setValue}
-          setImgUrl={setImgUrl}
+          setImgUrl={setUrl}
           imageToUpload={"profileImage"}
-          imgUrl={imgUrl}
+          imgUrl={url}
           imageName={imageName}
         />
         <div className="links d-flex justify-content-end">
