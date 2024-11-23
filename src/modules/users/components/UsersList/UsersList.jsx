@@ -20,7 +20,7 @@ import PaginationSection from "../../../shared/components/PaginationSection/Pagi
 const UsersList = () => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-  const usersQuery = useUsers();
+  const usersQuery = useUsers(true);
   const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);

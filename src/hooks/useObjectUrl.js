@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 const useObjectUrl = (image) => {
   const [url, setUrl] = useState(null);
   useEffect(() => {
-    if (!image) return;
+    if (!image || typeof image === "string") return;
     const objectUrl = URL.createObjectURL(image);
     setUrl(objectUrl);
     toast.success("Image uploaded successfully");

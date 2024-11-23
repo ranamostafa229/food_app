@@ -6,6 +6,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 const Filtration = ({ query, pageName }) => {
   const tagsQuery = useTags(pageName === "recipes");
   const categoriesQuery = useCategories(pageName === "recipes");
+  // const categoriesQuery = useCategories();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const getNameValue = (e) => {

@@ -52,7 +52,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
               <div className="input-group mb-2 mt-1">
                 <span
                   className="input-group-text border-0"
-                  id="input-group-left-example"
+                  id="input-group-left-example-1"
                 >
                   <i
                     className="fa fa-key"
@@ -93,7 +93,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
               <div className="input-group mb-2 mt-1">
                 <span
                   className="input-group-text border-0"
-                  id="input-group-left-example"
+                  id="input-group-left-example-2"
                 >
                   <i
                     className="fa fa-key"
@@ -112,7 +112,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                 <button
                   type="button"
                   className="btn btn-light border-0"
-                  id="input-group-button-right-1"
+                  id="input-group-button-right-3"
                   onMouseDown={(e) => e.preventDefault()}
                   onMouseUp={(e) => e.preventDefault()}
                   onClick={toggle2}
@@ -134,7 +134,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
               <div className="input-group mb-2 mt-1">
                 <span
                   className="input-group-text border-0"
-                  id="input-group-left-example"
+                  id="input-group-left-example-3"
                 >
                   <i
                     className="fa fa-key"
@@ -156,7 +156,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                 <button
                   type="button"
                   className="btn btn-light border-0"
-                  id="input-group-button-right-1"
+                  id="input-group-button-right-2"
                   onMouseDown={(e) => e.preventDefault()}
                   onMouseUp={(e) => e.preventDefault()}
                   onClick={toggle3}

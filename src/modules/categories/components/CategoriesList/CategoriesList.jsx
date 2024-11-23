@@ -24,6 +24,7 @@ const CategoriesList = () => {
   const [action, setAction] = useState(null);
   const { pathname } = useLocation();
   const categoriesQuery = useCategories(pathname.includes("/categories"));
+  // const categoriesQuery = useCategories();
   const [newCategories, setNewCategories] = useState([]);
 
   useEffect(() => {
@@ -116,7 +117,7 @@ const CategoriesList = () => {
 
       <Heading title={"Categories"} handleShowAdd={handleShowAdd} />
       <Filtration query={categoriesQuery} pageName={"categories"} />
-      {categoriesQuery?.categoriesIsLoading &&
+      {categoriesQuery?.categoriesIsFetching &&
       categoriesQuery?.fetchCount === 0 ? (
         <Loading />
       ) : (

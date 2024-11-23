@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const useFetch = (fetchFn) => {
+const useFetch = (fetchFn, shouldFetch) => {
   const [data, setData] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [fetchCount, setFetchCount] = useState(0);
 
-  const trigger = () => {
+  const trigger = useCallback(() => {
     setFetchCount((prev) => prev + 1);
-  };
+  }, []);
 
   useEffect(() => {
+    if (!shouldFetch) return;
     (async () => {
       setIsFetching(true);
       setIsError(false);
@@ -27,9 +28,20 @@ const useFetch = (fetchFn) => {
         setIsFetching(false);
       }
     })();
-  }, [fetchCount]);
+  }, [fetchCount, fetchFn, shouldFetch]);
 
-  return { data, isFetching, isError, error, trigger, fetchCount, setData };
+  const memoizedData = useMemo(() => data, [data]);
+  const memoizedError = useMemo(() => error, [error]);
+
+  return {
+    data: memoizedData,
+    isFetching,
+    isError,
+    error: memoizedError,
+    trigger,
+    fetchCount,
+    setData,
+  };
 };
 
 export default useFetch;

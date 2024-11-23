@@ -15,6 +15,7 @@ import useCategories from "../../../categories/components/hooks/useCategories";
 import useTags from "../../../tags/components/hooks/useTags";
 import FillRecipesHeader from "../../../shared/components/FillRecipesHeader/FillRecipesHeader";
 import useObjectUrl from "../../../../hooks/useObjectUrl";
+// setValue("categoriesIds", [recipe?.category?.[0]?.id]);
 
 const RecipeForm = () => {
   const [hasChanges, setHasChanges] = useState(false);
@@ -65,7 +66,13 @@ const RecipeForm = () => {
   useEffect(() => {
     if (localStorage.getItem("recipeData")) {
       const data = JSON.parse(localStorage.getItem("recipeData"));
-      for (let key in data) setValue(key, data[key]);
+      for (let key in data) {
+        if (key !== "recipeImage" && key !== "categoriesIds") {
+          setValue(key, data[key]);
+        } else {
+          setValue(key, [data[key]]);
+        }
+      }
       setIsDataLoaded(true);
     }
   }, [setValue, tagsQuery.tags]);
@@ -73,22 +80,19 @@ const RecipeForm = () => {
   useEffect(() => {
     (async () => {
       tagsQuery?.triggerTags();
-      categoriesQuery?.triggerCategories(
-        1,
-        categoriesQuery?.totalNumberOfRecords
-      );
-      console.log(categoriesQuery?.totalNumberOfRecords);
+      categoriesQuery?.triggerCategories(1, 3);
+      // console.log(categoriesQuery?.totalNumberOfRecords);
       if (!newRecipe && !localStorage.getItem("recipeData")) {
         const getRecipe = async () => {
           const response = await apiInstance.get(
             recipes_endpoints.GET_RECIPE(recipeId)
           );
-          const recipe = response.data;
+          const recipe = response?.data;
+          console.log("recipe", recipe);
           setValue("name", recipe?.name);
           setValue("description", recipe?.description);
           setValue("price", recipe?.price);
-          setValue("categoriesIds", recipe?.category?.[0]?.id);
-          // setValue("categoriesIds", [recipe?.category?.[0]?.id]);
+          setValue("categoriesIds", recipe?.category[0]?.id);
           setValue("tagId", recipe?.tag?.id);
           setValue("recipeImage", recipe?.imagePath);
           setIsDataLoaded(true);
@@ -98,22 +102,13 @@ const RecipeForm = () => {
     })();
   }, [recipeId, setValue, newRecipe]);
 
-  // useEffect(() => {
-  //   if (isDataLoaded) {
-  //     const selectedCategoryId = getValues("categoriesIds");
-  //     const selectedCategory = categoriesQuery?.categories?.data.find(
-  //       (category) => category.id === selectedCategoryId
-  //     );
-  //     if (selectedCategory) {
-  //       setValue("categoriesIds", [selectedCategory.id]);
-  //     }
-  //   }
-  // }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);
   const onSubmit = async (data) => {
     const formData = new FormData();
     for (let key in data) {
-      if (key !== "recipeImage") {
+      if (key !== "recipeImage" && key !== "categoriesIds") {
         formData.append(key, data[key]);
+      } else if (key === "categoriesIds") {
+        formData.append(key, [data[key]]);
       } else {
         formData.append(key, data?.[key][0]);
       }
@@ -141,7 +136,7 @@ const RecipeForm = () => {
       console.log(error);
     }
   };
-
+  console.log(getValues("categoriesIds"));
   return (
     <div className="raw mx-3">
       <FillRecipesHeader action={newRecipe ? "Fill" : "Edit"} title={"All"} />
@@ -257,3 +252,20 @@ const RecipeForm = () => {
 };
 
 export default RecipeForm;
+// useEffect(() => {
+//   if (isDataLoaded) {
+//     const selectedCategoryId = getValues("categoriesIds")[0];
+//     console.log(selectedCategoryId);
+//     console.log(categoriesQuery?.categories?.data);
+//     const selectedCategory = categoriesQuery?.categories?.data.filter(
+//       (category) => {
+//         console.log(category.id);
+//         category.id === selectedCategoryId;
+//       }
+//     );
+//     console.log(selectedCategory);
+//     if (selectedCategory) {
+//       setValue("categoriesIds", selectedCategory);
+//     }
+//   }
+// }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { privateApiInstance } from "../../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../../services/api/apiConfig";
 import useFetch from "../../../../../hooks/useFetch";
 
-const useUsers = () => {
+const useUsers = (shouldFetch) => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [userName, setUserName] = useState("");
@@ -12,33 +12,33 @@ const useUsers = () => {
   const [country, setCountry] = useState("");
   const [groups, setGroups] = useState([]);
 
-  const getUsers = async (
-    pageNo = 1,
-    pageSize = 3,
-    userName,
-    email,
-    country,
-    groups
-  ) => {
-    let response = await privateApiInstance.get(users_endpoints.GET_USERS, {
-      params: {
-        pageSize: pageSize,
-        pageNumber: pageNo,
-        userName: userName,
-        email: email,
-        country: country,
-        groups: groups,
-      },
-    });
-    setArrayOfPages(
-      Array(response?.data?.totalNumberOfPages)
-        .fill()
-        .map((_, i) => i + 1)
-    );
-    return response;
-  };
+  const getUsers = useCallback(
+    async (pageNo = 1, pageSize = 3, userName, email, country, groups) => {
+      let response = await privateApiInstance.get(users_endpoints.GET_USERS, {
+        params: {
+          pageSize: pageSize,
+          pageNumber: pageNo,
+          userName: userName,
+          email: email,
+          country: country,
+          groups: groups,
+        },
+      });
+      setArrayOfPages(
+        Array(response?.data?.totalNumberOfPages)
+          .fill()
+          .map((_, i) => i + 1)
+      );
+      return response;
+    },
+    []
+  );
   const { data, isFetching, isError, error, trigger, fetchCount } = useFetch(
-    () => getUsers(pageNo, pageSize, userName, email, country, groups)
+    useCallback(
+      () => getUsers(pageNo, pageSize, userName, email, country, groups),
+      [pageNo, pageSize, userName, email, country, groups, getUsers]
+    ),
+    shouldFetch
   );
   const triggerUsers = (
     newPageNo = pageNo,

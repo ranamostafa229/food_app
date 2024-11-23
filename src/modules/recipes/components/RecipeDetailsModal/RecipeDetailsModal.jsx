@@ -9,7 +9,6 @@ const RecipeDetailsModal = ({
   addToFavorite,
   recipe,
 }) => {
-  console.log(recipe?.isFavorite);
   return (
     <Modal
       show={toggleShow}

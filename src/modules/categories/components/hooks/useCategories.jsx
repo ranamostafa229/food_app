@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import { categories_endpoints } from "../../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../../services/api/apiInstance";
@@ -10,8 +10,7 @@ const useCategories = (shouldFetch) => {
   const [name, setName] = useState("");
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState(0);
 
-  // const [totalCategory, setTotalCategory] = useState(0);
-  const getCategories = async (pageNo, pageSize, name = "") => {
+  const getCategories = useCallback(async (pageNo, pageSize, name = "") => {
     let response = await privateApiInstance.get(
       categories_endpoints.GET_CATEGORIES,
       {
@@ -29,16 +28,28 @@ const useCategories = (shouldFetch) => {
         .fill()
         .map((_, i) => i + 1)
     );
+
     return response;
-  };
+  }, []);
+
   const { data, isFetching, isError, error, trigger, fetchCount, setData } =
-    useFetch(() => shouldFetch && getCategories(pageNo, pageSize, name));
-  const triggerCategories = (newPageNo, newPageSize, newName) => {
-    setPageNo(newPageNo);
-    setPageSize(newPageSize);
-    setName(newName);
-    trigger();
-  };
+    useFetch(
+      useCallback(
+        () => getCategories(pageNo, pageSize, name),
+        [getCategories, pageNo, pageSize, name]
+      ),
+      shouldFetch
+    );
+
+  const triggerCategories = useCallback(
+    (newPageNo, newPageSize, newName) => {
+      setPageNo(newPageNo);
+      setPageSize(newPageSize);
+      setName(newName);
+      trigger();
+    },
+    [trigger]
+  );
   return {
     categories: data?.data,
     categoriesError: error,
