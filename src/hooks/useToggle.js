@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useToggle = (initialValue) => {
-  const [passwordVisibility, setPasswordVisibility] = useState(initialValue);
-  const togglePasswordVisibility = (index) => {
-    setPasswordVisibility((prev) => {
-      return prev.map((item, i) => {
-        return i === index ? !item : item;
-      });
-    });
-  };
-  return { passwordVisibility, togglePasswordVisibility };
+  const [visible, setVisible] = useState(initialValue);
+  const toggle = useCallback(
+    () => setVisible((prevVisible) => !prevVisible),
+    []
+  );
+  return { visible, toggle };
 };
 
 export default useToggle;

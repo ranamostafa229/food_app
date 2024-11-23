@@ -16,12 +16,11 @@ const ChangePass = ({ toggleShow, handleClose }) => {
     watch,
   } = useForm();
   const validationRules = getValidationRules(watch);
-  const { passwordVisibility, togglePasswordVisibility } = useToggle([
-    false,
-    false,
-    false,
-  ]);
 
+  const { visible: passwordVisibility, toggle: toggle1 } = useToggle(false);
+  const { visible: newPasswordVisibility, toggle: toggle2 } = useToggle(false);
+  const { visible: confirmPasswordVisibility, toggle: toggle3 } =
+    useToggle(false);
   const onSubmit = async (data) => {
     try {
       const response = await privateApiInstance.put(
@@ -62,7 +61,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   />
                 </span>
                 <input
-                  type={passwordVisibility[0] ? "text" : "password"}
+                  type={passwordVisibility ? "text" : "password"}
                   className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
                   placeholder="Old Password"
                   aria-label="old password"
@@ -75,12 +74,12 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
-                  onClick={() => togglePasswordVisibility(0)}
+                  onClick={toggle1}
                   aria-label="toggle password visibility"
                 >
                   <i
                     className={`fa-regular ${
-                      passwordVisibility[0] ? "fa-eye-slash" : "fa-eye"
+                      passwordVisibility ? "fa-eye-slash" : "fa-eye"
                     }  cursor-pointer text-muted `}
                     aria-hidden="true"
                   />
@@ -101,7 +100,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   />
                 </span>
                 <input
-                  type={passwordVisibility[1] ? "text" : "password"}
+                  type={newPasswordVisibility ? "text" : "password"}
                   className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
                   placeholder="New Password"
                   aria-label="new Password"
@@ -112,12 +111,12 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
-                  onClick={() => togglePasswordVisibility(1)}
+                  onClick={toggle2}
                   aria-label="toggle password visibility"
                 >
                   <i
                     className={`fa-regular ${
-                      passwordVisibility[1] ? "fa-eye-slash" : "fa-eye"
+                      newPasswordVisibility ? "fa-eye-slash" : "fa-eye"
                     }  cursor-pointer text-muted `}
                     aria-hidden="true"
                   />
@@ -140,7 +139,7 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   />
                 </span>
                 <input
-                  type={passwordVisibility[2] ? "text" : "password"}
+                  type={confirmPasswordVisibility ? "text" : "password"}
                   className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
                   placeholder="Confirm New Password"
                   aria-label="confirm new Password"
@@ -154,12 +153,12 @@ const ChangePass = ({ toggleShow, handleClose }) => {
                   type="button"
                   className="btn btn-light border-0"
                   id="input-group-button-right-1"
-                  onClick={() => togglePasswordVisibility(2)}
+                  onClick={toggle3}
                   aria-label="toggle password visibility"
                 >
                   <i
                     className={`fa-regular ${
-                      passwordVisibility[2] ? "fa-eye-slash" : "fa-eye"
+                      confirmPasswordVisibility ? "fa-eye-slash" : "fa-eye"
                     }  cursor-pointer text-muted `}
                     aria-hidden="true"
                   />

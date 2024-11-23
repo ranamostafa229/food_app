@@ -17,7 +17,8 @@ const Login = () => {
   } = useForm();
   const navigate = useNavigate();
   const validationRules = getValidationRules();
-  const { passwordVisibility, togglePasswordVisibility } = useToggle([false]);
+  const { visible: passwordVisibility, toggle } = useToggle(false);
+
   const { saveLoginData } = useContext(AuthContext);
   const onSubmit = async (data) => {
     try {
@@ -78,7 +79,7 @@ const Login = () => {
             />
           </span>
           <input
-            type={passwordVisibility[0] ? "text" : "password"}
+            type={passwordVisibility ? "text" : "password"}
             className="form-control bg-light border-top-0 border-end-0 border-bottom-0 "
             placeholder="Enter your Password"
             aria-label="password"
@@ -91,12 +92,12 @@ const Login = () => {
             type="button"
             className="btn btn-light border-0"
             id="input-group-button-right-1"
-            onClick={() => togglePasswordVisibility(0)}
+            onClick={toggle}
             aria-label="toggle password visibility"
           >
             <i
               className={`fa-regular ${
-                passwordVisibility[0] ? "fa-eye-slash" : "fa-eye"
+                passwordVisibility ? "fa-eye-slash" : "fa-eye"
               }  cursor-pointer text-muted `}
               aria-hidden="true"
             />

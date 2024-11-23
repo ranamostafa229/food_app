@@ -11,10 +11,10 @@ import useToggle from "../../../../hooks/useToggle";
 const Register = () => {
   const [imgUrl, setImgUrl] = useState(null);
   const navigate = useNavigate();
-  const { passwordVisibility, togglePasswordVisibility } = useToggle([
-    false,
-    false,
-  ]);
+
+  const { visible: passwordVisibility, toggle: toggle1 } = useToggle(false);
+  const { visible: confirmPasswordVisibility, toggle: toggle2 } =
+    useToggle(false);
   const {
     register,
     formState: { errors, isSubmitting },
@@ -42,7 +42,6 @@ const Register = () => {
       }
     };
   }, [selectedImg]);
-  console.log(imgUrl);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -199,7 +198,7 @@ const Register = () => {
               />
             </span>
             <input
-              type={passwordVisibility[0] ? "text" : "password"}
+              type={passwordVisibility ? "text" : "password"}
               className="form-control bg-light border-top-0 border-end-0 border-bottom-0"
               placeholder="New Password"
               aria-label="password"
@@ -210,12 +209,12 @@ const Register = () => {
               type="button"
               className="btn btn-light border-0"
               id="input-group-button-right-1"
-              onClick={() => togglePasswordVisibility(0)}
+              onClick={toggle1}
               aria-label="toggle password visibility"
             >
               <i
                 className={`fa-regular ${
-                  passwordVisibility[0] ? "fa-eye-slash" : "fa-eye"
+                  passwordVisibility ? "fa-eye-slash" : "fa-eye"
                 }  cursor-pointer text-muted `}
                 aria-hidden="true"
               />
@@ -232,7 +231,7 @@ const Register = () => {
               id="input-group-left-example"
             >
               <span className="sr-only">
-                {passwordVisibility[0] ? "Hide password" : "Show password"}
+                {confirmPasswordVisibility ? "Hide password" : "Show password"}
               </span>
               <i
                 className="fa fa-key"
@@ -241,7 +240,7 @@ const Register = () => {
               />
             </span>
             <input
-              type={passwordVisibility[1] ? "text" : "password"}
+              type={confirmPasswordVisibility ? "text" : "password"}
               className="form-control bg-light border-top-0 border-end-0 border-bottom-0"
               placeholder="Confirm Password"
               aria-label="confirm password"
@@ -252,17 +251,17 @@ const Register = () => {
               type="button"
               className="btn btn-light border-0"
               id="input-group-button-right-2"
-              onClick={() => togglePasswordVisibility(1)}
+              onClick={toggle2}
               aria-label="toggle confirm password visibility"
             >
               <span className="sr-only">
-                {passwordVisibility[1]
+                {confirmPasswordVisibility
                   ? "Hide confirm password"
                   : "Show confirm password"}
               </span>
               <i
                 className={`fa-regular ${
-                  passwordVisibility[1] ? "fa-eye-slash" : "fa-eye"
+                  confirmPasswordVisibility ? "fa-eye-slash" : "fa-eye"
                 }  cursor-pointer text-muted `}
                 aria-hidden="true"
               />
