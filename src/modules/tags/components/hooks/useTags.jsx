@@ -8,7 +8,7 @@ const getTags = async () => {
 };
 
 const useTags = (shouldFetch) => {
-  const { data, isLoading, isError, error, trigger } = useFetch(
+  const { data, isFetching, isError, error, trigger } = useFetch(
     shouldFetch && getTags
   );
 
@@ -16,7 +16,7 @@ const useTags = (shouldFetch) => {
     tags: data?.data,
     tagsError: error,
     tagsIsError: isError,
-    tagsIsLoading: isLoading,
+    tagsIsFetching: isFetching,
     triggerTags: trigger,
   };
 };

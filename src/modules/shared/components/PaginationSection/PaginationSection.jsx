@@ -14,15 +14,7 @@ const Pagination = ({ arrayOfPages, query, page }) => {
       page === "users" && query?.triggerUsers(pageNo);
     }
   };
-  // useEffect(() => {
-  //   page === "recipes"
-  //     ? query?.triggerRecipes(currentPage)
-  //     : query?.triggerCategories(currentPage);
-  // }, [currentPage, query, page]);
-  // const handleClick = (pageNo) => {
-  //   setCurrentPage(pageNo);
-  //   query?.setPageNo(pageNo);
-  // };
+
   const handleNext = () => {
     if (currentPage < arrayOfPages.length) {
       handleClick(currentPage + 1);

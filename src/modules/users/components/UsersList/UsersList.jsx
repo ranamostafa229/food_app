@@ -11,20 +11,20 @@ import noDataImg from "../../../../assets/nodata.svg";
 import useUsers from "./hooks/useUsers";
 import Filtration from "../../../shared/components/Filtration/Filtration";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
+// const [showView, setShowView] = useState(false);
 
+// const handleShowView = (id) => {
+//   setSelectedId(id);
+//   setShowView(true);
+// };
 const UsersList = () => {
   const [show, setShow] = useState(false);
-  // const [showView, setShowView] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const usersQuery = useUsers();
   const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
   };
-  // const handleShowView = (id) => {
-  //   setSelectedId(id);
-  //   setShowView(true);
-  // };
 
   const handleClose = () => setShow(false);
 
@@ -36,7 +36,6 @@ const UsersList = () => {
       if (response.status === 200) {
         toast.success("User deleted successfully");
         // setUsers((prev) => prev.filter((item) => item.id !== selectedId));
-        // getUsers();
         usersQuery?.triggerUsers();
       }
     } catch (error) {
@@ -46,9 +45,6 @@ const UsersList = () => {
     handleClose();
   };
 
-  // useEffect(() => {
-  //   getUsers();
-  // });
   return (
     <div>
       <Header
@@ -59,7 +55,7 @@ const UsersList = () => {
       />
       <Heading />
       <Filtration query={usersQuery} pageName={"users"} />
-      {usersQuery?.usersIsLoading && usersQuery?.fetchCount === 0 ? (
+      {usersQuery?.usersIsFetching === (usersQuery?.fetchCount === 0) ? (
         <div
           className="spinner-border text-success d-block mx-auto mt-5"
           role="status"

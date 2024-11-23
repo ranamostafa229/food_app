@@ -120,8 +120,6 @@ const CategoriesList = () => {
       categoriesQuery?.fetchCount === 0 ? (
         <Loading />
       ) : (
-        //   )}
-        // {!categoriesQuery.categoriesIsLoading && newCategories?.length > 0 && (
         <div className="p-md-3  p-0 table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">

@@ -34,7 +34,7 @@ const useRecipes = () => {
     );
     return response;
   };
-  const { data, isLoading, isError, error, trigger, fetchCount } = useFetch(
+  const { data, isFetching, isError, error, trigger, fetchCount } = useFetch(
     () => getRecipes(pageNo, pageSize, name, tag, category)
   );
   const triggerRecipes = (
@@ -55,7 +55,7 @@ const useRecipes = () => {
     recipes: data?.data,
     recipesError: error,
     recipesIsError: isError,
-    recipesIsLoading: isLoading,
+    recipesIsFetching: isFetching,
     triggerRecipes,
     arrayOfPages,
     setPageNo,

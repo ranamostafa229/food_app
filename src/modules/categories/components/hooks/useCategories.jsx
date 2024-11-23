@@ -31,7 +31,7 @@ const useCategories = (shouldFetch) => {
     );
     return response;
   };
-  const { data, isLoading, isError, error, trigger, fetchCount, setData } =
+  const { data, isFetching, isError, error, trigger, fetchCount, setData } =
     useFetch(() => shouldFetch && getCategories(pageNo, pageSize, name));
   const triggerCategories = (newPageNo, newPageSize, newName) => {
     setPageNo(newPageNo);
@@ -43,7 +43,7 @@ const useCategories = (shouldFetch) => {
     categories: data?.data,
     categoriesError: error,
     categoriesIsError: isError,
-    categoriesIsLoading: isLoading,
+    categoriesIsFetching: isFetching,
     triggerCategories,
     setCategories: setData,
     fetchCount,

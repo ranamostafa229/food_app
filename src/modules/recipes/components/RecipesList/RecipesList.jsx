@@ -92,7 +92,7 @@ const RecipesList = () => {
       />
       <Heading title={"Recipes"} />
       <Filtration query={recipesQuery} pageName={"recipes"} />
-      {recipesQuery?.recipesIsLoading && recipesQuery?.fetchCount === 0 ? (
+      {recipesQuery?.recipesIsFetching && recipesQuery?.fetchCount === 0 ? (
         <Loading />
       ) : (
         <div className="p-md-3  p-0  table-responsive ">

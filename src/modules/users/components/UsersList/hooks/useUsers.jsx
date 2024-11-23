@@ -37,7 +37,7 @@ const useUsers = () => {
     );
     return response;
   };
-  const { data, isLoading, isError, error, trigger, fetchCount } = useFetch(
+  const { data, isFetching, isError, error, trigger, fetchCount } = useFetch(
     () => getUsers(pageNo, pageSize, userName, email, country, groups)
   );
   const triggerUsers = (
@@ -60,7 +60,7 @@ const useUsers = () => {
     users: data?.data,
     usersError: error,
     usersIsError: isError,
-    usersIsLoading: isLoading,
+    usersIsFetching: isFetching,
     triggerUsers,
     arrayOfPages,
     setPageNo,
