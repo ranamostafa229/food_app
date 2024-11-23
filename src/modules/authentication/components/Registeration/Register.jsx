@@ -67,11 +67,12 @@ const Register = () => {
         navigate("/verfiy-account", {
           state: { email: formData.get("email") },
         });
-      } else {
-        toast.error("Failed to send verification code. Please try again.");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "something went wrong");
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to send verification code. Please try again."
+      );
       console.log(error);
     }
   };
