@@ -174,7 +174,7 @@ const Register = () => {
               />
             </span>
             <input
-              type="number"
+              type="tel"
               className="form-control bg-light border-top-0 border-end-0 border-bottom-0"
               placeholder="PhoneNumber"
               aria-label="PhoneNumber"
