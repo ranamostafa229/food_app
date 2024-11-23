@@ -279,14 +279,18 @@ input[type="password"]::-webkit-reveal-button {
   transition: opacity 0.5s ease-in-out;
   height: 0;
   overflow: hidden;
-
   img {
-    width: 100px;
     margin: 10px;
   }
+  .sm-img {
+    width: 70px;
+  }
+  .lg-img {
+    width: 100px;
+  }
 }
-.selected-img-container.wwidth {
-  width: 95%;
+.selected-img-container.register-width {
+  width: 50%;
 }
 .selected-img-container.show {
   opacity: 1;

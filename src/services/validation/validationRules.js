@@ -31,10 +31,9 @@ export const getValidationRules = (watch = null, selectedCategory = "") => {
         message: "Password must be at least 6 characters",
       },
       pattern: {
-        value:
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/i,
+        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
         message:
-          "Password must include one lowercase letter, one uppercase letter, one digit, and one special character",
+          "Password must include at least one lowercase letter, one uppercase letter, one digit, one special character",
       },
     },
     confirmPassword: {

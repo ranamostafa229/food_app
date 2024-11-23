@@ -6,7 +6,6 @@ import { apiInstance } from "../../../../services/api/apiInstance";
 import { users_endpoints } from "../../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import UploadImgBox from "../../../shared/components/UploadImgBox/UploadImgBox";
-import ShowUploadImgBox from "../../../shared/components/ShowUploadImgBox/ShowUploadImgBox";
 import useToggle from "../../../../hooks/useToggle";
 
 const Register = () => {
@@ -279,8 +278,9 @@ const Register = () => {
           setValue={setValue}
           setImgUrl={setImgUrl}
           imageToUpload={"profileImage"}
+          imgUrl={imgUrl}
+          imageName={imageName}
         />
-        <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
         <div className="links d-flex justify-content-end">
           <Link to="/login" className="text-decoration-none text-success">
             Login Now ?

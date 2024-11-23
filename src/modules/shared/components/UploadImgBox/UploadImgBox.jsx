@@ -2,8 +2,16 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import ShowUploadImgBox from "../ShowUploadImgBox/ShowUploadImgBox";
 
-const UploadImgBox = ({ register, setValue, setImgUrl, imageToUpload }) => {
+const UploadImgBox = ({
+  register,
+  setValue,
+  setImgUrl,
+  imageToUpload,
+  imgUrl,
+  imageName,
+}) => {
   const { pathname } = useLocation();
   const [dragOver, setDragOver] = useState(false);
 
@@ -58,12 +66,15 @@ const UploadImgBox = ({ register, setValue, setImgUrl, imageToUpload }) => {
             fill="#4F4F4F"
           />
         </svg>
-
-        <span className="">
-          Drag & Drop or{" "}
-          <span className="text-success">Choose a Item Image </span>
-          to Upload
-        </span>
+        {imgUrl ? (
+          <ShowUploadImgBox imgUrl={imgUrl} imageName={imageName} />
+        ) : (
+          <span className="">
+            Drag & Drop or{" "}
+            <span className="text-success">Choose a Item Image </span>
+            to Upload
+          </span>
+        )}
         <input
           type="file"
           accept="image/*"

@@ -7,12 +7,20 @@ const ShowUploadImgBox = ({ imgUrl, imageName }) => {
     <>
       {imgUrl && (
         <div
-          className={`selected-img-container d-flex align-items-center img-thumbnail 
+          className={`selected-img-container d-flex align-items-center
             ${imgUrl ? "show" : ""} ${
-            pathname === "/register" ? "wwidth" : "w-100"
+            pathname === "/register"
+              ? "register-width bg-transparent justify-content-center"
+              : "img-thumbnail w-100"
           }`}
         >
-          <img src={imgUrl} className="img-thumbnail rounded-2" alt="" />
+          <img
+            src={imgUrl}
+            className={`img-thumbnail rounded-2   ${
+              pathname === "/register" ? "sm-img" : "lg-img"
+            }`}
+            alt=""
+          />
           <span>{imageName}</span>
         </div>
       )}
