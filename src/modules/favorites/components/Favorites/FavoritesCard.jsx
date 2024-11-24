@@ -16,9 +16,9 @@ const FavoritesCard = ({ recipeItem, removeFromFavorite }) => {
           <img src={noImg} alt="no image" className=" " />
         )}
       </div>
-      <div className="px-3 d-flex flex-column fs-5 gap-1">
+      <div className="px-2 d-flex flex-column fs-5 gap-1">
         <span>{recipeItem?.recipe?.name}</span>
-        <span>{recipeItem?.recipe?.description}</span>
+        <span className="fav-desc">{recipeItem?.recipe?.description}</span>
       </div>
       <div className=" rounded fav-icon" onClick={removeFromFavorite}>
         <i

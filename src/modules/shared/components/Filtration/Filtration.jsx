@@ -91,10 +91,10 @@ const Filtration = ({ query, pageName }) => {
   };
 
   return (
-    <div className="row mx-2 ">
+    <div className="row mx-2 gap-lg-0 gap-3 pb-3">
       <div
         className={`col-md-6 input-group ${
-          pathname === "/recipes" ? "w-50" : "w-25"
+          pathname === "/recipes" ? " w-50 " : "w-25"
         } `}
       >
         <span
@@ -127,7 +127,7 @@ const Filtration = ({ query, pageName }) => {
               ))}
             </select>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 ">
             <select
               className="form-control"
               onChange={getCategoryValue}
