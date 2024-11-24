@@ -11,12 +11,7 @@ import noDataImg from "../../../../assets/nodata.svg";
 import useUsers from "./hooks/useUsers";
 import Filtration from "../../../shared/components/Filtration/Filtration";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
-// const [showView, setShowView] = useState(false);
 
-// const handleShowView = (id) => {
-//   setSelectedId(id);
-//   setShowView(true);
-// };
 const UsersList = () => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -80,7 +75,7 @@ const UsersList = () => {
               </tr>
             </thead>
             <tbody className="table-body">
-              {usersQuery?.users?.data.length > 0 ? (
+              {usersQuery?.users?.data?.length > 0 ? (
                 usersQuery?.users?.data.map((user) => (
                   <tr key={user?.id}>
                     <td>{user?.userName}</td>
