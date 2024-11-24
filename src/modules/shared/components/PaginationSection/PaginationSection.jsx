@@ -6,8 +6,14 @@ const Pagination = ({ arrayOfPages, query, page }) => {
   const pagesPerGroup = 3;
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPageNo = searchParams.get("page") || 1;
-  const [currentPage, setCurrentPage] = useState(currentPageNo);
+  const [currentPage, setCurrentPage] = useState(1);
+  console.log(currentPage);
 
+  // useEffect(() => {
+  //   if (currentPageNo !== currentPage) {
+  //     setCurrentPage(currentPageNo);
+  //   }
+  // }, [currentPageNo, currentPage]);
   const handleClick = (pageNo) => {
     setCurrentPage(pageNo);
     setSearchParams({ page: pageNo });
@@ -21,14 +27,16 @@ const Pagination = ({ arrayOfPages, query, page }) => {
 
   const handleNext = () => {
     if (currentPage < arrayOfPages.length) {
-      handleClick(currentPage + 1);
       setSearchParams({ page: currentPage + 1 });
+      handleClick(currentPage + 1);
+      // setSearchParams({ page: currentPage + 1 });
     }
   };
   const handlePrevious = () => {
     if (currentPage > 1) {
-      handleClick(currentPage - 1);
       setSearchParams({ page: currentPage - 1 });
+      handleClick(currentPage - 1);
+      // setSearchParams({ page: currentPage - 1 });
     }
   };
   const startIndex = Math.floor(

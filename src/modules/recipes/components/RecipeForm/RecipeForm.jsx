@@ -41,8 +41,9 @@ const RecipeForm = () => {
   const watchedFields = watch();
   const selectedImg = watch("recipeImage");
   const imageName = selectedImg?.[0]?.name;
-
   const { url, setUrl } = useObjectUrl(selectedImg?.[0]);
+  const { state } = useLocation();
+  console.log(state.pageNo);
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -124,12 +125,12 @@ const RecipeForm = () => {
         toast.success(
           response?.data?.message || "The Recipe created successfully"
         );
-        navigate("/recipes");
+        navigate(`/recipes?page=${state.pageNo}`);
       } else if (response.status === 200) {
         toast.success(
           response?.data?.message || "The Recipe updated successfully"
         );
-        navigate("/recipes");
+        navigate(`/recipes?page=${state.pageNo}`);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "something went wrong");
@@ -231,7 +232,7 @@ const RecipeForm = () => {
         <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">
           <Link
-            to={"/recipes"}
+            to={`/recipes?page=${state.pageNo}`}
             type="button"
             className="btn btn-outline-success cancel-button"
           >

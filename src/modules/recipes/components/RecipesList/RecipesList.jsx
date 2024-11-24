@@ -27,10 +27,11 @@ const RecipesList = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const recipesQuery = useRecipes(pathname.includes("/recipes"));
   const favoritesQuery = useFavorites(pathname === "/favorites");
-
+  const params = new URLSearchParams(search);
+  console.log(params.get("page"));
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);
@@ -40,7 +41,11 @@ const RecipesList = () => {
 
   const handleShowEdit = (id) => {
     localStorage.removeItem("recipeData");
-    navigate(`/recipes/${id}`);
+    navigate(`/recipes/${id}`, {
+      state: {
+        pageNo: params.get("page"),
+      },
+    });
   };
   const handleView = (id, description, img) => {
     console.log(id);
@@ -56,7 +61,7 @@ const RecipesList = () => {
       );
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
-        recipesQuery?.triggerRecipes();
+        recipesQuery?.triggerRecipes(params.get("page") || 1);
       }
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong");
