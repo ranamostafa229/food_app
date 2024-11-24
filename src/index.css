@@ -162,10 +162,17 @@ input[type="password"]::-webkit-reveal-button {
 .content {
   margin-left: 250px;
   transition: margin-left 0.3s;
+  width: 95%;
 }
 .sidebar-container.collapsed + .content {
   margin-left: 80px; /* Adjusted margin when collapsed */
 }
+@media (max-width: 576px) {
+  .content {
+    max-width: 78%;
+  }
+}
+
 /* ********************** Recipes Header Styles ******************** */
 .recipe-header {
   background-color: #f0ffef;
@@ -463,7 +470,10 @@ input[type="password"]::-webkit-reveal-button {
     height: 40px;
   }
 }
-
+/* ********************** Heading Add Button Styles ********************   */
+.heading-add-btn {
+  height: 40px;
+}
 /********************** Cursor Styles ********************  */
 .cursor-pointer {
   cursor: pointer;

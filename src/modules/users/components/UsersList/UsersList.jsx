@@ -58,7 +58,7 @@ const UsersList = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="p-md-3  p-0 table-responsive ">
+        <div className="p-md-3  px-3 p-0 table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">
               <tr className="table-secondary  ">
