@@ -24,7 +24,6 @@ const CategoriesList = () => {
   const [action, setAction] = useState(null);
   const { pathname } = useLocation();
   const categoriesQuery = useCategories(pathname.includes("/categories"));
-  // const categoriesQuery = useCategories();
   const [newCategories, setNewCategories] = useState([]);
 
   useEffect(() => {
@@ -138,7 +137,10 @@ const CategoriesList = () => {
                   <tr key={category?.id + category?.name}>
                     <td>{category?.name}</td>
                     <td>
-                      {new Date(category?.creationDate)?.toLocaleDateString()}
+                      {/* {new Date(category?.creationDate)?.toLocaleDateString()} */}
+                      {category?.creationDate
+                        ? new Date(category?.creationDate).toLocaleDateString()
+                        : ".."}
                     </td>
                     <td
                       className="text-center cursor-pointer"
