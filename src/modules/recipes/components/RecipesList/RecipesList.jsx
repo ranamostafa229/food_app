@@ -31,7 +31,7 @@ const RecipesList = () => {
   const recipesQuery = useRecipes(pathname.includes("/recipes"));
   const favoritesQuery = useFavorites(pathname === "/favorites");
   const params = new URLSearchParams(search);
-  console.log(params.get("page"));
+
   const handleClose = () => setShow(false);
   const handleShowDelete = (id) => {
     setSelectedId(id);

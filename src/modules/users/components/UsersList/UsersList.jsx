@@ -11,11 +11,15 @@ import noDataImg from "../../../../assets/nodata.svg";
 import useUsers from "./hooks/useUsers";
 import Filtration from "../../../shared/components/Filtration/Filtration";
 import PaginationSection from "../../../shared/components/PaginationSection/PaginationSection";
+import { useLocation } from "react-router-dom";
 
 const UsersList = () => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const usersQuery = useUsers(true);
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+
   const handleShowDelete = (id) => {
     setSelectedId(id);
     setShow(true);
@@ -31,7 +35,7 @@ const UsersList = () => {
       if (response.status === 200) {
         toast.success("User deleted successfully");
         // setUsers((prev) => prev.filter((item) => item.id !== selectedId));
-        usersQuery?.triggerUsers();
+        usersQuery?.triggerUsers(params.get("page") || 1);
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -97,13 +101,9 @@ const UsersList = () => {
                     <td>{user?.email}</td>
                     <td>{user?.country}</td>
 
-                    <td
-                      className="text-center cursor-pointer"
-                      // onClick={() => setSelecteduser(user?.name)}
-                    >
+                    <td className="text-center cursor-pointer">
                       <DropdownMenu
                         handleShowDelete={() => handleShowDelete(user?.id)}
-                        // handleShowView={() => handleShowView(user?.id)}
                       />
                     </td>
                   </tr>

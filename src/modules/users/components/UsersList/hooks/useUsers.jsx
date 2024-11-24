@@ -5,8 +5,12 @@ import useFetch from "../../../../../hooks/useFetch";
 
 const useUsers = (shouldFetch) => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
+  const param = new URLSearchParams(location.search);
+  const [pageNo, setPageNo] = useState(
+    param.get("page") ? parseInt(param.get("page")) : 1
+  );
   const [userName, setUserName] = useState("");
+
   const [pageSize, setPageSize] = useState(3);
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");

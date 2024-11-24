@@ -60,7 +60,7 @@ const SideBarMenu = () => {
                   aria-label="users"
                 />
               }
-              component={<NavLink to="users" />}
+              component={<NavLink to="users?page=1" />}
             >
               Users
             </MenuItem>
