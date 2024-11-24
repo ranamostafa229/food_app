@@ -21,7 +21,11 @@ const FavoritesList = () => {
       navigate("/not-found");
     }
   }, [loginData?.userGroup, navigate]);
-  console.log(favoritesQuery?.favorites?.data);
+  useEffect(() => {
+    if (loginData?.token) {
+      favoritesQuery?.triggerFavorites();
+    }
+  }, [loginData?.token, favoritesQuery]);
   const removeFromFavorite = async (selectedId) => {
     try {
       const response = await privateApiInstance.delete(
