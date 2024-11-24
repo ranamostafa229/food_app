@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Login from "./modules/authentication/components/Login/Login";
 import NotFound from "./modules/shared/components/NotFound/NotFound";
@@ -22,7 +22,7 @@ import VerificationAccount from "./modules/authentication/components/Verificatio
 import AdminProtectedRoute from "./modules/shared/components/AdminProtectedRoute/AdminProtectedRoute";
 
 function App() {
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "/",
       element: <AuthLayout />,
