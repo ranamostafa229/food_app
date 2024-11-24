@@ -121,7 +121,7 @@ const CategoriesList = () => {
       categoriesQuery?.fetchCount === 0 ? (
         <Loading />
       ) : (
-        <div className="p-md-3  p-0 table-responsive ">
+        <div className="p-md-3 px-3  p-0 table-responsive ">
           <table className="table  table-striped  table-borderless ">
             <thead className="table-header ">
               <tr className="table-secondary  ">
@@ -138,7 +138,7 @@ const CategoriesList = () => {
                   <tr key={category?.id + category?.name}>
                     <td>{category?.name}</td>
                     <td>
-                      {new Date(category?.creationDate).toLocaleDateString()}
+                      {new Date(category?.creationDate)?.toLocaleDateString()}
                     </td>
                     <td
                       className="text-center cursor-pointer"
