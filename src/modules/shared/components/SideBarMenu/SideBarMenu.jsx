@@ -81,7 +81,7 @@ const SideBarMenu = () => {
                   aria-label="categories"
                 />
               }
-              component={<NavLink to="categories" />}
+              component={<NavLink to="categories?page=1" />}
             >
               Categories
             </MenuItem>

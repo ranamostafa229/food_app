@@ -22,7 +22,8 @@ const CategoriesList = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [action, setAction] = useState(null);
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const params = new URLSearchParams(search);
   const categoriesQuery = useCategories(pathname.includes("/categories"));
   const [newCategories, setNewCategories] = useState([]);
 
@@ -63,7 +64,7 @@ const CategoriesList = () => {
       );
       if (response.status === 200) {
         toast.success("Category deleted successfully");
-        categoriesQuery?.triggerCategories();
+        categoriesQuery?.triggerCategories(params.get("page") || 1);
       }
     } catch (error) {
       toast.error(error?.response?.data.message || "something went wrong");
@@ -96,10 +97,10 @@ const CategoriesList = () => {
       handleCloseActions();
       if (response.status === 201) {
         toast.success("Category added successfully");
-        categoriesQuery?.triggerCategories();
+        categoriesQuery?.triggerCategories(params.get("page") || 1);
       } else if (response.status === 200) {
         toast.success("Category updated successfully");
-        categoriesQuery?.triggerCategories();
+        categoriesQuery?.triggerCategories(params.get("page") || 1);
       }
     } catch (error) {
       toast.error(error?.response?.data.message || "something went wrong");
