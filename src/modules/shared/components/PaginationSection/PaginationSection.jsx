@@ -1,6 +1,7 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 /* eslint-disable react/prop-types */
+
 const Pagination = ({ arrayOfPages, query, page }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pagesPerGroup = 3;
@@ -36,15 +37,15 @@ const Pagination = ({ arrayOfPages, query, page }) => {
     <nav aria-label="Page navigation" className="pt-5">
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-          <a
+          <Link
             className="page-link"
-            href="#"
+            to="#"
             aria-label="Previous"
             aria-disabled={currentPage === 1}
             onClick={handlePrevious}
           >
             <span aria-hidden="true">&laquo;</span>
-          </a>
+          </Link>
         </li>
         {visiblePages.map((pageNo) => (
           <li
@@ -52,13 +53,14 @@ const Pagination = ({ arrayOfPages, query, page }) => {
             key={pageNo}
             onClick={() => handleClick(pageNo)}
           >
-            <a
+            <Link
               className="page-link"
-              href="#"
+              // to="#"
+              to={`#${page}?page=${pageNo}`}
               aria-current={pageNo === currentPage ? "page" : undefined}
             >
               {pageNo}
-            </a>
+            </Link>
           </li>
         ))}
         <li
@@ -66,15 +68,15 @@ const Pagination = ({ arrayOfPages, query, page }) => {
             currentPage === arrayOfPages.length ? "disabled" : ""
           }`}
         >
-          <a
+          <Link
             className="page-link"
-            href="#"
+            to="#"
             aria-label="Next"
             aria-disabled={currentPage === arrayOfPages.length}
             onClick={handleNext}
           >
             <span aria-hidden="true">&raquo;</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

@@ -16,8 +16,8 @@ const Home = () => {
       />
       <div className="mx-2">
         <FillRecipesHeader
-          action={loginData.userGroup === "SystemUser" ? "Show" : "Fill"}
-          title={loginData.userGroup === "SystemUser" ? "" : "Fill"}
+          action={loginData?.userGroup === "SystemUser" ? "Show" : "Fill"}
+          title={loginData?.userGroup === "SystemUser" ? "" : "Fill"}
         />
       </div>
     </div>
