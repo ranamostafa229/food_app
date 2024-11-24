@@ -2,10 +2,16 @@ import { useCallback, useState } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import { recipes_endpoints } from "../../../../services/api/apiConfig";
 import { apiInstance } from "../../../../services/api/apiInstance";
+import { useLocation } from "react-router-dom";
 
 const useRecipes = (shouldFetch) => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
-  const [pageNo, setPageNo] = useState();
+  const location = useLocation();
+  const param = new URLSearchParams(location.search);
+  const [pageNo, setPageNo] = useState(
+    param.get("page") ? parseInt(param.get("page")) : 1
+  );
+
   const [name, setName] = useState("");
   const [pageSize, setPageSize] = useState();
   const [tag, setTag] = useState("");

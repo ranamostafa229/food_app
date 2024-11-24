@@ -68,7 +68,7 @@ const SideBarMenu = () => {
 
           <MenuItem
             icon={<img src={RecipesIcon} alt="recipes" />}
-            component={<NavLink to="recipes" />}
+            component={<NavLink to="recipes?page=1" />}
           >
             Recipes
           </MenuItem>
