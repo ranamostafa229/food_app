@@ -5,14 +5,14 @@ import { apiInstance } from "../../../../services/api/apiInstance";
 
 const useRecipes = (shouldFetch) => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState();
   const [name, setName] = useState("");
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState();
   const [tag, setTag] = useState("");
   const [category, setCategory] = useState("");
 
   const getRecipes = useCallback(
-    async (pageNo = 1, pageSize = 3, name = "", tag = "", category = "") => {
+    async (pageNo, pageSize, name = "", tag = "", category = "") => {
       let response = await apiInstance.get(recipes_endpoints.GET_RECIPES, {
         params: {
           pageSize: pageSize,

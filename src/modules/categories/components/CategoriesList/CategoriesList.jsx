@@ -137,7 +137,6 @@ const CategoriesList = () => {
                   <tr key={category?.id + category?.name}>
                     <td>{category?.name}</td>
                     <td>
-                      {/* {new Date(category?.creationDate)?.toLocaleDateString()} */}
                       {category?.creationDate
                         ? new Date(category?.creationDate).toLocaleDateString()
                         : ".."}

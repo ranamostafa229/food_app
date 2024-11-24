@@ -18,8 +18,7 @@ const getSideBarState = () => {
 const SideBarMenu = () => {
   const [isCollapsed, setIsCollapsed] = useState(getSideBarState().collapsed);
   const [show, setShow] = useState(false);
-  const { removeLoginData } = useContext(AuthContext);
-  const { loginData } = useContext(AuthContext);
+  const { loginData, removeLoginData } = useContext(AuthContext);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };

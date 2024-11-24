@@ -80,8 +80,8 @@ const RecipeForm = () => {
   useEffect(() => {
     (async () => {
       tagsQuery?.triggerTags();
-      categoriesQuery?.triggerCategories(1, 3);
-      // console.log(categoriesQuery?.totalNumberOfRecords);
+      // categoriesQuery?.triggerCategories(1, 15);
+      await categoriesQuery?.getAllCategories();
       if (!newRecipe && !localStorage.getItem("recipeData")) {
         const getRecipe = async () => {
           const response = await apiInstance.get(
@@ -136,7 +136,6 @@ const RecipeForm = () => {
       console.log(error);
     }
   };
-  console.log(getValues("categoriesIds"));
   return (
     <div className="raw mx-3">
       <FillRecipesHeader action={newRecipe ? "Fill" : "Edit"} title={"All"} />
@@ -194,7 +193,7 @@ const RecipeForm = () => {
               <option className="custom-dropdown-item" value="">
                 Category
               </option>
-              {categoriesQuery?.categories?.data.map(({ id, name }) => (
+              {categoriesQuery?.allCategories?.map(({ id, name }) => (
                 <option key={id} value={id} className="custom-dropdown-item">
                   {name}
                 </option>

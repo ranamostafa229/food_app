@@ -6,10 +6,10 @@ import { privateApiInstance } from "../../../../services/api/apiInstance";
 const useCategories = (shouldFetch) => {
   const [arrayOfPages, setArrayOfPages] = useState([]);
   const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(6);
   const [name, setName] = useState("");
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState(0);
-
+  const [allCategories, setAllCategories] = useState([]);
   const getCategories = useCallback(async (pageNo, pageSize, name = "") => {
     let response = await privateApiInstance.get(
       categories_endpoints.GET_CATEGORIES,
@@ -22,7 +22,6 @@ const useCategories = (shouldFetch) => {
       }
     );
     setTotalNumberOfRecords(response?.data?.totalNumberOfRecords);
-    console.log(response?.data?.totalNumberOfRecords);
     setArrayOfPages(
       Array(response?.data?.totalNumberOfPages)
         .fill()
@@ -30,6 +29,38 @@ const useCategories = (shouldFetch) => {
     );
 
     return response;
+  }, []);
+
+  const getAllCategories = useCallback(async () => {
+    try {
+      // Fetch total number of records
+      const totalRecordsResponse = await privateApiInstance.get(
+        categories_endpoints.GET_CATEGORIES,
+        {
+          params: {
+            pageSize: 1,
+            // Fetch only one record to get the total number of records
+            pageNumber: 1,
+          },
+        }
+      );
+      const totalRecords = totalRecordsResponse?.data?.totalNumberOfRecords;
+      // Fetch all categories using the total number of records as page size
+      const response = await privateApiInstance.get(
+        categories_endpoints.GET_CATEGORIES,
+        {
+          params: {
+            pageSize: totalRecords,
+            pageNumber: 1,
+          },
+        }
+      );
+      setAllCategories(response?.data?.data);
+      return response;
+    } catch (error) {
+      console.error("Error fetching all categories:", error);
+      throw error;
+    }
   }, []);
 
   const { data, isFetching, isError, error, trigger, fetchCount, setData } =
@@ -41,15 +72,13 @@ const useCategories = (shouldFetch) => {
       shouldFetch
     );
 
-  const triggerCategories = useCallback(
-    (newPageNo, newPageSize, newName) => {
-      setPageNo(newPageNo);
-      setPageSize(newPageSize);
-      setName(newName);
-      trigger();
-    },
-    [trigger]
-  );
+  const triggerCategories = (newPageNo, newPageSize, newName) => {
+    setPageNo(newPageNo);
+    setPageSize(newPageSize);
+    setName(newName);
+    trigger();
+  };
+
   return {
     categories: data?.data,
     categoriesError: error,
@@ -62,7 +91,8 @@ const useCategories = (shouldFetch) => {
     setPageNo,
     pageSize,
     totalNumberOfRecords,
-    // totalCategory,
+    getAllCategories,
+    allCategories,
   };
 };
 

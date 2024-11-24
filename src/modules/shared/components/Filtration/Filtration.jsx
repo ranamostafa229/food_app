@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import useCategories from "../../../categories/components/hooks/useCategories";
 import useTags from "../../../tags/components/hooks/useTags";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -6,9 +7,14 @@ import { useLocation, useSearchParams } from "react-router-dom";
 const Filtration = ({ query, pageName }) => {
   const tagsQuery = useTags(pageName === "recipes");
   const categoriesQuery = useCategories(pageName === "recipes");
-  // const categoriesQuery = useCategories();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    const getAllCategories = async () => {
+      await categoriesQuery?.getAllCategories();
+    };
+    getAllCategories();
+  }, []);
   const getNameValue = (e) => {
     const value = e.target.value;
     setSearchParams({ ...Object.fromEntries(searchParams), name: value });
@@ -138,7 +144,7 @@ const Filtration = ({ query, pageName }) => {
               value={searchParams.get("category") || ""}
             >
               <option value="">Category</option>
-              {categoriesQuery?.categories?.data.map(({ id, name }) => (
+              {categoriesQuery?.allCategories?.map(({ id, name }) => (
                 <option key={id} value={id} className="custom-dropdown-item">
                   {name}
                 </option>
