@@ -6,7 +6,7 @@ const useDocumentTitle = () => {
 
   useEffect(() => {
     const path = location.pathname.replaceAll("/", "-");
-    document.title = `Food${path}`;
+    document.title = `food-recipes${path}`;
   }, [location]);
 };
 
