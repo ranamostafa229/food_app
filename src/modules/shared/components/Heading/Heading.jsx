@@ -4,8 +4,9 @@ import { AuthContext } from "../../../../context/AuthContext";
 
 /* eslint-disable react/prop-types */
 const Heading = ({ title, handleShowAdd }) => {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const { loginData } = useContext(AuthContext);
+  const params = new URLSearchParams(search);
   return (
     <div className="d-flex justify-content-between  p-3   ">
       <div className="d-flex flex-column   ">
@@ -14,7 +15,10 @@ const Heading = ({ title, handleShowAdd }) => {
       </div>
       {pathname !== "/users" && loginData?.userGroup !== "SystemUser" && (
         <Link
-          to={`${title === "Recipes" ? "new-recipe" : ""}`}
+          to={{
+            pathname: title === "Recipes" ? `new-recipe` : "",
+            state: { pageNo: params.get("page") || 1 },
+          }}
           className="btn  btn-success d-flex align-items-center 
         gap-1  fs-6 fw-bold px-lg-5  rounded heading-add-btn"
           onClick={handleShowAdd}

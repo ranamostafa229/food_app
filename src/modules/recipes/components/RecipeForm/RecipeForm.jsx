@@ -43,7 +43,7 @@ const RecipeForm = () => {
   const imageName = selectedImg?.[0]?.name;
   const { url, setUrl } = useObjectUrl(selectedImg?.[0]);
   const { state } = useLocation();
-  console.log(state.pageNo);
+  console.log(state);
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -81,7 +81,6 @@ const RecipeForm = () => {
   useEffect(() => {
     (async () => {
       tagsQuery?.triggerTags();
-      // categoriesQuery?.triggerCategories(1, 15);
       await categoriesQuery?.getAllCategories();
       if (!newRecipe && !localStorage.getItem("recipeData")) {
         const getRecipe = async () => {
@@ -125,12 +124,16 @@ const RecipeForm = () => {
         toast.success(
           response?.data?.message || "The Recipe created successfully"
         );
-        navigate(`/recipes?page=${state.pageNo}`);
+        newRecipe
+          ? navigate("/recipes")
+          : navigate(`/recipes?page=${state?.pageNo}`);
       } else if (response.status === 200) {
         toast.success(
           response?.data?.message || "The Recipe updated successfully"
         );
-        navigate(`/recipes?page=${state.pageNo}`);
+        newRecipe
+          ? navigate("/recipes")
+          : navigate(`/recipes?page=${state?.pageNo}`);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "something went wrong");
@@ -232,7 +235,7 @@ const RecipeForm = () => {
         <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">
           <Link
-            to={`/recipes?page=${state.pageNo}`}
+            to={`/recipes?page=${state?.pageNo || 1}`}
             type="button"
             className="btn btn-outline-success cancel-button"
           >
@@ -252,20 +255,3 @@ const RecipeForm = () => {
 };
 
 export default RecipeForm;
-// useEffect(() => {
-//   if (isDataLoaded) {
-//     const selectedCategoryId = getValues("categoriesIds")[0];
-//     console.log(selectedCategoryId);
-//     console.log(categoriesQuery?.categories?.data);
-//     const selectedCategory = categoriesQuery?.categories?.data.filter(
-//       (category) => {
-//         console.log(category.id);
-//         category.id === selectedCategoryId;
-//       }
-//     );
-//     console.log(selectedCategory);
-//     if (selectedCategory) {
-//       setValue("categoriesIds", selectedCategory);
-//     }
-//   }
-// }, [isDataLoaded, getValues, categoriesQuery?.categories?.data, setValue]);
