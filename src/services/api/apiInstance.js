@@ -9,7 +9,7 @@ const apiInstance = axios.create({
 // private instance
 const privateApiInstance = axios.create({
   baseURL: BASE_URL,
-  headers: { Authorization: localStorage.getItem("token") },
+  headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 });
 
 export { privateApiInstance, apiInstance };

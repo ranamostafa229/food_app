@@ -4,7 +4,8 @@ import logo from "../../../../assets/logo.png";
 import useDocumentTitle from "../../../../hooks/useDocumentTitle";
 
 const AuthLayout = () => {
-  const [isAuthenticated] = useState(() => !!localStorage.getItem("token")); // call function only first time
+  const [isAuthenticated] = useState(() => !!localStorage.getItem("token"));
+  // call function only first time
   const navigate = useNavigate();
   const location = useLocation();
 
