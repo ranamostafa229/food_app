@@ -5,7 +5,10 @@ import {
   apiInstance,
   privateApiInstance,
 } from "../../../../services/api/apiInstance";
-import { recipes_endpoints } from "../../../../services/api/apiConfig";
+import {
+  IMAGE_URL,
+  recipes_endpoints,
+} from "../../../../services/api/apiConfig";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import useBeforeUnload from "../../../../hooks/useBeforeUnload";
@@ -36,14 +39,18 @@ const RecipeForm = () => {
     setValue,
     getValues,
     watch,
-  } = useForm({ defaultValues: { recipeImage: "" }, mode: "onChange" });
-
+  } = useForm({ mode: "onChange" });
   const watchedFields = watch();
+
   const selectedImg = watch("recipeImage");
   const imageName = selectedImg?.[0]?.name;
+  const uploadedImage = getValues("recipeImage");
+
   const { url, setUrl } = useObjectUrl(selectedImg?.[0]);
+  // const { url, setUrl } = useObjectUrl(
+  //   new Blob([selectedImg?.[0]], { type: selectedImg?.[0].type })
+  // );
   const { state } = useLocation();
-  console.log(state);
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -102,16 +109,49 @@ const RecipeForm = () => {
     })();
   }, [recipeId, setValue, newRecipe]);
 
+  const imageUrlToFileList = async (imageUrl) => {
+    const blob = await fetch(IMAGE_URL + imageUrl).then((response) =>
+      response.blob()
+    );
+    const file = new File([blob], imageUrl.split("/").pop(), {
+      type: blob.type,
+    });
+    // const fileList = [file];
+    return file;
+  };
+
   const onSubmit = async (data) => {
+    console.log("data.recipeImage:", data.recipeImage);
+    console.log("selecedimg", selectedImg);
     const formData = new FormData();
     for (let key in data) {
       if (key !== "recipeImage" && key !== "categoriesIds") {
         formData.append(key, data[key]);
       } else if (key === "categoriesIds") {
         formData.append(key, [data[key]]);
-      } else {
-        formData.append(key, data?.[key][0]);
+      } else if (key === "recipeImage") {
+        if (typeof data[key] === "string") {
+          const file = await imageUrlToFileList(selectedImg);
+          console.log("file:", file);
+          if (file) {
+            formData.append(key, file, {
+              headers: {
+                "Content-Type": "image/*",
+              },
+            });
+          } else {
+            console.error("Failed to convert image path to file");
+          }
+        } else if (data[key].length > 0) {
+          formData.append(key, data[key][0]);
+        } else {
+          console.error("Invalid file input for recipeImage");
+        }
       }
+    }
+    console.log("FormData entries:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]); // [object File]
     }
     try {
       const response = await privateApiInstance[newRecipe ? "post" : "put"](
@@ -140,6 +180,7 @@ const RecipeForm = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="raw mx-3">
       <FillRecipesHeader action={newRecipe ? "Fill" : "Edit"} title={"All"} />
@@ -230,7 +271,11 @@ const RecipeForm = () => {
             setImgUrl={setUrl}
             imageToUpload={"recipeImage"}
           />
-          <ShowUploadImgBox imgUrl={url} imageName={imageName} />
+          <ShowUploadImgBox
+            imgUrl={url}
+            imageName={imageName}
+            uploadedImage={uploadedImage}
+          />
         </div>
         <hr className="pb-1 text-muted " />
         <div className="buttons-container d-flex gap-5 px-3  ">
