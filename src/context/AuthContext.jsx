@@ -21,7 +21,7 @@ export default function AuthContextProvider(props) {
     if (localStorage.getItem("token")) {
       saveLoginData();
     }
-  }, []);
+  }, [loginData]);
   return (
     <AuthContext.Provider value={{ loginData, saveLoginData, removeLoginData }}>
       {props.children}
