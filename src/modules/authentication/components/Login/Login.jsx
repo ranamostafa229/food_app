@@ -26,7 +26,7 @@ const Login = () => {
         users_endpoints.LOGIN,
         data
       );
-      localStorage.setItem("token", response?.data.token);
+      localStorage.setItem("token", response?.data?.token);
       saveLoginData();
       toast.success("Login Successfully");
       navigate("/dashboard", { replace: true });
