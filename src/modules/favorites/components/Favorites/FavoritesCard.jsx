@@ -5,8 +5,8 @@ import noImg from "../../../../assets/no-img.jpg";
 
 const FavoritesCard = ({ recipeItem, removeFromFavorite }) => {
   return (
-    <div className="fav-card  d-flex flex-column ">
-      <div className=" ">
+    <div className="fav-card  d-flex flex-column mx-3 ">
+      <div className="">
         {recipeItem.recipe?.imagePath ? (
           <img
             src={IMAGE_URL + recipeItem.recipe?.imagePath}

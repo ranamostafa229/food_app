@@ -252,7 +252,8 @@ input[type="password"]::-webkit-reveal-button {
   border-top-left-radius: 35px;
   border-top-right-radius: 35px;
   height: 280px;
-  max-width: 300px;
+  overflow: hidden;
+
   .fav-icon {
     width: 30px;
     height: 28px;
@@ -273,11 +274,10 @@ input[type="password"]::-webkit-reveal-button {
   }
 }
 .fav-card img {
-  /* width: 100%; */
-  width: 300px;
+  width: 100%;
   height: 170px;
+  object-fit: cover;
   border-radius: 35px;
-  /* height: ; */
 }
 /* ********************** Upload Image Styles ******************** */
 .upload-img-container {

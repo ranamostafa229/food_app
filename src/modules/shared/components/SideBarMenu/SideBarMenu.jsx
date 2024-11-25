@@ -120,15 +120,7 @@ const SideBarMenu = () => {
                 aria-label="logout"
               />
             }
-            component={
-              <NavLink
-                to="/login"
-                onClick={() => {
-                  localStorage.clear();
-                  removeLoginData();
-                }}
-              />
-            }
+            component={<NavLink to="/login" onClick={removeLoginData} />}
           >
             Logout
           </MenuItem>

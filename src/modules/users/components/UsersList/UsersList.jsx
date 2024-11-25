@@ -34,7 +34,6 @@ const UsersList = () => {
       );
       if (response.status === 200) {
         toast.success("User deleted successfully");
-        // setUsers((prev) => prev.filter((item) => item.id !== selectedId));
         usersQuery?.triggerUsers(params.get("page") || 1);
       }
     } catch (error) {

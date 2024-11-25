@@ -99,12 +99,12 @@ const Filtration = ({ query, pageName }) => {
   return (
     <div className="row mx-2 gap-lg-0 gap-3 pb-3 ">
       <div
-        className={`  input-group ${
+        className={`col  input-group ${
           pathname === "/recipes"
-            ? " w-50 col-md-6  "
+            ? " w-50 w-sm-auto col-md-6  "
             : pathname === "/categories"
             ? "w-75"
-            : " col-md-3  w-auto pb-2" //w-25
+            : " col-md-3 w-auto pb-2" //w-25
         } `}
       >
         <span
@@ -155,7 +155,6 @@ const Filtration = ({ query, pageName }) => {
       )}
       {pageName === "users" && (
         <>
-          {/*  w-25 */}
           <div className=" col-md-3 input-group w-auto pb-2">
             <span
               className="input-group-text border-end-0 bg-white"
@@ -171,7 +170,6 @@ const Filtration = ({ query, pageName }) => {
               value={searchParams.get("email") || ""}
             />
           </div>
-          {/*  w-25 */}
           <div className="col-md-3 input-group w-auto">
             <span
               className="input-group-text border-end-0 bg-white"
@@ -187,8 +185,7 @@ const Filtration = ({ query, pageName }) => {
               value={searchParams.get("country") || ""}
             />
           </div>
-          {/*  w-25 */}
-          <div className="col-md-3 input-group w-auto">
+          <div className="col col-md-3 col-sm-12 input-group  w-25">
             <select
               className="form-control"
               onChange={getGroupsValue}
